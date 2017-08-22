@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Unit, :type => :model do
-  it "orders by last name" do
+  
     
 end
 
