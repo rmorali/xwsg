@@ -1,8 +1,5 @@
 FactoryGirl.define do
-  
   factory :unit do
-    name "X-Wing"
+    name 'X-Wing'
   end
-
 end
-
