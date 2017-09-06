@@ -1,0 +1,148 @@
+Panorama geral do projeto, vamos planejar a partir disso:
+
+## Unidades Espaciais ##
+- Fighters / Bombers
+  Podem dar jump a planetas proximos que tenham CS aliada
+  Diferenciados pelo uso de misseis ou torpedos
+
+- CapitalShips
+  Carregam Fighters/Bombers/Weapons/Troopers/Vehicles
+  Podem ter upgrades e/ou XP
+  Podem dar hyperjumps distantes
+
+- Transports
+  Carregam Fighters/Bombers/Troopers/Vehicles (Em menor qtde do q uma CS)
+  Podem dar hyperjumps planetas próximos
+
+- Shipyards
+  Constroem as naves em turnos
+  Tem "pontos de produção" para construir as unidades
+
+## Unidades Terrestres ##
+- HeadQuarter (NOVO)
+  Barrack quartel general do Squad
+  Só pode haver uma
+  Produz tropas e veículos
+  Abriga Heroes
+
+- Barracks (NOVO)
+  Produz tropas e veículos
+
+- Troopers
+  Soldados para ataques terrestres
+
+- Vehicles
+  Veiculos Terrestres. AT-AT, AT-ST etc
+
+## Unidades Especiais ## 
+- Heroes
+  Cumprem missões diversas. Espionagem, Sabotagem, Diplomacia etc
+
+## Produção das Shipyards e Barracks ##
+- Sua construção depende de créditos/metais e % de dominação do planeta
+-  Ideal poder construir baseado na sua capacidade e setando por exemplo: 20 X-Wings, 50% Calamari Cruiser, 30% Transports e ela ir produzindo sozinho. 
+-  Opção também para comprar unidades instantaneamente com créditos/metais
+
+## Movimentos ##
+   Tem q ser user friendly. Arrastar e soltar ele pede a qtde a ser movida, mostra o tempo de viagem em turnos baseado no algoritmo Dikstra.
+
+## Ataques ##
+- Caracterizados ao encontrar um esquadrão inimigo no planeta
+- Automático, com opção de formação de ataque, alvo primário, fuga depois de % perdida etc para variar o algoritmo de batalha. (dar opção extra para jogar XWA)
+
+## Mapa ##
+- Planetas variados dividos por setor tentando seguir o mapa oficial de SW
+- Rotas poderia ser esse esquema dos Hexágonos mesmo ou rotas pré definidas, como é hyperespaço uma CS não necessariamente tem q seguir a rota mas quando der um jump de 2 planetas ele contabilizada o tempo de viagem pela rota. A frota fica em "suspensão"
+- Mostrar os recursos do planeta, a % de dominação e quanto ele está produzindo para o squad
+- Alguns recursos podem ser extraidos com unidades especificas tipo Asteroid Mining Unit e outros por diplomacia, comércio etc.
+- Mostra o "fog of war", as ultimas unidades q ele viu naquele planeta ja descontadas as perdas do combate
+- Não ser possivel ver unidades q estão dentro de CS, barracks ou shipyards. Exceto se espião for bem sucedido.
+
+## Turnos ##
+- Esquadroes fazem suas produções e ordens de movimento na fase de estratégia
+- Segunda fase os movimentos são aplicados e caso haja combates possibilita escolher taticas e aplicar os resultados
+- Terceira fase aplica os resultados e desembarca tropas para uma rodada de batalhas terrestres, regras similares a espacial
+- Quarta fase aplica os resultados, calcula os incomes, atualiza os planetas etc
+- Quanto mais informação tiver do que aconteceu melhor
+
+## Dominação ##
+- A dominação total se daria após 1 ou 2 turnos inteiros com presença única do esquadrão em uma(ou mais) frentes: militar espacial, terrestre ou diplomatica. Com isso habilitaria o income total e a construção de fábricas, mineradoras e barracks. Se 2 ou mais esquadrões estiverem dominando o planeta o income é dividido pela porcentagem de dominação mas sem 
+possibilidade de construção
+
+## Income ##
+- Cada planeta teria uma qtde x de income de creditos, metais e raros dado ao esquadrao na porcentagem de dominação do planeta
+
+## Dados do BD que consigo imaginar até agora##
+Fiz um brainstorm de ideias pro BD. Muita coisa dá pra agrupar em métodos simples. Por exemplo: Uma CS tem load_capacity de 1000. Ela conseguiria carregar tudo que tivesse load_weigth abaixo disso. Um caça teria load_capacity de 1, logo poderia carregar 1 pack de missil dando a ela a role e bonus de ataque correspondente.
+CS tem hiperdrive 3 q permite dar jumps distantes. Caça peso 10 e hiperdrive 1. Troopers peso 1, Facilities peso 2000, ambos hiperdrive 0. Daí vc ja consegue colocar as naves
+de transporte correspondentes sem usar booleans.
+
+## Units ##
+type: String
+terrain: String (ground, space etc)
+name: String
+acronym: String
+credits_cost: Integer
+metals_cost: Integer
+rare_elements_cost: Integer
+producing_points: Integer
+load_weight: Integer
+load_capacity: Integer
+hyperdrive: Integer
+production_time: Integer
+visible: Boolean
+groupable: Boolean
+weaponable: Boolean
+upgradable: Boolean
+character: Boolean
+shield: Integer
+hull: Integer
+initiative: Integer
+attack: Integer
+defense: Integer
+agility: Integer
+diplomacia: Integer
+espionagem: Integer
+liderança: Integer
+combate: Integer
+xwa_specs: String
+
+## Squads ##
+name: String
+credits: Integer
+metals: Integer
+rare_elements: Integer
+user_id: Integer
+faction_id: Integer
+ally_id: Integer
+url: String
+
+## Planets ##
+name: String
+sector: Integer
+credits: Integer
+metals: Integer
+rare_elements: Integer
+dominance: [%, squad],[%, squad]
+wormhole_id: Integer
+coord_x: Integer
+coord_y: Integer
+coord_z (rsss)
+
+## Routes ##
+vector_a
+vector_b
+
+## Fleets ##
+???
+
+## Settings ##
+???
+
+## Anotações ##
+Dijkstra
+State Machine 
+Rubocop
+React
+Faker
+Simple_Form
