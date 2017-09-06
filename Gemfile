@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'rubocop', '~> 0.49.1', require: false
+  gem 'faker', '1.8.4'
 end
 
 group :development do
