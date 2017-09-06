@@ -4,7 +4,7 @@ RSpec.describe Unit, type: :model do
 
   let(:unit) { create(:unit) }
 
-  it { expect(unit).to be_instance_of(Unit) }
+  it { expect(unit).to be_an_instance_of(Unit) }
   it { expect(unit.name).to be_a(String) }
 
 
