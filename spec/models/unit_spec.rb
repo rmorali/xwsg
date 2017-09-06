@@ -1,5 +1,15 @@
 require 'rails_helper'
+
 RSpec.describe Unit, type: :model do
+
+  let(:unit) { create(:unit) }
+
+  it { expect(unit).to be_instance_of(Unit) }
+  it { expect(unit.name).to be_a(String) }
+
+
+
+   
 end
 #### Sample #####
 # RSpec.describe User, :type => :model do
