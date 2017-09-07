@@ -14,4 +14,8 @@ Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', hyperdrive: 1).fa
 Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 0).factions = empire
 Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0).factions = all
 
+Planet.create(name: 'Coruscant', sector: 'Core', population: 17502500900)
+Planet.create(name: 'Tatooine', sector: 'HuttSpace', population: 15900500)
+Planet.create(name: 'Naboo', sector: 'Unknown', population: 100200900)
+
 

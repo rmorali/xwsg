@@ -1,0 +1,23 @@
+<h1>Planet#index</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Sector</th>
+      <th>Population</th>
+    </tr>
+  </thead>
+      
+  <tbody>
+    <% @planets.each do |planet| %>
+      <tr>
+        <td><%= image_tag("#{planet.image}", size: "50x50") %></td>
+        <td><%= planet.name %></td>
+        <td><%= planet.sector %></td>
+        <td><%= planet.population.to_s(:delimited, delimiter: '.') %></td>
+      </tr>        
+    <% end %>
+  </tbody> 
+</table>
