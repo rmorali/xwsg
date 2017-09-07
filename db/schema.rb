@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824002931) do
+ActiveRecord::Schema.define(version: 20170907163313) do
 
   create_table "units", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
+    t.string "acronym"
+    t.string "type"
+    t.string "terrain"
+    t.integer "faction_mask"
+    t.integer "hyperdrive"
+    t.integer "credits"
+    t.integer "metals"
+    t.integer "rare_elements"
+    t.integer "producing_time"
+    t.integer "load_weigth"
+    t.integer "load_capacity"
+    t.boolean "groupable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
