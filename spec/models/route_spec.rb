@@ -40,6 +40,7 @@ RSpec.describe Route, type: :model do
       edges = Route.getEdges
       path = Dijkstra.new(@planet_a, @planet_d, edges)
       expect(path.cost).to eq(2)
+      expect(path.shortest_path).to contain_exactly(@planet_a, @planet_d)
     end
     
   end
