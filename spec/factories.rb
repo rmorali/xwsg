@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :route do
+    association :vector_a, factory: :planet 
+    association :vector_b, factory: :planet
+    distance 1
+  end
   factory :planet do
     name Faker::StarWars.planet
     sector Faker::Space.constellation

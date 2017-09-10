@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170907204715) do
+ActiveRecord::Schema.define(version: 20170910190023) do
 
   create_table "planets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(version: 20170907204715) do
     t.string "domination"
     t.integer "x"
     t.integer "y"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "routes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "vector_a"
+    t.integer "vector_b"
+    t.integer "distance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
