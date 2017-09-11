@@ -14,8 +14,13 @@ Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', hyperdrive: 1).fa
 Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 0).factions = empire
 Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0).factions = all
 
-Planet.create(name: 'Coruscant', sector: 'Core', population: 17502500900)
-Planet.create(name: 'Tatooine', sector: 'HuttSpace', population: 15900500)
-Planet.create(name: 'Naboo', sector: 'Unknown', population: 100200900)
+coruscant = Planet.create(name: 'Coruscant', sector: 'Core', population: 17502500900)
+hoth = Planet.create(name: 'Hoth', sector: 'Unknown', population: 50200100)
+naboo = Planet.create(name: 'Naboo', sector: 'Unknown', population: 100200900)
+tatooine = Planet.create(name: 'Tatooine', sector: 'HuttSpace', population: 15900500)
 
-
+Route.create([
+  {vector_a: coruscant, vector_b: hoth, distance: 1 },
+  {vector_a: hoth, vector_b: naboo, distance: 1},
+  {vector_a: naboo, vector_b: tatooine, distance: 1}
+  ])
