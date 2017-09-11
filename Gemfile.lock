@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/oscartanner/dijkstra.gem.git
+  remote: https://github.com/oscartanner/dijkstra.gem.git
   revision: 4e5e5b3ff65b6fc1740f49bd821fceee8c2cee6f
   specs:
     dijkstra (0.1.0)
