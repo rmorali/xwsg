@@ -1,12 +1,4 @@
 class GetRoutes
-  def initialize(*args)
-      @origin = args[0]
-    if args[1].is_a?(Integer)
-      @cost = args[1]
-    else
-      @destination = args[1]
-    end
-  end
 
   def edges
     edges = []
@@ -17,15 +9,24 @@ class GetRoutes
     edges
   end
 
-  def shortest_path
-    Dijkstra.new(@origin, @destination, self.edges).shortest_path
+  def shortest_path(origin, destination)
+    Dijkstra.new(origin, destination, self.edges).shortest_path
   end
 
-  def cost
-    Dijkstra.new(@origin, @destination, self.edges).cost
+  def cost(origin, destination)
+    Dijkstra.new(origin, destination, self.edges).cost
   end
 
-  def in_range
+  def in_range(origin, hyperdrive)
+    edges = self.edges
+    destinations = []
+    Planet.all.each do |planet|
+      path = Dijkstra.new(origin, planet, edges).shortest_path
+      path.each do |p|
+        destinations << p if Dijkstra.new(origin, p, edges).cost <= hyperdrive
+      end
+    end
+    destinations.uniq
     #TODO returns all planets in an specific range
   end
 

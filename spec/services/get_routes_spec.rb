@@ -19,30 +19,32 @@ RSpec.describe GetRoutes, type: :service do
     # Dijkstra Gem doesnt calculates reverse path. I had to create back and forth routes...
   end
 
-  it 'returs all planets within a specific range' do
-    near_by_destinations = GetRoutes.new(@planet_a, 1).in_range
-    expect(near_by_destinations).to include(@planet_c)
+  it 'returns all planets within a specific range' do
+    nearby_destinations = GetRoutes.new.in_range(@planet_a, 1)
+    expect(nearby_destinations).to contain_exactly(@planet_a, @planet_b)
+    far_destinations = GetRoutes.new.in_range(@planet_a, 3)
+    expect(far_destinations).to contain_exactly(@planet_a, @planet_b, @planet_c, @planet_d)
   end
 
   context 'related to paths' do
 
     it 'finds one' do
-      path = GetRoutes.new(@planet_a, @planet_d).shortest_path
+      path = GetRoutes.new.shortest_path(@planet_a, @planet_d)
       expect(path).to contain_exactly(@planet_a, @planet_b, @planet_c, @planet_d)
-      path = GetRoutes.new(@planet_d, @planet_a).shortest_path
+      path = GetRoutes.new.shortest_path(@planet_d, @planet_a)
       expect(path).to contain_exactly(@planet_d, @planet_c, @planet_b, @planet_a)
     end
 
     it 'calculates its cost' do
-      cost = GetRoutes.new(@planet_a, @planet_d).cost
+      cost = GetRoutes.new.cost(@planet_a, @planet_d)
       expect(cost).to eq(3)
     end
 
     it 'always finds the shortest one' do
       shortcut = create(:route, vector_a: @planet_a, vector_b: @planet_d, distance: 2)
-      path = GetRoutes.new(@planet_a, @planet_d).shortest_path
+      path = GetRoutes.new.shortest_path(@planet_a, @planet_d)
       expect(path).to contain_exactly(@planet_a, @planet_d)
-      cost = GetRoutes.new(@planet_a, @planet_d).cost
+      cost = GetRoutes.new.cost(@planet_a, @planet_d)
       expect(cost).to eq(2)
     end
 
