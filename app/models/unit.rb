@@ -1,6 +1,7 @@
 class Unit < ApplicationRecord
 
   self.inheritance_column = nil
+  has_many :fleets
   
   scope :allowed_for, lambda {|faction| where('faction_mask & ?', 2**Unit.factions.rindex(faction))}
   

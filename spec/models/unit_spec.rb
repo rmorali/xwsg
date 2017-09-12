@@ -4,6 +4,8 @@ RSpec.describe Unit, type: :model do
 
   let(:unit) { build(:unit) }
   
+  it { should have_many :fleets }
+  
   it 'has its attributes' do
     expect(unit).to be_an_instance_of(Unit)
     expect(unit.name).to be_a(String)

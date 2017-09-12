@@ -1,4 +1,19 @@
 FactoryGirl.define do
+  factory :fleet do
+    quantity 1
+    unit nil
+    squad nil
+    planet nil
+  end
+  factory :squad do
+    name "MyString"
+    faction 1
+    credits 1
+    metals 1
+    rare_elements 1
+    url "MyString"
+    ready false
+  end
   factory :route do
     association :vector_a, factory: :planet 
     association :vector_b, factory: :planet

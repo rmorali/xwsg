@@ -1,6 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Route, type: :model do
-  let(:route) { build(:route) }
-
+  it { should belong_to :vector_a }
+  it { should belong_to :vector_b }
 end

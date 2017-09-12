@@ -12,7 +12,11 @@ all = ['empire','rebel']
 
 Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', hyperdrive: 1).factions = rebel
 Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 0).factions = empire
+Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3).factions = empire
+Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3).factions = all
 Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0).factions = all
+Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', hyperdrive: 0).factions = all
+Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground', hyperdrive: 0).factions = all
 
 coruscant = Planet.create(name: 'Coruscant', sector: 'Core', population: 17502500900)
 hoth = Planet.create(name: 'Hoth', sector: 'Unknown', population: 50200100)
@@ -23,4 +27,4 @@ Route.create([
   {vector_a: coruscant, vector_b: hoth, distance: 1 },
   {vector_a: hoth, vector_b: naboo, distance: 1},
   {vector_a: naboo, vector_b: tatooine, distance: 1}
-  ])
+])

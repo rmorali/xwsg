@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Planet, type: :model do
   let(:planet) { build(:planet) }
   
+  it { should have_many :fleets }
+  
   it 'has its attributes' do
     expect(planet).to be_an_instance_of(Planet)
     expect(planet.name).to be_a(String)

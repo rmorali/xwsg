@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910190023) do
+ActiveRecord::Schema.define(version: 20170912190826) do
+
+  create_table "fleets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "quantity"
+    t.bigint "unit_id"
+    t.bigint "squad_id"
+    t.bigint "planet_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planet_id"], name: "index_fleets_on_planet_id"
+    t.index ["squad_id"], name: "index_fleets_on_squad_id"
+    t.index ["unit_id"], name: "index_fleets_on_unit_id"
+  end
 
   create_table "planets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -34,6 +46,18 @@ ActiveRecord::Schema.define(version: 20170910190023) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "squads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.integer "faction"
+    t.integer "credits"
+    t.integer "metals"
+    t.integer "rare_elements"
+    t.string "url"
+    t.boolean "ready"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "units", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "acronym"
@@ -52,4 +76,7 @@ ActiveRecord::Schema.define(version: 20170910190023) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "fleets", "planets"
+  add_foreign_key "fleets", "squads"
+  add_foreign_key "fleets", "units"
 end
