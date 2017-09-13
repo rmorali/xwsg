@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Squad, type: :model do
 
-  it { should have_many :fleets }
+  it { is_expected.to have_many :fleets }
   
 end
-

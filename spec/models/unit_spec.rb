@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe Unit, type: :model do
 
   let(:unit) { build(:unit) }
-  
-  it { should have_many :fleets }
-  
+
+  it { is_expected.to have_many :fleets }
+
   it 'has its attributes' do
     expect(unit).to be_an_instance_of(Unit)
     expect(unit.name).to be_a(String)
@@ -21,23 +21,23 @@ RSpec.describe Unit, type: :model do
     expect(unit.load_capacity).to be_an(Integer)
     expect(unit.groupable).to be_truthy
   end
-  
+
   it 'has an image' do
     expect(unit.image).to eq("units/#{unit.name.downcase}.png")
   end
-  
+
   context 'belongings' do
-  
+
     it 'calculate bitmask correctly' do
       unit.factions = ['mercenary']
       expect(Unit.allowed_for('mercenary')).to_not be_empty
     end
-  
+
     it 'has a faction' do
       unit.factions = 'empire'
-      expect(unit.factions).to include 'empire'      
+      expect(unit.factions).to include 'empire'
     end
-    
+
     it 'has multiple factions' do
       unit.factions = ['empire','rebel']
       expect(unit.factions).to contain_exactly('empire','rebel')
@@ -47,4 +47,3 @@ RSpec.describe Unit, type: :model do
   end
 
 end
-
