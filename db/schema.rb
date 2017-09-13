@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913133613) do
+ActiveRecord::Schema.define(version: 20170913192848) do
 
   create_table "factions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20170913133613) do
     t.bigint "planet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "round_id"
     t.index ["planet_id"], name: "index_fleets_on_planet_id"
     t.index ["squad_id"], name: "index_fleets_on_squad_id"
     t.index ["unit_id"], name: "index_fleets_on_unit_id"
@@ -40,6 +41,12 @@ ActiveRecord::Schema.define(version: 20170913133613) do
     t.string "domination"
     t.integer "x"
     t.integer "y"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "phase", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

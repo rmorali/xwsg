@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :round do
+    phase 0
+  end
   factory :faction do
     name "Empire"
   end
