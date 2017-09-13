@@ -11,18 +11,17 @@
       <th>Faction</th>
     </tr>
   </thead>
-      
+
   <tbody>
     <% @units.each do |unit| %>
       <tr>
-        <td><%= image_tag("#{unit.image}", size: "50x50") %></td>
+        <td><%= image_tag("#{unit.image}", size: "100x100") %></td>
         <td><%= unit.name %></td>
         <td><%= unit.type %></td>
         <td><%= unit.terrain %></td>
         <td><%= unit.hyperdrive %></td>
-        <td><%= unit.factions %>(<%= unit.faction_mask %>)</td>
-      </tr>        
+        <td><%= unit.factions %>( mask: <%= unit.faction_mask %>)</td>
+      </tr>
     <% end %>
-  </tbody> 
+  </tbody>
 </table>
-
