@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Fleet, type: :model do
 
-  let(:unit) { create(:unit) }
-  let(:squad) { create(:squad) }
-  let(:planet) { create(:planet) }
+  let(:fleet) { create(:fleet) }
 
   it { is_expected.to belong_to :unit }
   it { is_expected.to belong_to :squad }
@@ -12,9 +10,10 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :round }
 
   it 'gets full built units' do
-    unit.producing_time = 1
-    unit.save
-    fleet = Fleet.create(unit: unit, squad: squad, planet: planet, round: Round.get_current)
+    fleet.unit.producing_time = 1
+    fleet.unit.save
+    fleet.round = Round.get_current
+    fleet.save  
     expect(Fleet.operational).to_not include(fleet)
     Round.create
     expect(Fleet.operational).to include(fleet)
