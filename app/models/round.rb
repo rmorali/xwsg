@@ -3,7 +3,7 @@ class Round < ApplicationRecord
 
   has_many :fleets
 
-  def self.getCurrent
+  def self.get_current
       Round.create if Round.count == 0
       Round.last
   end

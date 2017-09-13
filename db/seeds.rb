@@ -17,13 +17,13 @@ reb = ['Rebel']
 merc = ['Mercenary']
 all = ['Empire','Rebel', 'Mercenary']
 
-Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', hyperdrive: 1).factions = reb
-Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 0).factions = emp
-Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3).factions = emp
-Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3).factions = all
-Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0).factions = reb
-Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', hyperdrive: 0).factions = all
-Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground', hyperdrive: 0).factions = all
+Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', hyperdrive: 1, producing_time: 2).factions = reb
+Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 0, producing_time: 2).factions = emp
+Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3, producing_time: 2).factions = emp
+Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3, producing_time: 2).factions = all
+Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0, producing_time: 2).factions = reb
+Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', hyperdrive: 0, producing_time: 2).factions = all
+Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground', hyperdrive: 0, producing_time: 2).factions = all
 
 coruscant = Planet.create(name: 'Coruscant', sector: 'Core', population: 17502500900)
 hoth = Planet.create(name: 'Hoth', sector: 'Unknown', population: 50200100)
