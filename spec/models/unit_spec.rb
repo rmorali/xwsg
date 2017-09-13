@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Unit, type: :model do
 
   let(:unit) { build(:unit) }
+  let(:faction) { build(:faction) }
 
   it { is_expected.to have_many :fleets }
 
@@ -27,21 +28,26 @@ RSpec.describe Unit, type: :model do
   end
 
   context 'belongings' do
+    before do
+      @empire = create(:faction, name: 'Empire')
+      @rebel = create(:faction, name: 'Rebel')
+      @mercenary = create(:faction, name: 'Mercenary')
+    end
 
     it 'calculate bitmask correctly' do
-      unit.factions = ['mercenary']
-      expect(Unit.allowed_for('mercenary')).to_not be_empty
+      unit.factions = ['Empire', 'Mercenary']
+      expect(Unit.allowed_for('Mercenary')).to_not be_empty
     end
 
     it 'has a faction' do
-      unit.factions = 'empire'
-      expect(unit.factions).to include 'empire'
+      unit.factions = ['Empire']
+      expect(unit.factions).to include 'Empire'
     end
 
     it 'has multiple factions' do
-      unit.factions = ['empire','rebel']
-      expect(unit.factions).to contain_exactly('empire','rebel')
-      expect(unit.factions).to_not include 'mercenary'
+      unit.factions = ['Empire', 'Rebel']
+      expect(unit.factions).to contain_exactly('Empire','Rebel')
+      expect(unit.factions).to_not include('Mercenary')
     end
 
   end

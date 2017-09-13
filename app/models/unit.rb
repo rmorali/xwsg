@@ -3,21 +3,17 @@ class Unit < ApplicationRecord
   self.inheritance_column = nil
   has_many :fleets
 
-  scope :allowed_for, lambda {|faction| where('faction_mask & ?', 2**Unit.factions.rindex(faction))}
-
-  def self.factions
-    %w[none rebel empire mercenary pirate]
-  end
+  scope :allowed_for, lambda {|faction| where('faction_mask & ?', 2**Faction.names.rindex(faction))}
 
   def factions=(factions)
     factions = [factions] if factions.is_a? String
-    self.faction_mask = (factions & Unit.factions).map { |r| 2**Unit.factions.index(r) }.sum
+    self.faction_mask = (factions & Faction.names).map { |r| 2**Faction.names.index(r) }.sum
     save
   end
 
   def factions
-    Unit.factions.reject do |r|
-      ((self.faction_mask || 0) & 2**Unit.factions.index(r)).zero?
+    Faction.names.reject do |r|
+      ((self.faction_mask || 0) & 2**Faction.names.index(r)).zero?
     end
   end
 

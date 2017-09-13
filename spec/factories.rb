@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :faction do
+    name "Empire"
+  end
   factory :fleet do
     quantity 1
     unit nil
@@ -15,7 +18,7 @@ FactoryGirl.define do
     ready false
   end
   factory :route do
-    association :vector_a, factory: :planet 
+    association :vector_a, factory: :planet
     association :vector_b, factory: :planet
     distance 1
   end

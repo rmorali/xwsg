@@ -6,15 +6,22 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-empire = ['empire']
-rebel = ['rebel']
-all = ['empire','rebel']
+Faction.create([
+  {name: 'Empire'},
+  {name: 'Rebel'},
+  {name: 'Mercenary'}
+  ])
 
-Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', hyperdrive: 1).factions = rebel
-Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 0).factions = empire
-Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3).factions = empire
+emp = ['Empire']
+reb = ['Rebel']
+merc = ['Mercenary']
+all = ['Empire','Rebel', 'Mercenary']
+
+Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', hyperdrive: 1).factions = reb
+Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 0).factions = emp
+Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3).factions = emp
 Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3).factions = all
-Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0).factions = all
+Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0).factions = reb
 Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', hyperdrive: 0).factions = all
 Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground', hyperdrive: 0).factions = all
 
