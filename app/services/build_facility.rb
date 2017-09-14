@@ -1,4 +1,4 @@
-class Facility
+class BuildFacility
   def initialize(facility, squad, planet)
     @facility = facility
     @squad = squad
