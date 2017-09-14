@@ -23,7 +23,7 @@ RSpec.describe Facility, type: :service do
       expect(Fleet.all).to_not be_empty
     end
 
-    it 'must be of squad faction' do
+    it 'must belongs to squad faction' do
       unit.factions = ['Mercenary']
       unit.save
       Facility.new(unit,squad,planet).build!

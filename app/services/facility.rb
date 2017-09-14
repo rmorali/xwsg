@@ -6,13 +6,19 @@ class Facility
   end
 
   def build!
-    Fleet.create(quantity: 1, unit: @facility, squad: @squad, planet: @planet, round: Round.get_current) if self.able_to_construct?
+    Fleet.create(quantity: 1, unit: @facility, squad: @squad, planet: @planet, round: Round.get_current) if self.facility? && self.credits? && self.faction?
   end
 
-  def able_to_construct?
-    if @facility.type == 'Facility' && @squad.credits >= @facility.credits && @facility.belongs?(@squad.faction)
-      return true
-    end
+  def facility?
+    @facility.type == 'Facility'
+  end
+
+  def credits?
+    @squad.credits >= @facility.credits
+  end
+
+  def faction?
+    @facility.belongs?(@squad.faction)
   end
 
 end
