@@ -7,9 +7,14 @@ class Fleet < ApplicationRecord
   belongs_to :squad
   belongs_to :planet
   belongs_to :round
-
+  belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
+ 
   def in_production?
     Round.get_current.number < self.round.number + self.unit.producing_time
+  end
+
+  def cargo
+    Fleet.where(carrier: self)
   end
 
 end
