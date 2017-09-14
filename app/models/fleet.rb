@@ -1,5 +1,9 @@
 class Fleet < ApplicationRecord
   scope :operational, -> { joins(:unit).where('round_id + producing_time <= ?', Round.get_current.number) }
+  scope :terrain, lambda { |terrain| joins(:unit).where('terrain = ?', terrain) }
+  scope :enemy_of, lambda { |squad| where('squad_id != ?', squad) }
+  #scope :ground, -> { joins(:unit).where('terrain = ?', 'Ground') }
+  #scope :space, -> { joins(:unit).where('terrain = ?', 'Space') }
 
   belongs_to :unit
   belongs_to :squad
