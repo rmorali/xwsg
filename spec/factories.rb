@@ -15,7 +15,7 @@ FactoryGirl.define do
   factory :squad do
     name 'DarkSide Squadron'
     association :faction, factory: :faction
-    credits 1
+    credits 1000
     metals 1
     rare_elements 1
     url Faker::Internet.url('squad.com')
@@ -49,6 +49,5 @@ FactoryGirl.define do
     load_weigth 1
     load_capacity 1
     groupable true
-    faction_mask 0
   end
 end
