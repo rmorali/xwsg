@@ -3,7 +3,7 @@ FactoryGirl.define do
     phase 0
   end
   factory :faction do
-    name "Empire"
+    name 'Empire'
   end
   factory :fleet do
     quantity 1
@@ -38,9 +38,9 @@ FactoryGirl.define do
   end
   factory :unit, aliases: [:ship, :facility] do
     name Faker::StarWars.vehicle
-    acronym "CS"
-    type "CapitalShip"
-    terrain "Space"
+    acronym 'CS'
+    type 'CapitalShip'
+    terrain 'Space'
     hyperdrive 1
     credits 1
     metals 1
