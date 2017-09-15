@@ -7,38 +7,38 @@ RSpec.describe ProduceUnit, type: :service do
   let(:unit) { create(:unit) }
   let(:fleet) { create(:fleet) }
 
-  context 'restrictions to produce an unit' do
+  context 'producing units' do
     before do
+      faction.save!
+      @squad = create(:squad, metals: 100, faction: faction)
       shipyard = create(:unit, name: 'Shipyard', type: 'Facility', producing_time: 1)
-      @shipyard = create(:fleet, unit: shipyard)
-    end
-    it 'must be a facility' do
-      expect(ProduceUnit.new(@shipyard,unit).facility?).to be true
-    end
-    it 'cannot be in construction' do
+      @shipyard = create(:fleet, squad: @squad, unit: shipyard)
+      @tie_fighter = create(:unit, metals: 10, producing_time: 1)
       create(:round)
-      expect(ProduceUnit.new(@shipyard,unit).in_production?).to_not be true
     end
-    it 'must have enough credits(or metals)' do
-      expect(ProduceUnit.new(@shipyard,unit).credits?).to be true
+    it 'factory must be a facility' do
+      expect(ProduceUnit.new(@shipyard,@tie_fighter).facility?).to be true
+    end
+    it 'facility cant be in construction' do
+      expect(ProduceUnit.new(@shipyard,@tie_fighter).in_production?).to_not be true
+    end
+    it 'squad must have enough metals' do
+      @squad.update_attributes(metals: 0)
+      expect(ProduceUnit.new(@shipyard,@tie_fighter).metals?).to_not be true
+      @squad.update_attributes(metals: 1000)
+      expect(ProduceUnit.new(@shipyard,@tie_fighter).metals?).to be true
     end
 
-  end
-
-  context 'producing' do
-    before do
-      shipyard = create(:unit, name: 'Shipyard', type: 'Facility', producing_time: 1)
-      @shipyard = create(:fleet, unit: shipyard)
-      create(:round)
-      ProduceUnit.new(@shipyard,unit).produce!
-    end
-    it 'debits squad credits(or metals)' do
-    #TODO debits squad credits/metals to produce multiple units or only one unit by its producing time?
+    it 'debits squad metals' do
+      ProduceUnit.new(@shipyard,@tie_fighter).produce!
+      expect(@squad.metals).to eq(90)
     end
     it 'starts to produce an unit' do
-      expect(Fleet.last.unit).to eq(unit)
+      ProduceUnit.new(@shipyard,@tie_fighter).produce!
+      expect(Fleet.last.unit).to eq(@tie_fighter)
     end
     it 'keeps the producing unit within the facility' do
+      ProduceUnit.new(@shipyard,@tie_fighter).produce!
       expect(Fleet.last.carrier).to eq(@shipyard)
     end
 

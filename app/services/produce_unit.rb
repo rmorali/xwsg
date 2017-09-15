@@ -14,12 +14,12 @@ class ProduceUnit
     @facility.in_production?
   end
 
-  def credits?
-    @squad.credits >= @unit.credits
+  def metals?
+    @squad.debit(@unit.metals, 'metals')
   end
 
   def produce!
-    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.get_current, carrier: @facility) if self.facility? && !self.in_production? && self.credits?
+    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.get_current, carrier: @facility) if self.facility? && !self.in_production? && self.metals?
   end
 
 
