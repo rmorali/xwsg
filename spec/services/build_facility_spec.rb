@@ -45,13 +45,17 @@ RSpec.describe BuildFacility, type: :service do
 
   end
 
-  context 'building' do
+  context 'constructing' do
     before do
       faction.save!
       unit.factions = ["Empire"]
       unit.type = 'Facility'
       unit.producing_time = 2
       unit.save
+    end
+
+    it 'debits squad credits(or metals)' do
+    #TODO debits squad credits/metals
     end
 
     it 'takes producing time to be built' do
