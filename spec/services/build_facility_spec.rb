@@ -6,61 +6,39 @@ RSpec.describe BuildFacility, type: :service do
   let(:planet) { create(:planet) }
   let(:unit) { create(:unit) }
 
-  context 'restrictions to build a facility' do
+  context 'building a facility' do
     before do
       faction.save!
-      unit.factions = ["Empire"]
-      unit.type = 'Facility'
-      unit.save
+      @squad = create(:squad, credits: 1000, faction: faction)
+      @shipyard = create(:unit, type: 'Facility', producing_time: 2, credits: 900)
     end
 
     it 'must be a facility' do
-      unit.update_attributes(type: 'Fighter')
-      BuildFacility.new(unit,squad,planet).build!
+      @shipyard.update_attributes(type: 'Fighter')
+      BuildFacility.new(@shipyard,@squad,planet).build!
       expect(Fleet.all).to be_empty
-      unit.update_attributes(type: 'Facility')
-      BuildFacility.new(unit,squad,planet).build!
-      expect(Fleet.all).to_not be_empty
-    end
-
-    it 'must belongs to squad faction' do
-      unit.factions = ['Mercenary']
-      unit.save
-      BuildFacility.new(unit,squad,planet).build!
-      expect(Fleet.all).to be_empty
-      unit.factions = ['Empire']
-      unit.save
-      BuildFacility.new(unit,squad,planet).build!
+      @shipyard.update_attributes(type: 'Facility')
+      BuildFacility.new(@shipyard,@squad,planet).build!
       expect(Fleet.all).to_not be_empty
     end
 
     it 'squad must have enough credits' do
-      squad.update_attributes(credits: 0)
-      BuildFacility.new(unit,squad,planet).build!
+      @squad.update_attributes(credits: 0)
+      BuildFacility.new(@shipyard,@squad,planet).build!
       expect(Fleet.all).to be_empty
-      squad.update_attributes(credits: 1000)
-      BuildFacility.new(unit,squad,planet).build!
+      @squad.update_attributes(credits: 1000)
+      BuildFacility.new(@shipyard,@squad,planet).build!
       expect(Fleet.all).to_not be_empty
     end
 
-  end
-
-  context 'constructing' do
-    before do
-      faction.save!
-      unit.factions = ["Empire"]
-      unit.type = 'Facility'
-      unit.producing_time = 2
-      unit.save
-    end
-
-    it 'debits squad credits(or metals)' do
-    #TODO debits squad credits/metals
+    it 'debits squad credits' do
+      BuildFacility.new(@shipyard,@squad,planet).build!
+      expect(@squad.credits).to eq(100)
     end
 
     it 'takes producing time to be built' do
       expect(planet.fleets).to be_empty
-      BuildFacility.new(unit,squad,planet).build!
+      BuildFacility.new(@shipyard,@squad,planet).build!
       expect(planet.fleets).to_not be_empty
       expect(planet.fleets.first.in_production?).to be true
       create(:round)
@@ -71,7 +49,7 @@ RSpec.describe BuildFacility, type: :service do
 
     it 'builds it in a specific planet' do
       expect(planet.fleets).to be_empty
-      BuildFacility.new(unit,squad,planet).build!
+      BuildFacility.new(@shipyard,@squad,planet).build!
       expect(planet.fleets).to_not be_empty
     end
 
