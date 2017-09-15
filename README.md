@@ -1,24 +1,11 @@
-# README
+# X-Wing Strategy Game
+# Star Wars Rebellion 1 1/2 =P
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Online Star Wars Board Game
 
-Things you may want to cover:
+Manage your Faction, create your fleets, train your heroes and rule the galaxy!
 
-* Ruby version
+The project is totally free and non-profit. It's being developed only for fun.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Ruby 2.4.1
+* Rails 5.1.4
