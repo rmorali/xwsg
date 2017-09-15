@@ -17,6 +17,10 @@ class Unit < ApplicationRecord
     end
   end
 
+  def belongs?(faction)
+    self.factions.include?(faction.name)
+  end
+
   def image
     "units/#{name.downcase}.png"
   end

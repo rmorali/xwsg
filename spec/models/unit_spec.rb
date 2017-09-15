@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Unit, type: :model do
 
-  let(:unit) { build(:unit) }
-  let(:faction) { build(:faction) }
+  let(:unit) { create(:unit) }
+  let(:faction) { create(:faction) }
+  let(:squad) { create(:squad) }
 
   it { is_expected.to have_many :fleets }
 
@@ -48,6 +49,15 @@ RSpec.describe Unit, type: :model do
       unit.factions = ['Empire', 'Rebel']
       expect(unit.factions).to contain_exactly('Empire','Rebel')
       expect(unit.factions).to_not include('Mercenary')
+    end
+
+    it 'belongs to a squad' do
+      unit.factions = ['Empire', 'Rebel']
+      faction.name = 'Empire'
+      faction.save
+      squad.faction = faction
+      squad.save
+      expect(unit.belongs?(squad.faction)).to be true
     end
 
   end

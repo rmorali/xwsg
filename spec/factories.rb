@@ -1,20 +1,24 @@
 FactoryGirl.define do
+  factory :round do
+    phase 0
+  end
   factory :faction do
     name "Empire"
   end
   factory :fleet do
     quantity 1
-    unit nil
-    squad nil
-    planet nil
+    association :unit, factory: :unit
+    association :squad, factory: :squad
+    association :planet, factory: :planet
+    association :round, factory: :round
   end
   factory :squad do
-    name "MyString"
-    faction 1
-    credits 1
+    name 'DarkSide Squadron'
+    association :faction, factory: :faction
+    credits 1000
     metals 1
     rare_elements 1
-    url "MyString"
+    url Faker::Internet.url('squad.com')
     ready false
   end
   factory :route do
@@ -34,7 +38,7 @@ FactoryGirl.define do
   end
   factory :unit, aliases: [:ship, :facility] do
     name Faker::StarWars.vehicle
-    acronym "MR"
+    acronym "CS"
     type "CapitalShip"
     terrain "Space"
     hyperdrive 1
@@ -45,6 +49,5 @@ FactoryGirl.define do
     load_weigth 1
     load_capacity 1
     groupable true
-    faction_mask 0
   end
 end
