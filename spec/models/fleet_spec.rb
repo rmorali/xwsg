@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Fleet, type: :model do
 
   let(:fleet) { create(:fleet) }
+  let(:planet) { create(:planet) }
 
   it { is_expected.to belong_to :unit }
   it { is_expected.to belong_to :squad }
@@ -69,6 +70,17 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.cargo).to_not include(@xwing)
       expect(@capital_ship.cargo.first.quantity).to eq(4)
       expect(@xwing.quantity).to eq(6)
+    end
+    it 'updates cargo destination in loading or unloading' do
+      Route.create(vector_a: @capital_ship.planet, vector_b: planet, distance: 1)
+      @xwing.load_in(@capital_ship,10)
+      OrderMovement.new(@capital_ship,1,planet).move!
+      @xwing.reload
+      expect(@xwing.destination).to eq(planet)
+      expect(@xwing.arrive_in).to eq(@capital_ship.arrive_in)
+      @xwing.unload_from(@capital_ship,6)
+      expect(@xwing.destination).to eq(nil)
+      expect(@xwing.arrive_in).to eq(nil)
     end
     it 'respects carrier load capacity' do
 
