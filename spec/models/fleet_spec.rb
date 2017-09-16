@@ -9,6 +9,7 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :planet }
   it { is_expected.to belong_to :round }
   it { is_expected.to belong_to :carrier }
+  it { is_expected.to belong_to :destination}
 
   context 'scopes' do
     before do

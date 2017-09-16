@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914212430) do
+ActiveRecord::Schema.define(version: 20170916003404) do
 
   create_table "factions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20170914212430) do
     t.datetime "updated_at", null: false
     t.integer "round_id"
     t.integer "carrier_id"
+    t.integer "destination_id"
+    t.integer "arrive_in"
     t.index ["planet_id"], name: "index_fleets_on_planet_id"
     t.index ["squad_id"], name: "index_fleets_on_squad_id"
     t.index ["unit_id"], name: "index_fleets_on_unit_id"
