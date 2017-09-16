@@ -42,5 +42,8 @@ RSpec.describe OrderMovement, type: :service do
       OrderMovement.new(@fleet,6,@destination).move!
       expect(@fleet.cargo).to_not include(fleet)
     end
+    it 'cancel movement orders' do
+      #TODO to cancel only recent orders receiving empty quantity or destination
+    end
   end
 end
