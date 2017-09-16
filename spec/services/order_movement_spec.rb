@@ -45,5 +45,8 @@ RSpec.describe OrderMovement, type: :service do
     it 'cancel movement orders' do
       #TODO to cancel only recent orders receiving empty quantity or destination
     end
+    it 'doesnt unload carriers when cancelling movement orders' do
+      
+    end
   end
 end

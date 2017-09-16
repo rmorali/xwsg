@@ -70,11 +70,9 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.cargo.first.quantity).to eq(4)
       expect(@xwing.quantity).to eq(6)
     end
+    it 'respects carrier load capacity' do
 
-
-
-
-
+    end
   end
 
 end
