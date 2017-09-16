@@ -39,19 +39,41 @@ RSpec.describe Fleet, type: :model do
 
   context 'carriers and cargoes' do
     before do
-      @cargo1 = create(:fleet)
-      @cargo2 = create(:fleet)
+      @capital_ship = create(:fleet)
+      @xwing = create(:fleet, quantity: 10)
+      @ywing = create(:fleet, quantity: 10)
+    end
+    it 'load fleet in a carrier' do
+      @xwing.load_in(@capital_ship,10)
+      @ywing.load_in(@capital_ship,10)
+      expect(@xwing.carrier).to be @capital_ship
+      expect(@capital_ship.cargo).to include(@xwing)
+      expect(@capital_ship.cargo).to include(@ywing)
+    end
+    it 'splits a partially loaded fleet' do
+      @xwing.load_in(@capital_ship,6)
+      expect(@capital_ship.cargo).to include(@xwing)
+      expect(@capital_ship.cargo.first.quantity).to eq(6)
+      expect(Fleet.last.quantity).to eq(4)
+    end
+    it 'unloads a fleet from a carrier' do
+      @xwing.load_in(@capital_ship,10)
+      expect(@capital_ship.cargo).to include(@xwing)
+      @xwing.unload_from(@capital_ship,10)
+      expect(@capital_ship.cargo).to_not include(@xwing)
+    end
+    it 'splits a partially unloaded fleet' do
+      @xwing.load_in(@capital_ship,10)
+      expect(@capital_ship.cargo).to include(@xwing)
+      @xwing.unload_from(@capital_ship,6)
+      expect(@capital_ship.cargo).to_not include(@xwing)
+      expect(@capital_ship.cargo.first.quantity).to eq(4)
+      expect(@xwing.quantity).to eq(6)
     end
 
-    it 'load fleets in a carrier' do
-      @cargo1.carrier = fleet
-      @cargo1.save
-      @cargo2.carrier = fleet
-      @cargo2.save
-      expect(@cargo1.carrier).to be fleet
-      expect(fleet.cargo).to include(@cargo1)
-      expect(fleet.cargo).to include(@cargo2)
-    end
+
+
+
 
   end
 
