@@ -44,6 +44,7 @@ RSpec.describe Fleet, type: :model do
       @capital_ship = create(:fleet, unit: unit)
       @xwing = create(:fleet, quantity: 10)
       @ywing = create(:fleet, quantity: 10)
+      @bwing = create(:fleet, quantity: 5)
     end
     it 'gets available carrier capacity' do
       @capital_ship.update_attributes(quantity: 2)
@@ -55,7 +56,6 @@ RSpec.describe Fleet, type: :model do
       expect(@xwing.weight).to eq(@xwing.quantity * @xwing.unit.weight)
     end
     it 'only load fleets that carrier can afford to' do
-      @bwing = create(:fleet, quantity: 5)
       @xwing.load_in(@capital_ship,10)
       @ywing.load_in(@capital_ship,10)
       @bwing.load_in(@capital_ship,5)
@@ -74,6 +74,11 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.cargo).to include(@ywing)
       expect(@capital_ship.cargo.first.quantity).to eq(10)
       expect(@capital_ship.cargo.last.quantity).to eq(10)
+      @ywing.unload_from(@capital_ship,10)
+      corvette = create(:unit, weight: 15)
+      @corvette = create(:fleet, quantity: 1, unit: corvette)
+      @corvette.load_in(@capital_ship,1)
+      expect(@capital_ship.cargo).to_not include(@corvette)
     end
     it 'load fleet in a carrier' do
       @xwing.load_in(@capital_ship,10)
