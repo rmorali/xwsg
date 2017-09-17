@@ -4,6 +4,7 @@ RSpec.describe Fleet, type: :model do
 
   let(:fleet) { create(:fleet) }
   let(:planet) { create(:planet) }
+  let(:unit) { create(:unit, capacity: 20) }
 
   it { is_expected.to belong_to :unit }
   it { is_expected.to belong_to :squad }
@@ -40,9 +41,24 @@ RSpec.describe Fleet, type: :model do
 
   context 'carriers and cargoes' do
     before do
-      @capital_ship = create(:fleet)
+      @capital_ship = create(:fleet, unit: unit)
       @xwing = create(:fleet, quantity: 10)
       @ywing = create(:fleet, quantity: 10)
+    end
+    it 'tells carrier capacity' do
+      @capital_ship.update_attributes(quantity: 2)
+      expect(@capital_ship.available_capacity).to eq(40)
+      @xwing.load_in(@capital_ship,5)
+      expect(@capital_ship.available_capacity).to eq(35)
+    end
+    it 'only load fleets that carrier can afford to' do
+
+      #TODO
+    end
+
+    it 'load fleets until reachs carrier capacity' do
+
+      #TODO
     end
     it 'load fleet in a carrier' do
       @xwing.load_in(@capital_ship,10)
@@ -81,9 +97,6 @@ RSpec.describe Fleet, type: :model do
       @xwing.unload_from(@capital_ship,6)
       expect(@xwing.destination).to eq(nil)
       expect(@xwing.arrives_in).to eq(nil)
-    end
-    it 'respects carrier load capacity' do
-
     end
   end
 

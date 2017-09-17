@@ -10,16 +10,21 @@ class Fleet < ApplicationRecord
   belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
 
+  delegate :name, to: :unit
+  delegate :capacity, to: :unit
+
   def in_production?
     Round.get_current.number < self.round.number + self.unit.producing_time
   end
 
-  def moving?
-    Round.get_current.number < self.round.number + Route.cost(self.planet,self.destination) if self.destination
-  end
-
   def cargo
     Fleet.where(carrier: self)
+  end
+
+  def available_capacity
+    loaded = 0
+    self.cargo.each { |cargo| loaded += cargo.unit.weight * cargo.quantity }
+    (self.capacity * self.quantity) - loaded
   end
 
   def load_in(carrier,quantity)
