@@ -21,11 +21,6 @@ RSpec.describe Fleet, type: :model do
       fleet.round = Round.get_current
       fleet.save
     end
-    it 'finds units in production' do
-      expect(Fleet.in_production).to include(fleet)
-      Round.create
-      expect(Fleet.in_production).to_not include(fleet)
-    end
     it 'finds units from specific terrain' do
       expect(Fleet.terrain('Ground')).to_not include(fleet)
       expect(Fleet.terrain('Space')).to include(fleet)

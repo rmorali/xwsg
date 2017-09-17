@@ -36,7 +36,7 @@ RSpec.describe BuildFacility, type: :service do
       expect(@squad.credits).to eq(100)
     end
 
-    it 'takes producing time to be built' do
+    it 'takes time to be built' do
       expect(planet.fleets).to be_empty
       BuildFacility.new(@shipyard,@squad,planet).build!
       expect(planet.fleets).to_not be_empty
