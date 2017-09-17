@@ -27,7 +27,15 @@ class Fleet < ApplicationRecord
     (self.capacity * self.quantity) - loaded
   end
 
+  def weight
+    self.quantity * self.unit.weight
+  end
+
   def load_in(carrier,quantity)
+    if self.unit.weight * quantity > carrier.available_capacity
+      quantity = carrier.available_capacity  / self.unit.weight
+      return nil if quantity < 1
+    end
     if self.quantity == quantity
       self.update_attributes(carrier: carrier, destination: carrier.destination, arrives_in: carrier.arrives_in)
     else

@@ -45,20 +45,35 @@ RSpec.describe Fleet, type: :model do
       @xwing = create(:fleet, quantity: 10)
       @ywing = create(:fleet, quantity: 10)
     end
-    it 'tells carrier capacity' do
+    it 'gets available carrier capacity' do
       @capital_ship.update_attributes(quantity: 2)
       expect(@capital_ship.available_capacity).to eq(40)
       @xwing.load_in(@capital_ship,5)
       expect(@capital_ship.available_capacity).to eq(35)
     end
-    it 'only load fleets that carrier can afford to' do
-
-      #TODO
+    it 'gets total fleet weight' do
+      expect(@xwing.weight).to eq(@xwing.quantity * @xwing.unit.weight)
     end
-
+    it 'only load fleets that carrier can afford to' do
+      @bwing = create(:fleet, quantity: 5)
+      @xwing.load_in(@capital_ship,10)
+      @ywing.load_in(@capital_ship,10)
+      @bwing.load_in(@capital_ship,5)
+      expect(@capital_ship.cargo).to include(@xwing)
+      expect(@capital_ship.cargo).to include(@ywing)
+      expect(@capital_ship.cargo).to_not include(@bwing)
+      @xwing.unload_from(@capital_ship,10)
+      @bwing.load_in(@capital_ship,5)
+      expect(@capital_ship.cargo).to include(@bwing)
+    end
     it 'load fleets until reachs carrier capacity' do
-
-      #TODO
+      @ywing.update_attributes(quantity: 15)
+      @xwing.load_in(@capital_ship,10)
+      @ywing.load_in(@capital_ship,15)
+      expect(@capital_ship.cargo).to include(@xwing)
+      expect(@capital_ship.cargo).to include(@ywing)
+      expect(@capital_ship.cargo.first.quantity).to eq(10)
+      expect(@capital_ship.cargo.last.quantity).to eq(10)
     end
     it 'load fleet in a carrier' do
       @xwing.load_in(@capital_ship,10)
