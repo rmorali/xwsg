@@ -13,11 +13,11 @@ class OrderMovement
       @fleet.cargo.each { |cargo| cargo.update_attributes(carrier: nil) }
       @fleet.update_attributes(quantity: @quantity)
     end
-    @fleet.update_attributes(destination: @destination, arrive_in: self.arrive_in)
-    @fleet.cargo.each { |cargo| cargo.update_attributes(destination: @destination, arrive_in: self.arrive_in) }
+    @fleet.update_attributes(destination: @destination, arrives_in: self.arrives_in)
+    @fleet.cargo.each { |cargo| cargo.update_attributes(destination: @destination, arrives_in: self.arrives_in) }
   end
 
-  def arrive_in
+  def arrives_in
     @fleet.round.number + Route.cost(@fleet.planet,@destination)
   end
 end

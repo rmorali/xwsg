@@ -24,23 +24,23 @@ class Fleet < ApplicationRecord
 
   def load_in(carrier,quantity)
     if self.quantity == quantity
-      self.update_attributes(carrier: carrier, destination: carrier.destination, arrive_in: carrier.arrive_in)
+      self.update_attributes(carrier: carrier, destination: carrier.destination, arrives_in: carrier.arrives_in)
     else
       left_behind = self.dup
       left_behind.quantity = self.quantity - quantity
       left_behind.save
-      self.update_attributes(quantity: quantity, carrier: carrier, destination: carrier.destination, arrive_in: carrier.arrive_in)
+      self.update_attributes(quantity: quantity, carrier: carrier, destination: carrier.destination, arrives_in: carrier.arrives_in)
     end
   end
 
   def unload_from(carrier,quantity)
     if self.quantity == quantity
-      self.update_attributes(carrier: nil, destination: nil, arrive_in: nil)
+      self.update_attributes(carrier: nil, destination: nil, arrives_in: nil)
     else
       left_inside = self.dup
       left_inside.quantity = self.quantity - quantity
       left_inside.save
-      self.update_attributes(quantity: quantity, carrier: nil, destination: nil, arrive_in: nil)
+      self.update_attributes(quantity: quantity, carrier: nil, destination: nil, arrives_in: nil)
     end
   end
 

@@ -18,7 +18,7 @@ RSpec.describe OrderMovement, type: :service do
     end
     it 'predicts the round of arrival' do
       OrderMovement.new(@fleet,10,@destination).move!
-      expect(@fleet.arrive_in).to eq(Round.get_current.number + 2)
+      expect(@fleet.arrives_in).to eq(Round.get_current.number + 2)
     end
     it 'brings its cargo with it' do
       fleet.carrier = @fleet
@@ -46,7 +46,7 @@ RSpec.describe OrderMovement, type: :service do
       #TODO to cancel only recent orders receiving empty quantity or destination
     end
     it 'doesnt unload carriers when cancelling movement orders' do
-      
+
     end
   end
 end

@@ -46,8 +46,8 @@ FactoryGirl.define do
     metals 1
     rare_elements 1
     producing_time 1
-    load_weigth 1
-    load_capacity 1
+    weight 1
+    capacity 1
     groupable true
   end
 end

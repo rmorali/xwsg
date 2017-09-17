@@ -77,10 +77,10 @@ RSpec.describe Fleet, type: :model do
       OrderMovement.new(@capital_ship,1,planet).move!
       @xwing.reload
       expect(@xwing.destination).to eq(planet)
-      expect(@xwing.arrive_in).to eq(@capital_ship.arrive_in)
+      expect(@xwing.arrives_in).to eq(@capital_ship.arrives_in)
       @xwing.unload_from(@capital_ship,6)
       expect(@xwing.destination).to eq(nil)
-      expect(@xwing.arrive_in).to eq(nil)
+      expect(@xwing.arrives_in).to eq(nil)
     end
     it 'respects carrier load capacity' do
 
