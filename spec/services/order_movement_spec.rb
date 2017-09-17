@@ -42,11 +42,16 @@ RSpec.describe OrderMovement, type: :service do
       OrderMovement.new(@fleet,6,@destination).move!
       expect(@fleet.cargo).to_not include(fleet)
     end
-    it 'cancel movement orders' do
-      #TODO to cancel only recent orders receiving empty quantity or destination
-    end
-    it 'doesnt unload carriers when cancelling movement orders' do
-
+    it 'cancel movement orders but doesnt unload carried fleets' do
+      fleet.carrier = @fleet
+      fleet.save
+      OrderMovement.new(@fleet,10,@destination).move!
+      expect(@fleet.destination).to eq(@destination)
+      expect(fleet.reload.destination).to eq(@destination)
+      OrderMovement.new(@fleet,0,@destination).cancel_move!
+      expect(@fleet.destination).to eq(nil)
+      expect(fleet.reload.destination).to eq(nil)
+      expect(fleet.reload.carrier).to eq(@fleet)
     end
   end
 end

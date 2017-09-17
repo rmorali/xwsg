@@ -3,6 +3,7 @@ class OrderMovement
     @fleet = fleet
     @quantity = quantity
     @destination = destination
+    self.cancel_move! if @quantity == 0 || @destination == nil
   end
 
   def move!
@@ -19,5 +20,10 @@ class OrderMovement
 
   def arrives_in
     @fleet.round.number + Route.cost(@fleet.planet,@destination)
+  end
+
+  def cancel_move!
+    @fleet.update_attributes(destination: nil, arrives_in: nil)
+    @fleet.cargo.each { |cargo| cargo.update_attributes(destination: nil, arrives_in: nil) }
   end
 end
