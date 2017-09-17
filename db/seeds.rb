@@ -12,6 +12,11 @@ Faction.create([
   {name: 'Mercenary'}
   ])
 
+Squad.create([
+  {name: 'Empire', credits: 100, metals: 100, faction: Faction.first},
+  {name: 'Mercenary', credits: 100, metals: 100, faction: Faction.last}
+  ])
+
 emp = ['Empire']
 reb = ['Rebel']
 merc = ['Mercenary']

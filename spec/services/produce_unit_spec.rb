@@ -33,6 +33,12 @@ RSpec.describe ProduceUnit, type: :service do
       ProduceUnit.new(@shipyard,@tie_fighter).produce!
       expect(@squad.metals).to eq(90)
     end
+    it 'takes time to be produced' do
+      ProduceUnit.new(@shipyard,@tie_fighter).produce!
+      expect(Fleet.last.in_production?).to eq(true)
+      create(:round)
+      expect(Fleet.last.in_production?).to_not eq(true)
+    end
     it 'starts to produce an unit' do
       ProduceUnit.new(@shipyard,@tie_fighter).produce!
       expect(Fleet.last.unit).to eq(@tie_fighter)
