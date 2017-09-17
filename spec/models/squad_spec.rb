@@ -5,6 +5,7 @@ RSpec.describe Squad, type: :model do
 
   it { is_expected.to have_many :fleets }
   it { is_expected.to belong_to :faction }
+  it { is_expected.to have_many :users }
 
   context 'credits and resources' do
     before do

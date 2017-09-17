@@ -2,6 +2,7 @@ class Squad < ApplicationRecord
 
   has_many :fleets
   belongs_to :faction
+  has_many :users
 
   def debit(value,type)
     if type == 'credits'
