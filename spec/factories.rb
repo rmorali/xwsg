@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :user do
+    
+  end
   factory :round do
     phase 0
   end

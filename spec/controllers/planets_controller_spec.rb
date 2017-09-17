@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UnitController, type: :controller do
+RSpec.describe PlanetsController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do
