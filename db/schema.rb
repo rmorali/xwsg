@@ -27,9 +27,6 @@ ActiveRecord::Schema.define(version: 20170917131159) do
     t.datetime "updated_at", null: false
     t.integer "round_id"
     t.integer "carrier_id"
-    t.integer "destination_id"
-    t.integer "arrives_in"
-    t.integer "ready_in"
     t.index ["planet_id"], name: "index_fleets_on_planet_id"
     t.index ["squad_id"], name: "index_fleets_on_squad_id"
     t.index ["unit_id"], name: "index_fleets_on_unit_id"
@@ -86,8 +83,8 @@ ActiveRecord::Schema.define(version: 20170917131159) do
     t.integer "metals"
     t.integer "rare_elements"
     t.integer "producing_time"
-    t.integer "weight"
-    t.integer "capacity"
+    t.integer "load_weigth"
+    t.integer "load_capacity"
     t.boolean "groupable"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
