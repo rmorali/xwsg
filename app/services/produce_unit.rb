@@ -7,11 +7,7 @@ class ProduceUnit
   end
 
   def valid?
-    facility? && !in_production? && metals?
-  end
-
-  def facility?
-    @facility.unit.type == 'Facility'
+    @facility.facility? && !in_production? && metals?
   end
 
   def in_production?

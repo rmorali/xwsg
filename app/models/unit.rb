@@ -23,4 +23,8 @@ class Unit < ApplicationRecord
   def image
     "units/#{name.downcase}.png"
   end
+
+  def facility?
+    type == 'Facility'
+  end
 end

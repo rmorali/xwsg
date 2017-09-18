@@ -12,6 +12,10 @@ class Fleet < ApplicationRecord
   delegate :name, to: :unit
   delegate :capacity, to: :unit
 
+  def facility?
+    unit.facility?
+  end
+
   def in_production?
     Round.get_current.number < ready_in.to_i
   end

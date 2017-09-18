@@ -6,11 +6,7 @@ class BuildFacility
   end
 
   def valid?
-    facility? && credits?
-  end
-
-  def facility?
-    @facility.type == 'Facility'
+    @facility.facility? && credits?
   end
 
   def credits?
