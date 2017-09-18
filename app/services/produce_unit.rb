@@ -6,6 +6,10 @@ class ProduceUnit
     @planet = facility.planet
   end
 
+  def valid?
+    facility? && !in_production? && metals?
+  end
+
   def facility?
     @facility.unit.type == 'Facility'
   end
@@ -23,6 +27,6 @@ class ProduceUnit
   end
 
   def produce!
-    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.get_current, ready_in: ready_in, carrier: @facility) if facility? && !in_production? && metals?
+    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.get_current, ready_in: ready_in, carrier: @facility) if valid?
   end
 end

@@ -5,6 +5,10 @@ class BuildFacility
     @planet = planet
   end
 
+  def valid?
+    facility? && credits?
+  end
+
   def facility?
     @facility.type == 'Facility'
   end
@@ -18,6 +22,6 @@ class BuildFacility
   end
 
   def build!
-    Fleet.create(quantity: 1, unit: @facility, squad: @squad, planet: @planet, round: Round.get_current, ready_in: ready_in) if facility? && credits?
+    Fleet.create(quantity: 1, unit: @facility, squad: @squad, planet: @planet, round: Round.get_current, ready_in: ready_in) if valid?
   end
 end
