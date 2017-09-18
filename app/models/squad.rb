@@ -3,11 +3,11 @@ class Squad < ApplicationRecord
   belongs_to :faction
   has_many :users
 
-  def debit(value, type)
-    if type == 'credits'
-      update_attributes(credits: credits - value) unless value > credits
-    else
-      update_attributes(metals: metals - value) unless value > metals
-    end
+  def debit_credits(value)
+    update_attributes(credits: credits - value) unless value > credits
+  end
+
+  def debit_metals(value)
+    update_attributes(metals: metals - value) unless value > metals
   end
 end

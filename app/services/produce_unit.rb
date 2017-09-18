@@ -15,7 +15,7 @@ class ProduceUnit
   end
 
   def metals?
-    @squad.debit(@unit.metals, 'metals')
+    @squad.debit_metals(@unit.metals)
   end
 
   def ready_in

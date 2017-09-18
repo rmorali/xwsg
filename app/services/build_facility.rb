@@ -10,7 +10,7 @@ class BuildFacility
   end
 
   def credits?
-    @squad.debit(@facility.credits, 'credits')
+    @squad.debit_credits(@facility.credits)
   end
 
   def ready_in
