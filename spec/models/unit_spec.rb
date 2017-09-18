@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Unit, type: :model do
-
   let(:unit) { create(:unit) }
   let(:faction) { create(:faction) }
   let(:squad) { create(:squad) }
@@ -36,7 +35,7 @@ RSpec.describe Unit, type: :model do
     end
 
     it 'calculate bitmask correctly' do
-      unit.factions = ['Empire', 'Mercenary']
+      unit.factions = %w[Empire Mercenary]
       expect(Unit.allowed_for('Mercenary')).to_not be_empty
     end
 
@@ -46,20 +45,18 @@ RSpec.describe Unit, type: :model do
     end
 
     it 'has multiple factions' do
-      unit.factions = ['Empire', 'Rebel']
-      expect(unit.factions).to contain_exactly('Empire','Rebel')
+      unit.factions = %w[Empire Rebel]
+      expect(unit.factions).to contain_exactly('Empire', 'Rebel')
       expect(unit.factions).to_not include('Mercenary')
     end
 
     it 'belongs to a squad' do
-      unit.factions = ['Empire', 'Rebel']
+      unit.factions = %w[Empire Rebel]
       faction.name = 'Empire'
       faction.save
       squad.faction = faction
       squad.save
       expect(unit.belongs?(squad.faction)).to be true
     end
-
   end
-
 end

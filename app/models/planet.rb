@@ -1,10 +1,8 @@
 class Planet < ApplicationRecord
+  serialize :domination, Hash
+  has_many :fleets
 
- serialize :domination, Hash
- has_many :fleets
-  
- def image
-   "planets/#{name.downcase}.png"
- end
- 
+  def image
+    "planets/#{name.downcase}.png"
+  end
 end

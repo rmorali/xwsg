@@ -11,5 +11,4 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe UnitHelper, type: :helper do
-
 end

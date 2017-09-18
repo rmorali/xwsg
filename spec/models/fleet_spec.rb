@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Fleet, type: :model do
-
   let(:fleet) { create(:fleet) }
   let(:planet) { create(:planet) }
   let(:unit) { create(:unit, capacity: 20) }
@@ -11,7 +10,7 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :planet }
   it { is_expected.to belong_to :round }
   it { is_expected.to belong_to :carrier }
-  it { is_expected.to belong_to :destination}
+  it { is_expected.to belong_to :destination }
 
   context 'scopes' do
     before do
@@ -31,7 +30,6 @@ RSpec.describe Fleet, type: :model do
       expect(Fleet.enemy_of(fleet.squad)).to_not include(fleet)
       expect(Fleet.enemy_of(enemy)).to include(fleet)
     end
-
   end
 
   context 'carriers and cargoes' do
@@ -44,75 +42,74 @@ RSpec.describe Fleet, type: :model do
     it 'gets available carrier capacity' do
       @capital_ship.update_attributes(quantity: 2)
       expect(@capital_ship.available_capacity).to eq(40)
-      @xwing.load_in(@capital_ship,5)
+      @xwing.load_in(@capital_ship, 5)
       expect(@capital_ship.available_capacity).to eq(35)
     end
     it 'gets total fleet weight' do
       expect(@xwing.weight).to eq(@xwing.quantity * @xwing.unit.weight)
     end
     it 'only load fleets that carrier can afford to' do
-      @xwing.load_in(@capital_ship,10)
-      @ywing.load_in(@capital_ship,10)
-      @bwing.load_in(@capital_ship,5)
+      @xwing.load_in(@capital_ship, 10)
+      @ywing.load_in(@capital_ship, 10)
+      @bwing.load_in(@capital_ship, 5)
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo).to include(@ywing)
       expect(@capital_ship.cargo).to_not include(@bwing)
-      @xwing.unload_from(@capital_ship,10)
-      @bwing.load_in(@capital_ship,5)
+      @xwing.unload_from(@capital_ship, 10)
+      @bwing.load_in(@capital_ship, 5)
       expect(@capital_ship.cargo).to include(@bwing)
     end
     it 'load fleets until reachs carrier capacity' do
       @ywing.update_attributes(quantity: 15)
-      @xwing.load_in(@capital_ship,10)
-      @ywing.load_in(@capital_ship,15)
+      @xwing.load_in(@capital_ship, 10)
+      @ywing.load_in(@capital_ship, 15)
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo).to include(@ywing)
       expect(@capital_ship.cargo.first.quantity).to eq(10)
       expect(@capital_ship.cargo.last.quantity).to eq(10)
-      @ywing.unload_from(@capital_ship,10)
+      @ywing.unload_from(@capital_ship, 10)
       corvette = create(:unit, weight: 15)
       @corvette = create(:fleet, quantity: 1, unit: corvette)
-      @corvette.load_in(@capital_ship,1)
+      @corvette.load_in(@capital_ship, 1)
       expect(@capital_ship.cargo).to_not include(@corvette)
     end
     it 'load fleet in a carrier' do
-      @xwing.load_in(@capital_ship,10)
-      @ywing.load_in(@capital_ship,10)
+      @xwing.load_in(@capital_ship, 10)
+      @ywing.load_in(@capital_ship, 10)
       expect(@xwing.carrier).to be @capital_ship
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo).to include(@ywing)
     end
     it 'splits a partially loaded fleet' do
-      @xwing.load_in(@capital_ship,6)
+      @xwing.load_in(@capital_ship, 6)
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo.first.quantity).to eq(6)
       expect(Fleet.last.quantity).to eq(4)
     end
     it 'unloads a fleet from a carrier' do
-      @xwing.load_in(@capital_ship,10)
+      @xwing.load_in(@capital_ship, 10)
       expect(@capital_ship.cargo).to include(@xwing)
-      @xwing.unload_from(@capital_ship,10)
+      @xwing.unload_from(@capital_ship, 10)
       expect(@capital_ship.cargo).to_not include(@xwing)
     end
     it 'splits a partially unloaded fleet' do
-      @xwing.load_in(@capital_ship,10)
+      @xwing.load_in(@capital_ship, 10)
       expect(@capital_ship.cargo).to include(@xwing)
-      @xwing.unload_from(@capital_ship,6)
+      @xwing.unload_from(@capital_ship, 6)
       expect(@capital_ship.cargo).to_not include(@xwing)
       expect(@capital_ship.cargo.first.quantity).to eq(4)
       expect(@xwing.quantity).to eq(6)
     end
     it 'updates cargo destination in loading or unloading' do
       Route.create(vector_a: @capital_ship.planet, vector_b: planet, distance: 1)
-      @xwing.load_in(@capital_ship,10)
-      OrderMovement.new(@capital_ship,1,planet).move!
+      @xwing.load_in(@capital_ship, 10)
+      OrderMovement.new(@capital_ship, 1, planet).move!
       @xwing.reload
       expect(@xwing.destination).to eq(planet)
       expect(@xwing.arrives_in).to eq(@capital_ship.arrives_in)
-      @xwing.unload_from(@capital_ship,6)
+      @xwing.unload_from(@capital_ship, 6)
       expect(@xwing.destination).to eq(nil)
       expect(@xwing.arrives_in).to eq(nil)
     end
   end
-
 end

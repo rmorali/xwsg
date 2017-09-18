@@ -23,9 +23,6 @@ class ProduceUnit
   end
 
   def produce!
-    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.get_current, ready_in: self.ready_in, carrier: @facility) if self.facility? && !self.in_production? && self.metals?
+    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.get_current, ready_in: ready_in, carrier: @facility) if facility? && !in_production? && metals?
   end
-
-
-
 end

@@ -15,30 +15,30 @@ RSpec.describe BuildFacility, type: :service do
 
     it 'must be a facility' do
       @shipyard.update_attributes(type: 'Fighter')
-      BuildFacility.new(@shipyard,@squad,planet).build!
+      BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to be_empty
       @shipyard.update_attributes(type: 'Facility')
-      BuildFacility.new(@shipyard,@squad,planet).build!
+      BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to_not be_empty
     end
 
     it 'squad must have enough credits' do
       @squad.update_attributes(credits: 0)
-      BuildFacility.new(@shipyard,@squad,planet).build!
+      BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to be_empty
       @squad.update_attributes(credits: 1000)
-      BuildFacility.new(@shipyard,@squad,planet).build!
+      BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to_not be_empty
     end
 
     it 'debits squad credits' do
-      BuildFacility.new(@shipyard,@squad,planet).build!
+      BuildFacility.new(@shipyard, @squad, planet).build!
       expect(@squad.credits).to eq(100)
     end
 
     it 'takes time to be built' do
       expect(planet.fleets).to be_empty
-      BuildFacility.new(@shipyard,@squad,planet).build!
+      BuildFacility.new(@shipyard, @squad, planet).build!
       expect(planet.fleets).to_not be_empty
       expect(planet.fleets.first.in_production?).to be true
       create(:round)
@@ -49,10 +49,8 @@ RSpec.describe BuildFacility, type: :service do
 
     it 'builds it in a specific planet' do
       expect(planet.fleets).to be_empty
-      BuildFacility.new(@shipyard,@squad,planet).build!
+      BuildFacility.new(@shipyard, @squad, planet).build!
       expect(planet.fleets).to_not be_empty
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Route, type: :model do
-
   it { is_expected.to belong_to :vector_a }
   it { is_expected.to belong_to :vector_b }
   let(:route) { build(:route) }
@@ -11,9 +10,9 @@ RSpec.describe Route, type: :model do
     @planet_b = create(:planet)
     @planet_c = create(:planet)
     @planet_d = create(:planet)
-    @route_1 = create(:route, vector_a: @planet_a, vector_b: @planet_b, distance: 1)
-    @route_2 = create(:route, vector_a: @planet_b, vector_b: @planet_c, distance: 1)
-    @route_3 = create(:route, vector_a: @planet_c, vector_b: @planet_d, distance: 1)
+    @route1 = create(:route, vector_a: @planet_a, vector_b: @planet_b, distance: 1)
+    @route2 = create(:route, vector_a: @planet_b, vector_b: @planet_c, distance: 1)
+    @route3 = create(:route, vector_a: @planet_c, vector_b: @planet_d, distance: 1)
   end
 
   it 'returns back and forth edges' do
@@ -30,7 +29,6 @@ RSpec.describe Route, type: :model do
   end
 
   context 'related to paths' do
-
     it 'finds one' do
       path = Route.path(@planet_a, @planet_d)
       expect(path).to contain_exactly(@planet_a, @planet_b, @planet_c, @planet_d)
@@ -44,15 +42,14 @@ RSpec.describe Route, type: :model do
     end
 
     it 'always finds the shortest one' do
-      shortcut = create(:route, vector_a: @planet_a, vector_b: @planet_d, distance: 2)
+      # shortcut
+      create(:route, vector_a: @planet_a, vector_b: @planet_d, distance: 2)
       path = Route.path(@planet_a, @planet_d)
       expect(path).to contain_exactly(@planet_a, @planet_d)
       cost = Route.cost(@planet_a, @planet_d)
       expect(cost).to eq(2)
     end
-
   end
 
-#TODO All of these methods are intended to receive only the moving fleet
-
+  # TODO: All of these methods are intended to receive only the moving fleet
 end

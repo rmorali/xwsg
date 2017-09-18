@@ -1,5 +1,4 @@
 class Route < ApplicationRecord
-
   belongs_to :vector_a, class_name: 'Planet', foreign_key: 'vector_a'
   belongs_to :vector_b, class_name: 'Planet', foreign_key: 'vector_b'
 
@@ -13,11 +12,11 @@ class Route < ApplicationRecord
   end
 
   def self.path(origin, destination)
-    Dijkstra.new(origin, destination, self.edges).shortest_path
+    Dijkstra.new(origin, destination, edges).shortest_path
   end
 
   def self.cost(origin, destination)
-    Dijkstra.new(origin, destination, self.edges).cost
+    Dijkstra.new(origin, destination, edges).cost
   end
 
   def self.in_range(origin, hyperdrive)
