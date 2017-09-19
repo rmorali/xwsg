@@ -33,29 +33,29 @@ class Fleet < ApplicationRecord
     quantity * unit.weight
   end
 
-  def load_in(carrier, quantity)
-    if unit.weight * quantity > carrier.available_capacity
-      quantity = carrier.available_capacity / unit.weight
+  def embark(quantity, fleet)
+    if fleet.weight > available_capacity
+      quantity = (available_capacity / fleet.unit.weight).round
       return nil if quantity < 1
     end
-    if self.quantity == quantity
-      update(carrier: carrier, destination: carrier.destination, arrives_in: carrier.arrives_in)
+    if fleet.quantity == quantity
+      fleet.update(carrier: self, destination: destination, arrives_in: arrives_in)
     else
-      left_behind = dup
-      left_behind.quantity = self.quantity - quantity
+      left_behind = fleet.dup
+      left_behind.quantity = fleet.quantity - quantity
       left_behind.save
-      update(quantity: quantity, carrier: carrier, destination: carrier.destination, arrives_in: carrier.arrives_in)
+      fleet.update(quantity: quantity, carrier: self, destination: destination, arrives_in: arrives_in)
     end
   end
 
-  def unload_from(carrier, quantity)
-    if self.quantity == quantity
-      update(carrier: nil, destination: nil, arrives_in: nil)
+  def disembark(quantity, fleet)
+    if fleet.quantity == quantity
+      fleet.update(carrier: nil, destination: nil, arrives_in: nil)
     else
-      left_inside = dup
-      left_inside.quantity = self.quantity - quantity
+      left_inside = fleet.dup
+      left_inside.quantity = fleet.quantity - quantity
       left_inside.save
-      update(quantity: quantity, carrier: nil, destination: nil, arrives_in: nil)
+      fleet.update(quantity: quantity, carrier: nil, destination: nil, arrives_in: nil)
     end
   end
 end
