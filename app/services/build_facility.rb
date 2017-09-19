@@ -6,11 +6,7 @@ class BuildFacility
   end
 
   def valid?
-    @facility.facility? && credits?
-  end
-
-  def credits?
-    @squad.debit_credits(@facility.credits)
+    @facility.facility? && @squad.debit_resources(@facility)
   end
 
   def ready_in
