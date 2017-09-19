@@ -4,11 +4,11 @@ class Round < ApplicationRecord
   has_many :fleets
 
   def self.get_current
-      Round.create if Round.count == 0
-      Round.last
+    Round.create if Round.count.zero?
+    Round.last
   end
 
   def number
-    self.id.to_i
+    id.to_i
   end
 end

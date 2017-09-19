@@ -21,6 +21,4 @@ RSpec.describe Round, type: :model do
     round.ground_combat!
     expect(round.ground_combat?).to be true
   end
-
-
 end

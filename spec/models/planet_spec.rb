@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Planet, type: :model do
-  
   let(:planet) { build(:planet) }
 
   it { is_expected.to have_many :fleets }
@@ -18,9 +17,9 @@ RSpec.describe Planet, type: :model do
   end
 
   it 'retrieves serialized domination data' do
-    planet.domination = {1 => 40, 2 => 60}
+    planet.domination = { 1 => 40, 2 => 60 }
     planet.save
-    expect(planet.domination).to include {'2 => 60'}
+    expect(planet.domination).to include { '2 => 60' }
     first_squad_presence = planet.domination[1]
     expect(first_squad_presence).to eq(40)
     second_squad_presence = planet.domination[2]
@@ -30,6 +29,4 @@ RSpec.describe Planet, type: :model do
   it 'has an image' do
     expect(planet.image).to eq("planets/#{planet.name.downcase}.png")
   end
-
-
 end

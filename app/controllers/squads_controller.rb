@@ -1,7 +1,5 @@
 class SquadsController < ApplicationController
-
-  def index
-  end
+  def index; end
 
   def new
     @squad = Squad.new
@@ -16,20 +14,13 @@ class SquadsController < ApplicationController
     redirect_to(root_path)
   end
 
-  def edit
+  def edit; end
 
-  end
-
-  def updated
-
-  end
+  def updated; end
 
   private
 
   def squad_params
     params.require(:squad).permit(:name, :color, :faction_id, :url)
   end
-
-
-
 end

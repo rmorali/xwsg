@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :user do
-    
   end
   factory :round do
     phase 0
@@ -39,7 +38,7 @@ FactoryGirl.define do
     x 1
     y 1
   end
-  factory :unit, aliases: [:ship, :facility] do
+  factory :unit, aliases: %i[ship facility] do
     name Faker::StarWars.vehicle
     acronym 'CS'
     type 'CapitalShip'

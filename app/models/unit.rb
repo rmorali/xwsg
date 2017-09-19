@@ -1,9 +1,8 @@
 class Unit < ApplicationRecord
-
   self.inheritance_column = nil
   has_many :fleets
 
-  scope :allowed_for, lambda {|faction| where('faction_mask & ?', 2**Faction.names.rindex(faction))}
+  scope :allowed_for, ->(faction) { where('faction_mask & ?', 2**Faction.names.rindex(faction)) }
 
   def factions=(factions)
     factions = [factions] if factions.is_a? String
@@ -13,16 +12,19 @@ class Unit < ApplicationRecord
 
   def factions
     Faction.names.reject do |r|
-      ((self.faction_mask || 0) & 2**Faction.names.index(r)).zero?
+      ((faction_mask || 0) & 2**Faction.names.index(r)).zero?
     end
   end
 
   def belongs?(faction)
-    self.factions.include?(faction.name)
+    factions.include?(faction.name)
   end
 
   def image
     "units/#{name.downcase}.png"
   end
 
+  def facility?
+    type == 'Facility'
+  end
 end

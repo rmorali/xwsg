@@ -15,16 +15,15 @@ RSpec.describe Squad, type: :model do
     end
 
     it 'debits credits if available' do
-      expect(squad.debit(1500,'credits')).to_not be(true)
-      squad.debit(1000, 'credits')
+      expect(squad.debit_credits(1500)).to_not be(true)
+      squad.debit_credits(1000)
       expect(squad.credits).to eq(0)
     end
 
     it 'debits metals if available' do
-      expect(squad.debit(1500,'metals')).to_not be(true)
-      squad.debit(1000, 'metals')
+      expect(squad.debit_metals(1500)).to_not be(true)
+      squad.debit_metals(1000)
       expect(squad.metals).to eq(0)
     end
   end
-
 end
