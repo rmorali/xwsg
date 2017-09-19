@@ -10,7 +10,7 @@ RSpec.describe OrderMovement, type: :service do
       @origin = create(:planet)
       @destination = create(:planet)
       Route.create(vector_a: @origin, vector_b: @destination, distance: 2)
-      @fleet = create(:fleet, quantity: 10, unit: unit, squad: squad, planet: @origin, round: Round.get_current)
+      @fleet = create(:fleet, quantity: 10, unit: unit, squad: squad, planet: @origin, round: Round.current)
     end
     it 'orders a fleet to move' do
       OrderMovement.new(@fleet, 10, @destination).move!
@@ -18,7 +18,7 @@ RSpec.describe OrderMovement, type: :service do
     end
     it 'predicts the round of arrival' do
       OrderMovement.new(@fleet, 10, @destination).move!
-      expect(@fleet.arrives_in).to eq(Round.get_current.number + 2)
+      expect(@fleet.arrives_in).to eq(Round.current.number + 2)
     end
     it 'brings its cargo with it' do
       fleet.carrier = @fleet

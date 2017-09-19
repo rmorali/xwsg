@@ -10,7 +10,7 @@ RSpec.describe Round, type: :model do
   end
 
   it 'gets the current round' do
-    expect(Round.get_current).to eq(Round.last)
+    expect(Round.current).to eq(Round.last)
   end
 
   it 'has three phases' do

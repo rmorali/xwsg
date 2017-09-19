@@ -17,7 +17,7 @@ RSpec.describe Fleet, type: :model do
       fleet.unit.producing_time = 1
       fleet.unit.terrain = 'Space'
       fleet.unit.save
-      fleet.round = Round.get_current
+      fleet.round = Round.current
       fleet.save
     end
     it 'finds units from specific terrain' do
