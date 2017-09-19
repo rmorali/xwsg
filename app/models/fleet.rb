@@ -44,7 +44,7 @@ class Fleet < ApplicationRecord
     end
   end
 
-  def unload_from(_carrier, quantity)
+  def unload_from(carrier, quantity)
     if self.quantity == quantity
       update(carrier: nil, destination: nil, arrives_in: nil)
     else
