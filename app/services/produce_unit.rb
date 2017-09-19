@@ -7,15 +7,11 @@ class ProduceUnit
   end
 
   def valid?
-    @facility.facility? && !in_production? && metals?
+    @facility.facility? && !in_production? && @squad.debit_resources(@unit)
   end
 
   def in_production?
     @facility.in_production?
-  end
-
-  def metals?
-    @squad.debit_metals(@unit.metals)
   end
 
   def ready_in
