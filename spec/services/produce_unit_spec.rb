@@ -23,9 +23,9 @@ RSpec.describe ProduceUnit, type: :service do
       expect(ProduceUnit.new(@shipyard, @tie_fighter).in_production?).to_not be true
     end
     it 'squad must have enough metals' do
-      @squad.update_attributes(metals: 0)
+      @squad.update(metals: 0)
       expect(ProduceUnit.new(@shipyard, @tie_fighter).metals?).to_not be true
-      @squad.update_attributes(metals: 1000)
+      @squad.update(metals: 1000)
       expect(ProduceUnit.new(@shipyard, @tie_fighter).metals?).to be true
     end
 

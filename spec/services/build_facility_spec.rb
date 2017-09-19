@@ -14,19 +14,19 @@ RSpec.describe BuildFacility, type: :service do
     end
 
     it 'must be a facility' do
-      @shipyard.update_attributes(type: 'Fighter')
+      @shipyard.update(type: 'Fighter')
       BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to be_empty
-      @shipyard.update_attributes(type: 'Facility')
+      @shipyard.update(type: 'Facility')
       BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to_not be_empty
     end
 
     it 'squad must have enough credits' do
-      @squad.update_attributes(credits: 0)
+      @squad.update(credits: 0)
       BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to be_empty
-      @squad.update_attributes(credits: 1000)
+      @squad.update(credits: 1000)
       BuildFacility.new(@shipyard, @squad, planet).build!
       expect(Fleet.all).to_not be_empty
     end

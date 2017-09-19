@@ -40,7 +40,7 @@ RSpec.describe Fleet, type: :model do
       @bwing = create(:fleet, quantity: 5)
     end
     it 'gets available carrier capacity' do
-      @capital_ship.update_attributes(quantity: 2)
+      @capital_ship.update(quantity: 2)
       expect(@capital_ship.available_capacity).to eq(40)
       @xwing.load_in(@capital_ship, 5)
       expect(@capital_ship.available_capacity).to eq(35)
@@ -60,7 +60,7 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.cargo).to include(@bwing)
     end
     it 'load fleets until reachs carrier capacity' do
-      @ywing.update_attributes(quantity: 15)
+      @ywing.update(quantity: 15)
       @xwing.load_in(@capital_ship, 10)
       @ywing.load_in(@capital_ship, 15)
       expect(@capital_ship.cargo).to include(@xwing)
