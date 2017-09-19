@@ -1,6 +1,9 @@
-  Metrics/LineLength:
-    Max: 120
-    Exclude:
+AllCops:
+  Exclude:
     - 'db/schema.rb'
-  Documentation:
-    Enabled: false
+Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Max: 120
+Metrics/MethodLength:
+  Max: 20
