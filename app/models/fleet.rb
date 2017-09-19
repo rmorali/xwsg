@@ -9,7 +9,7 @@ class Fleet < ApplicationRecord
   belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
 
-  delegate :name, :capacity, :facility?, :weight, to: :unit
+  delegate :name, :capacity, :facility?, to: :unit
 
   def in_production?
     Round.get_current.number < ready_in.to_i
