@@ -7,7 +7,7 @@ class OrderMovement
   end
 
   def move!
-    unless @quantity == @fleet.quantity || @quantity.zero?
+    if @quantity < @fleet.quantity
       left_behind = @fleet.dup
       left_behind.quantity = @fleet.quantity - @quantity
       left_behind.save

@@ -4,10 +4,10 @@ class Squad < ApplicationRecord
   has_many :users
 
   def debit_credits(value)
-    update(credits: credits - value) unless value > credits
+    update(credits: credits - value) if value <= credits
   end
 
   def debit_metals(value)
-    update(metals: metals - value) unless value > metals
+    update(metals: metals - value) if value <= metals
   end
 end
