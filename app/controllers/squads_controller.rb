@@ -18,6 +18,10 @@ class SquadsController < ApplicationController
 
   def updated; end
 
+  def map
+    @planets = Planet.all
+  end
+
   private
 
   def squad_params

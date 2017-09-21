@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get 'planets/index'
   get 'units/index'
+  get 'squads/map'
 
   resources :squads
 
