@@ -1,4 +1,24 @@
-<div class="map">
-  <br />
-I will render a simple map here in order to friends to help us with the user interface
+<div class="minimap">
+
+  <% @planets.each do |planet| %>
+
+    <% secx = 0 if planet.sector == 1 || planet.sector == 4 || planet.sector == 7 %>
+    <% secx = 100 if planet.sector == 2 || planet.sector == 5 || planet.sector == 8 %>
+    <% secx = 200 if planet.sector == 3 || planet.sector == 6 || planet.sector == 9 %>
+    <% secy = 0 if planet.sector == 1 || planet.sector == 2 || planet.sector == 3 %>
+    <% secy = 66 if planet.sector == 4 || planet.sector == 5 || planet.sector == 6 %>
+    <% secy = 132 if planet.sector == 7 || planet.sector == 8 || planet.sector == 9 %>
+    <% x_minimap = (planet.x / 4.8 / 3) + secx %>
+    <% y_minimap = (planet.y / 4 / 3) + secy  %>
+
+    <%= image_tag (planet.image), style: "width: 15px; position: absolute; left:#{x_minimap}px; top:#{y_minimap}px" %>
+
+  <% end %>
+
+</div>
+
+<div class="sector">
+
+  <%= render partial: 'sector', object: @planets %>
+
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170917191318) do
+ActiveRecord::Schema.define(version: 20170921151435) do
 
   create_table "factions", force: :cascade do |t|
     t.string "name"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20170917191318) do
 
   create_table "planets", force: :cascade do |t|
     t.string "name"
-    t.string "sector"
+    t.integer "sector"
     t.integer "population", limit: 8
     t.integer "credits"
     t.integer "metals"

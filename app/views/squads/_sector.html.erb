@@ -1,0 +1,22 @@
+<% @planets.each do |planet| %>
+
+  <% x = planet.x / 1.2 %>
+  <% y = planet.y / 1.2 %>
+
+  <%= image_tag (planet.image), style: "width: 120px; position: absolute; left:#{ x }px; top:#{ y }px"  if planet.sector == 5 %>
+
+    <div id="planet_name" style="position: absolute; left:<%= x + 20 %>px; top:<%= y - 20 %>px">
+      <%= planet.name if planet.sector == 5 %>
+    </div>
+
+  <% planet.fleets.each do |fleet| %>
+
+    <%= image_tag (fleet.unit.image), style: "width: 30px; position: absolute; left:#{ x + 120 }px; top:#{ y += 30 }px" %>
+
+    <div id="fleet_quantity" style="position: absolute; left:<%= x + 150 %>px; top:<%= y + 20 %>px; font-size: 10px; font-color: <%= fleet.squad.color %>">
+      <%= fleet.quantity %>
+    </div>
+
+  <% end %>
+
+<% end %>
