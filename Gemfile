@@ -13,7 +13,7 @@ gem 'erubis'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 # Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.3.18', '< 0.5'
+# gem 'mysql2', '>= 0.3.18', '< 0.5'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -23,6 +23,7 @@ gem 'react-rails'
 gem 'sass-rails', '~> 5.0'
 # Simple Form Rails
 gem 'simple_form'
+gem 'sqlite3', '~> 1.3', '>= 1.3.10'
 # Use Uglifier as compressor for JavaScript assets
 gem 'therubyracer', platforms: :ruby
 # Use CoffeeScript for .coffee assets and views

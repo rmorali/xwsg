@@ -29,13 +29,32 @@ Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperd
 Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', hyperdrive: 0, producing_time: 2).factions = all
 Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground', hyperdrive: 0, producing_time: 2).factions = all
 
-coruscant = Planet.create(name: 'Coruscant', sector: 'Core', population: 17_502_500_900)
-hoth = Planet.create(name: 'Hoth', sector: 'Unknown', population: 50_200_100)
-naboo = Planet.create(name: 'Naboo', sector: 'Unknown', population: 100_200_900)
-tatooine = Planet.create(name: 'Tatooine', sector: 'HuttSpace', population: 15_900_500)
+anaxes = Planet.create(name: 'Anaxes', sector: 'Core', population: 1_502_500_345, x: 300, y: 10)
+byss = Planet.create(name: 'Byss', sector: 'Core', population: 1_522_900_890, x: 50, y: 300)
+corellia = Planet.create(name: 'Corellia', sector: 'Core', population: 2_102_270_234, x: 700, y: 600)
+coruscant = Planet.create(name: 'Coruscant', sector: 'Core', population: 999_302_444_400, x: 500, y: 300)
+fresia = Planet.create(name: 'Fresia', sector: 'Core', population: 7_902_070_999, x: 700, y: 10)
+kuat = Planet.create(name: 'Kuat', sector: 'Core', population: 9_502_600_900, x: 900, y: 300)
+mandalore = Planet.create(name: 'Mandalore', sector: 'Core', population: 202_055_077, x: 300, y: 600)
+
+hoth = Planet.create(name: 'Hoth', sector: 'Outer Rim', population: 50_200_100, x: 500, y: 300)
+tatooine = Planet.create(name: 'Tatooine', sector: 'Arkanis Sector', population: 15_900_500, x: 500, y: 300)
+mon_calamari = Planet.create(name: 'Mon Calamari', sector: 'Tion Cluster', population: 302_444_400, x: 500, y: 300)
 
 Route.create([
-               { vector_a: coruscant, vector_b: hoth, distance: 1 },
-               { vector_a: hoth, vector_b: naboo, distance: 1 },
-               { vector_a: naboo, vector_b: tatooine, distance: 1 }
+               { vector_a: anaxes, vector_b: fresia, distance: 1 },
+               { vector_a: anaxes, vector_b: byss, distance: 1 },
+               { vector_a: anaxes, vector_b: coruscant, distance: 1 },
+               { vector_a: fresia, vector_b: coruscant, distance: 1 },
+               { vector_a: fresia, vector_b: kuat, distance: 1 },
+               { vector_a: byss, vector_b: coruscant, distance: 1 },
+               { vector_a: byss, vector_b: mandalore, distance: 1 },
+               { vector_a: coruscant, vector_b: mandalore, distance: 1 },
+               { vector_a: coruscant, vector_b: corellia, distance: 1 },
+               { vector_a: coruscant, vector_b: kuat, distance: 1 },
+               { vector_a: kuat, vector_b: corellia, distance: 1 },
+               { vector_a: mandalore, vector_b: corellia, distance: 1 },
+               { vector_a: kuat, vector_b: mon_calamari, distance: 1 },
+               { vector_a: byss, vector_b: hoth, distance: 1 },
+               { vector_a: corellia, vector_b: tatooine, distance: 1 }
              ])

@@ -12,17 +12,17 @@
 
 ActiveRecord::Schema.define(version: 20170917191318) do
 
-  create_table "factions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "factions", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "fleets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "fleets", force: :cascade do |t|
     t.integer "quantity"
-    t.bigint "unit_id"
-    t.bigint "squad_id"
-    t.bigint "planet_id"
+    t.integer "unit_id"
+    t.integer "squad_id"
+    t.integer "planet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "round_id"
@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(version: 20170917191318) do
     t.index ["unit_id"], name: "index_fleets_on_unit_id"
   end
 
-  create_table "planets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "planets", force: :cascade do |t|
     t.string "name"
     t.string "sector"
-    t.bigint "population"
+    t.integer "population", limit: 8
     t.integer "credits"
     t.integer "metals"
     t.integer "rare_elements"
@@ -49,13 +49,13 @@ ActiveRecord::Schema.define(version: 20170917191318) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "rounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "rounds", force: :cascade do |t|
     t.integer "phase", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "routes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "routes", force: :cascade do |t|
     t.integer "vector_a"
     t.integer "vector_b"
     t.integer "distance"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20170917191318) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "squads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "squads", force: :cascade do |t|
     t.string "name"
     t.integer "credits"
     t.integer "metals"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20170917191318) do
     t.string "color"
   end
 
-  create_table "units", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "units", force: :cascade do |t|
     t.string "name"
     t.string "acronym"
     t.string "type"
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 20170917191318) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -112,7 +112,4 @@ ActiveRecord::Schema.define(version: 20170917191318) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "fleets", "planets"
-  add_foreign_key "fleets", "squads"
-  add_foreign_key "fleets", "units"
 end

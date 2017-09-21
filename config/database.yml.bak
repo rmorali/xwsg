@@ -10,20 +10,23 @@
 #   http://dev.mysql.com/doc/refman/5.7/en/old-client.html
 #
 default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: pass
+  socket: /var/run/mysqld/mysqld.sock
 
 development:
   <<: *default
-  database: db/xwsg_development
+  database: xwsg_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/xwsg_test
+  database: xwsg_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -46,4 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: db/xwsg_production
+  database: xwsg_production
+  username: xwsg
+  password: <%= ENV['XWSG_DATABASE_PASSWORD'] %>
