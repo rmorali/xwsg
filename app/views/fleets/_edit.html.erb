@@ -2,8 +2,8 @@
 
 <br />
 
-<%= simple_form_for @fleet, remote: true do |f| %>
-  <%= f.input :quantity, collection: 1..@fleet.quantity %>
+<%= simple_form_for @fleet do |f| %>
+  <%= f.input :quantity, collection: 0..@fleet.quantity %>
   <%= f.input :destination, collection: @destinations %>
   <%= f.button :submit %>
 <% end %>
