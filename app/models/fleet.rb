@@ -11,6 +11,10 @@ class Fleet < ApplicationRecord
 
   delegate :name, :facility?, to: :unit
 
+  def moving?
+    return true if destination
+  end
+
   def in_production?
     Round.current.number < ready_in.to_i
   end
