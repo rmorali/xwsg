@@ -1,7 +1,7 @@
 <% @planets.each do |planet| %>
 
   <div id="planet_image">
-    <%= image_tag (planet.image), style: "width: 10%; position: absolute; left:#{ planet.x }%; top:#{ planet.y }%"  if planet.sector == 5 %>
+    <%= image_tag (planet.image), style: "width: 10%; position: absolute; left:#{ planet.x }%; top:#{ planet.y }%" if planet.sector == 5 %>
   </div>
 
   <div id="planet_name" style="position: absolute; left:<%= planet.x + 1 %>%; top:<%= planet.y - 3 %>%; font-weight: bold; font-size: 14px">

@@ -21,6 +21,10 @@ class SquadsController < ApplicationController
   def map
     @squad = current_user.squad
     @planets = Planet.all
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   private
