@@ -19,7 +19,9 @@ class Route < ApplicationRecord
     Dijkstra.new(origin, destination, edges).cost
   end
 
-  def self.in_range(origin, hyperdrive)
+  def self.in_range_for(fleet)
+    hyperdrive = fleet.unit.hyperdrive
+    origin = fleet.planet
     edges = Route.edges
     destinations = []
     Planet.all.each do |planet|
@@ -28,6 +30,6 @@ class Route < ApplicationRecord
         destinations << p if Dijkstra.new(origin, p, edges).cost <= hyperdrive
       end
     end
-    destinations.uniq
+    destinations.uniq.reject { |r| r == origin }
   end
 end
