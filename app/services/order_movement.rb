@@ -4,7 +4,11 @@ class OrderMovement
     @quantity = quantity
     @destination = destination
     @round = Round.current
-    cancel_move! if @quantity.zero? || @destination.nil?
+    if @quantity.zero? || @destination.nil?
+      cancel_move!
+    else
+      move!
+    end 
   end
 
   def move!
