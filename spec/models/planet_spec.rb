@@ -8,7 +8,7 @@ RSpec.describe Planet, type: :model do
   it 'has its attributes' do
     expect(planet).to be_an_instance_of(Planet)
     expect(planet.name).to be_a(String)
-    expect(planet.sector).to be_a(String)
+    expect(planet.sector).to be_a(Integer)
     expect(planet.population).to be_an(Integer)
     expect(planet.credits).to be_an(Integer)
     expect(planet.metals).to be_an(Integer)

@@ -30,7 +30,7 @@ FactoryGirl.define do
   end
   factory :planet do
     name Faker::StarWars.planet
-    sector Faker::Space.constellation
+    sector 1
     population 1000
     credits 1
     metals 1
