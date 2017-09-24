@@ -19,6 +19,7 @@ class SquadsController < ApplicationController
   def updated; end
 
   def map
+    @squad = current_user.squad
     @planets = Planet.all
   end
 

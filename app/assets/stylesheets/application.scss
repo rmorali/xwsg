@@ -18,43 +18,94 @@
  @import "bootstrap";
 
 body {
+    overflow: hidden;
     color: white;
     background-color: black;
     background-image: url('starfield.jpg');
+}
+
+.commands {
+  white-space: nowrap;
+  text-align: center;
+  border: 0 outset gray;
+  border-radius: 6px;
+  box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
+  margin: 5px 5px;
+  padding: 5px 5px;
+  width: 20%;
+  height: 73%;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 0;
+}
+
+
+.resources {
+  white-space: nowrap;
+  text-align: center;
+  border: 0 outset gray;
+  border-radius: 6px;
+  box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
+  margin: 5px 5px;
+  padding: 0px 0px;
+  width: 20%;
+  height: 4%;
+  position: absolute;
+  left: 0%;
+  top: 74%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 0;
 }
 
 .minimap {
     white-space: nowrap;
     border: 0 outset gray;
     border-radius: 6px;
-    box-shadow: 0 0 1px 1px rgba(120,130,180,0.60) inset;
-    margin: 10px 5px 10px;
-    padding: 5px 5px 8px 8px;
-    width: 300px;
-    height: 200px;
+    box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
+    margin: 5px 5px;
+    padding: 5px 5px;
+    width: 20%;
+    height: 20%;
     position: absolute;
-    left: 10px;
-    top: 5px;
+    left: 0%;
+    top: 79%;
     background-color: rgba(0,0,0,0.7);
-    transition: all ease-in-out 0.36s;
-    z-index: 15;
+    z-index: 0;
     background-image: url('galaxy.jpg');
     background-size: 100% 100%;
 }
 
-.sector {
+.main_panel {
   white-space: nowrap;
   border: 0 outset gray;
   border-radius: 6px;
-  box-shadow: 0 0 1px 1px rgba(120,130,180,0.60) inset;
-  margin: 10px 5px 10px;
-  padding: 5px 5px 8px 8px;
-  width: 1000px;
-  height: 800px;
+  box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
+  margin: 5px 10px;
+  padding: 5px 5px;
+  width: 59%;
+  height: 99%;
   position: absolute;
-  left: 320px;
-  top: 5px;
+  left: 20%;
+  top: 0%;
   background-color: rgba(0,0,0,0.7);
-  transition: all ease-in-out 0.36s;
-  z-index: 15;
+  z-index: 0;
+}
+
+.right_panel {
+  white-space: nowrap;
+  text-align: center;
+  border: 0 outset gray;
+  border-radius: 6px;
+  box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
+  margin: 5px 5px;
+  padding: 5px 5px;
+  width: 20%;
+  height: 99%;
+  position: absolute;
+  left: 79.5%;
+  top: 0%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 0;
 }

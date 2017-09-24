@@ -13,13 +13,13 @@ Faction.create([
                ])
 
 Squad.create([
-               { name: 'Empire', credits: 100, metals: 100, color: 'green', faction: Faction.first },
-               { name: 'Rebel', credits: 100, metals: 100, color: 'red', faction: Faction.second }
+               { name: 'Empire', credits: 1000, metals: 2000, rare_elements: 50, color: 'green', faction: Faction.first },
+               { name: 'Rebel', credits: 1000, metals: 2000, rare_elements: 50, color: 'red', faction: Faction.second }
              ])
 
 emp = ['Empire']
 reb = ['Rebel']
-all = %w[Empire Rebel]
+all = %w[Empire Rebel Mercenary]
 
 Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', hyperdrive: 0, producing_time: 2).factions = all
 Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', hyperdrive: 3, producing_time: 2).factions = emp
@@ -29,17 +29,17 @@ Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', hyperdrive: 
 Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special', hyperdrive: 0, producing_time: 2).factions = reb
 Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground', hyperdrive: 0, producing_time: 2).factions = all
 
-anaxes = Planet.create(name: 'Anaxes', sector: 5, population: 1_502_500_345, x: 300, y: 10)
-byss = Planet.create(name: 'Byss', sector: 5, population: 1_522_900_890, x: 50, y: 300)
-corellia = Planet.create(name: 'Corellia', sector: 5, population: 2_102_270_234, x: 700, y: 600)
-coruscant = Planet.create(name: 'Coruscant', sector: 5, population: 999_302_444_400, x: 500, y: 300)
-fresia = Planet.create(name: 'Fresia', sector: 5, population: 7_902_070_999, x: 700, y: 10)
-kuat = Planet.create(name: 'Kuat', sector: 5, population: 9_502_600_900, x: 900, y: 300)
-mandalore = Planet.create(name: 'Mandalore', sector: 5, population: 202_055_077, x: 300, y: 600)
+anaxes = Planet.create(name: 'Anaxes', sector: 5, population: 1_502_500_345, x: 26, y: 4)
+byss = Planet.create(name: 'Byss', sector: 5, population: 1_522_900_890, x: 5, y: 38)
+corellia = Planet.create(name: 'Corellia', sector: 5, population: 2_102_270_234, x: 60, y: 72)
+coruscant = Planet.create(name: 'Coruscant', sector: 5, population: 999_302_444_400, x: 43, y: 38)
+fresia = Planet.create(name: 'Fresia', sector: 5, population: 7_902_070_999, x: 60, y: 4)
+kuat = Planet.create(name: 'Kuat', sector: 5, population: 9_502_600_900, x: 77, y: 38)
+mandalore = Planet.create(name: 'Mandalore', sector: 5, population: 202_055_077, x: 26, y: 72)
 
-hoth = Planet.create(name: 'Hoth', sector: 4, population: 50_200_100, x: 500, y: 300)
-tatooine = Planet.create(name: 'Tatooine', sector: 8, population: 15_900_500, x: 500, y: 300)
-mon_calamari = Planet.create(name: 'Mon Calamari', sector: 6, population: 302_444_400, x: 500, y: 300)
+hoth = Planet.create(name: 'Hoth', sector: 4, population: 50_200_100, x: 43, y: 38)
+tatooine = Planet.create(name: 'Tatooine', sector: 8, population: 15_900_500, x: 43, y: 38)
+mon_calamari = Planet.create(name: 'Mon Calamari', sector: 6, population: 302_444_400, x: 43, y: 38)
 
 Route.create([
                { vector_a: anaxes, vector_b: fresia, distance: 1 },

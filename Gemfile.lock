@@ -80,7 +80,7 @@ GEM
       sass (>= 3.4.19)
     builder (3.2.3)
     byebug (9.1.0)
-    childprocess (0.7.1)
+    childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
