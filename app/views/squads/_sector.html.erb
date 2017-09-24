@@ -11,7 +11,7 @@
   <% planet.fleets.each do |fleet| %>
 
     <div id="fleet_image">
-      <%= image_tag (fleet.unit.image), style: "width: 4%; position: absolute; left:#{ planet.x + 11 }%; top:#{ planet.y += 3 }%" %>
+      <%= link_to (image_tag (fleet.unit.image), style: "width: 4%; position: absolute; left:#{ planet.x + 11 }%; top:#{ planet.y += 3 }%"), edit_fleet_path(fleet), remote: true %>
     </div>
 
     <div id="fleet_quantity" style="position: absolute; left:<%= planet.x + 15 %>%; top:<%= planet.y + 2 %>%; color: <%= fleet.squad.color %>; font-weight: bold; font-size: 10px">

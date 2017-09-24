@@ -3,6 +3,7 @@ class OrderMovement
     @fleet = fleet
     @quantity = quantity
     @destination = destination
+    @round = Round.current
     cancel_move! if @quantity.zero? || @destination.nil?
   end
 
@@ -19,7 +20,7 @@ class OrderMovement
   end
 
   def arrives_in
-    @fleet.round.number + Route.cost(@fleet.planet, @destination)
+    @round.number + Route.cost(@fleet.planet, @destination)
   end
 
   def cancel_move!

@@ -1,0 +1,9 @@
+<%= image_tag (@fleet.unit.image), style: "width: 30%" %>
+
+<br />
+
+<%= simple_form_for @fleet, remote: true do |f| %>
+  <%= f.input :quantity, collection: 1..@fleet.quantity %>
+  <%= f.input :destination, collection: @destinations %>
+  <%= f.button :submit %>
+<% end %>

@@ -1,0 +1,4 @@
+<% @moving_fleets.each do |fleet| %>
+  <%= image_tag (fleet.unit.image), style: "width: 20%" %> -> <%= fleet.destination.name %> at round <%= fleet.arrives_in %>
+  <br />
+<% end %>

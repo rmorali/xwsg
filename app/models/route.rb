@@ -30,6 +30,6 @@ class Route < ApplicationRecord
         destinations << p if Dijkstra.new(origin, p, edges).cost <= hyperdrive
       end
     end
-    destinations.uniq.reject { |r| r == origin }
+    destinations.reject { |r| r == origin }.uniq
   end
 end

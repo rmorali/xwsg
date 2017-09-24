@@ -21,6 +21,7 @@ class SquadsController < ApplicationController
   def map
     @squad = current_user.squad
     @planets = Planet.all
+    @moving_fleets = Fleet.where.not(destination: nil)
     respond_to do |format|
       format.html
       format.js

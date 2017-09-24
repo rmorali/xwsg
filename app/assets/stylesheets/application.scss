@@ -93,7 +93,7 @@ body {
   z-index: 0;
 }
 
-.right_panel {
+.right_panel1 {
   white-space: nowrap;
   text-align: center;
   border: 0 outset gray;
@@ -102,10 +102,27 @@ body {
   margin: 5px 5px;
   padding: 5px 5px;
   width: 20%;
-  height: 99%;
+  height: 45%;
   position: absolute;
   left: 79.5%;
   top: 0%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 0;
+}
+
+.right_panel2 {
+  white-space: nowrap;
+  text-align: center;
+  border: 0 outset gray;
+  border-radius: 6px;
+  box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
+  margin: 5px 5px;
+  padding: 5px 5px;
+  width: 20%;
+  height: 53.5%;
+  position: absolute;
+  left: 79.5%;
+  top: 45.5%;
   background-color: rgba(0,0,0,0.7);
   z-index: 0;
 }
