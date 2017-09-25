@@ -12,7 +12,7 @@ class Fleet < ApplicationRecord
   delegate :name, :facility?, to: :unit
 
   def moving?
-    return true if destination
+    true if destination
   end
 
   def in_production?

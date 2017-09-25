@@ -32,6 +32,15 @@ RSpec.describe Fleet, type: :model do
     end
   end
 
+  context 'moving fleets' do
+    it 'checks if a fleet is moving' do
+      expect(fleet.moving?).to_not be true
+      fleet.destination = planet
+      fleet.save
+      expect(fleet.moving?).to be true
+    end
+  end
+
   context 'carriers and cargoes' do
     before do
       @capital_ship = create(:fleet, unit: unit)
