@@ -1,9 +1,16 @@
-<%= image_tag (@fleet.unit.image), style: "width: 30%" %>
+<div id="fleet_image">
+  <%= image_tag (@fleet.image), style: "width: 30%" %>
+</div>
+
+<div id="fleet_quantity" style="color: <%= @fleet.squad.color %>; font-weight: bold; font-size: 10px">
+  <%= @fleet.quantity %>
+</div>
 
 <br />
-
-<%= simple_form_for @fleet do |f| %>
-  <%= f.input :quantity, collection: 0..@fleet.quantity %>
-  <%= f.input :destination, collection: @destinations %>
-  <%= f.button :submit %>
+<% if @fleet.movable? %>
+  <%= simple_form_for @fleet do |f| %>
+    <%= f.input :quantity, collection: 0..@fleet.quantity %>
+    <%= f.input :destination, collection: @destinations %>
+    <%= f.button :submit %>
+  <% end %>
 <% end %>

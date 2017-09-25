@@ -8,9 +8,8 @@
     <%= planet.name if planet.sector == 5 %>
   </div>
 
-  <% planet.fleets.each do |fleet| %>
+  <% planet.fleets.where(destination: nil).each do |fleet| %>
 
-    <% unless fleet.moving? %>
       <div id="fleet_image">
         <%= link_to (image_tag (fleet.image), style: "width: 3%; position: absolute; left:#{ planet.x + 11 }%; top:#{ planet.y += 3 }%"), edit_fleet_path(fleet), remote: true %>
       </div>
@@ -30,8 +29,6 @@
         </div>
 
       <% end %>
-
-    <% end %>
 
   <% end %>
 
