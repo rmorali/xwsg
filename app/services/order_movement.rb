@@ -8,7 +8,7 @@ class OrderMovement
       cancel_move!
     else
       move!
-    end 
+    end
   end
 
   def move!
@@ -24,7 +24,7 @@ class OrderMovement
   end
 
   def arrives_in
-    @round.number + Route.cost(@fleet.planet, @destination)
+    @round.number + Route.cost(@fleet.planet, @destination) - 1
   end
 
   def cancel_move!
