@@ -32,7 +32,15 @@ RSpec.describe Fleet, type: :model do
     end
   end
 
-  context 'moving fleets' do
+  context 'fleet abilities and states' do
+    it 'checks if a fleet is movable' do
+      fleet.unit.hyperdrive = nil
+      fleet.unit.save
+      expect(fleet.movable?).to_not be true
+      fleet.unit.hyperdrive = 1
+      fleet.unit.save
+      expect(fleet.movable?).to be true
+    end
     it 'checks if a fleet is moving' do
       expect(fleet.moving?).to_not be true
       fleet.destination = planet
