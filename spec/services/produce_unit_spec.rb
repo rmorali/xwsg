@@ -18,7 +18,6 @@ RSpec.describe ProduceUnit, type: :service do
       create(:round)
     end
     it 'factory must be a facility' do
-
     end
     it 'facility cant be in construction' do
       expect(ProduceUnit.new(@shipyard, @tie_fighter).in_production?).to_not be true

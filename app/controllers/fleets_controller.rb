@@ -1,5 +1,4 @@
 class FleetsController < ApplicationController
-
   def edit
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
@@ -43,5 +42,4 @@ class FleetsController < ApplicationController
   def cargo_params
     params.require(:custom).permit(:id, :quantity)
   end
-
 end

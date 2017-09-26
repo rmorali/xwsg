@@ -70,6 +70,6 @@ class Fleet < ApplicationRecord
   end
 
   def embarkables
-    Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil).select { |fleet| fleet.unit.weight <= available_capacity }.reject { |fleet| fleet == self}
+    Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil).select { |fleet| fleet.unit.weight <= available_capacity }.reject { |fleet| fleet == self }
   end
 end

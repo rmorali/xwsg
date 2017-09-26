@@ -59,10 +59,10 @@ Route.create([
                { vector_a: corellia, vector_b: tatooine, distance: 1 }
              ])
 
- Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
- Fleet.create(unit: Unit.second, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
- Fleet.create(unit: Unit.find(5), quantity: 15, squad: Squad.first, planet: coruscant, round: Round.current)
+Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
+Fleet.create(unit: Unit.second, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
+Fleet.create(unit: Unit.find(5), quantity: 15, squad: Squad.first, planet: coruscant, round: Round.current)
 
- Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
- Fleet.create(unit: Unit.third, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
- Fleet.create(unit: Unit.find(4), quantity: 15, squad: Squad.second, planet: corellia, round: Round.current)
+Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
+Fleet.create(unit: Unit.third, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
+Fleet.create(unit: Unit.find(4), quantity: 15, squad: Squad.second, planet: corellia, round: Round.current)
