@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Fleet, type: :model do
   let(:fleet) { create(:fleet) }
   let(:planet) { create(:planet) }
+  let(:squad) { create(:squad) }
   let(:unit) { create(:unit, capacity: 20) }
 
   it { is_expected.to belong_to :unit }
@@ -51,10 +52,10 @@ RSpec.describe Fleet, type: :model do
 
   context 'carriers and cargoes' do
     before do
-      @capital_ship = create(:fleet, unit: unit)
-      @xwing = create(:fleet, quantity: 10)
-      @ywing = create(:fleet, quantity: 10)
-      @bwing = create(:fleet, quantity: 5)
+      @capital_ship = create(:fleet, unit: unit, squad: squad, planet: planet)
+      @xwing = create(:fleet, quantity: 10, squad: squad, planet: planet)
+      @ywing = create(:fleet, quantity: 10, squad: squad, planet: planet)
+      @bwing = create(:fleet, quantity: 5, squad: squad, planet: planet)
     end
     it 'carrier has available capacity' do
       @capital_ship.update(quantity: 2)
@@ -64,6 +65,13 @@ RSpec.describe Fleet, type: :model do
     end
     it 'has total fleet weight' do
       expect(@xwing.weight).to eq(@xwing.quantity * @xwing.unit.weight)
+    end
+    it 'lists embarkable fleets' do
+      expect(@capital_ship.embarkables).to contain_exactly(@xwing, @ywing, @bwing)
+      @xwing.update(destination: planet)
+      expect(@capital_ship.embarkables).to_not include(@xwing)
+      @bwing.unit.update(weight: 21)
+      expect(@capital_ship.embarkables).to_not include(@bwing)
     end
     it 'only embarks fleets that carrier can afford to' do
       @capital_ship.embark(10, @xwing)

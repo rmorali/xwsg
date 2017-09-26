@@ -16,7 +16,7 @@ class Fleet < ApplicationRecord
   end
 
   def movable?
-    true if hyperdrive.to_i > 0 
+    true if hyperdrive.to_i > 0
   end
 
   def in_production?
@@ -65,5 +65,9 @@ class Fleet < ApplicationRecord
       left_inside.save
       fleet.update(quantity: quantity, carrier: nil, destination: nil, arrives_in: nil)
     end
+  end
+
+  def embarkables
+    Fleet.where(planet: planet, squad: squad, destination: nil).select { |fleet| fleet.unit.weight <= available_capacity }.reject { |fleet| fleet == self}
   end
 end
