@@ -6,11 +6,21 @@
   <%= @fleet.quantity %>
 </div>
 
-<br />
 <% if @fleet.movable? %>
-  <%= simple_form_for @fleet do |f| %>
+  <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
     <%= f.input :quantity, collection: 0..@fleet.quantity %>
     <%= f.input :destination, collection: @destinations %>
     <%= f.button :submit %>
+  <% end %>
+<% end %>
+
+<% if @fleet.embarkables %>
+  <% @fleet.embarkables.each do |fleet| %>
+    <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
+      <%= simple_fields_for :custom do |c| %>
+        <%= c.input :quantity, as: :integer, collection: 0..fleet.quantity %>
+      <% end %>
+      <%= f.button :submit %>
+    <% end %>
   <% end %>
 <% end %>
