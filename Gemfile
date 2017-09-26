@@ -5,7 +5,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'bootstrap'
 gem 'devise', git: 'https://github.com/gogovan/devise.git', branch: 'rails-5.1'
 gem 'dijkstra', git: 'https://github.com/oscartanner/dijkstra.gem.git'
 gem 'erubis'
