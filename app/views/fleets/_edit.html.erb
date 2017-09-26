@@ -6,21 +6,49 @@
   <%= @fleet.quantity %>
 </div>
 
-<% if @fleet.movable? %>
-  <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
-    <%= f.input :quantity, collection: 0..@fleet.quantity %>
-    <%= f.input :destination, collection: @destinations %>
-    <%= f.button :submit %>
-  <% end %>
-<% end %>
+<br />
 
-<% if @fleet.embarkables %>
-  <% @fleet.embarkables.each do |fleet| %>
-    <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
-      <%= simple_fields_for :custom do |c| %>
-        <%= c.input :quantity, as: :integer, collection: 0..fleet.quantity %>
-      <% end %>
-      <%= f.button :submit %>
+<div class="form-inputs">
+  <% if @fleet.movable? %>
+    Move: <br />
+    <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
+      <%= f.input :quantity, collection: 0..@fleet.quantity %>
+      <%= f.input :destination, collection: @destinations %>
+      <%= f.submit 'Move!' %>
     <% end %>
   <% end %>
-<% end %>
+</div>
+
+<br />
+
+<div class="form-inputs">
+  <% if @fleet.embarkables.count > 0 %>
+    Carriables: <br />
+    <% @fleet.embarkables.each do |fleet| %>
+      <%= fleet.name %>
+      <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
+        <%= simple_fields_for :custom do |c| %>
+          <%= c.hidden_field :id, value: fleet.id %>
+          <%= c.input :quantity, collection: 0..fleet.quantity %>
+        <% end %>
+        <%= f.submit 'Embark' %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="form-inputs">
+  <% if @fleet.cargo %>
+    Cargo: <br />
+    <% @fleet.cargo.each do |fleet| %>
+      <%= fleet.name %>
+      <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
+        <%= simple_fields_for :custom do |c| %>
+          <%= c.hidden_field :id, value: fleet.id %>
+          <%= c.input :quantity, collection: 0..fleet.quantity %>
+        <% end %>
+        <%= f.submit 'Disembark' %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

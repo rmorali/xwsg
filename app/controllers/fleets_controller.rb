@@ -19,8 +19,19 @@ class FleetsController < ApplicationController
   end
 
   def embark
-    @fleet = Fleet.find(params[:id])
-    raise embark_params.inspect
+    @carrier = Fleet.find(params[:id])
+    @cargo = Fleet.find(cargo_params[:id])
+    @quantity = cargo_params[:quantity].to_i
+    @carrier.embark(@quantity, @cargo)
+    redirect_to squads_map_path
+  end
+
+  def disembark
+    @carrier = Fleet.find(params[:id])
+    @cargo = Fleet.find(cargo_params[:id])
+    @quantity = cargo_params[:quantity].to_i
+    @carrier.disembark(@quantity, @cargo)
+    redirect_to squads_map_path
   end
 
   private
@@ -29,8 +40,8 @@ class FleetsController < ApplicationController
     params.require(:fleet).permit(:destination, :quantity)
   end
 
-  def embark_params
-    params.require(:custom).permit(:quantity)
+  def cargo_params
+    params.require(:custom).permit(:id, :quantity)
   end
 
 end

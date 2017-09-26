@@ -27,10 +27,9 @@ body {
   border: 0 outset gray;
   border-radius: 6px;
   box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
-  margin: 5px 5px;
-  padding: 5px 5px;
-  width: 20%;
-  height: 73%;
+  padding: 5px;
+  width: 19%;
+  height: 70%;
   position: absolute;
   left: 0%;
   top: 0%;
@@ -44,13 +43,12 @@ body {
   border: 0 outset gray;
   border-radius: 6px;
   box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
-  margin: 5px 5px;
-  padding: 3px 5px;
-  width: 20%;
+  padding: 5px 5px;
+  width: 19%;
   height: 4%;
   position: absolute;
   left: 0%;
-  top: 74%;
+  top: 72%;
   background-color: rgba(0,0,0,0.7);
   z-index: 0;
 }
@@ -60,13 +58,12 @@ body {
     border: 0 outset gray;
     border-radius: 6px;
     box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
-    margin: 5px 5px;
-    padding: 5px 5px;
-    width: 20%;
+    padding: 5px;
+    width: 19%;
     height: 20%;
     position: absolute;
     left: 0%;
-    top: 79%;
+    top: 78%;
     background-color: rgba(0,0,0,0.7);
     z-index: 0;
     background-image: url('galaxy.jpg');
@@ -78,10 +75,9 @@ body {
   border: 0 outset gray;
   border-radius: 6px;
   box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
-  margin: 5px 10px;
-  padding: 5px 5px;
+  padding: 5px;
   width: 59%;
-  height: 99%;
+  height: 98%;
   position: absolute;
   left: 20%;
   top: 0%;
@@ -95,15 +91,14 @@ body {
   border: 0 outset gray;
   border-radius: 6px;
   box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
-  margin: 5px 5px;
-  padding: 5px 5px;
-  width: 20%;
+  padding: 5px;
+  width: 19%;
   height: 45%;
   position: absolute;
-  left: 79.5%;
+  left: 80%;
   top: 0%;
   background-color: rgba(0,0,0,0.7);
-  z-index: 0;
+  z-index: 10;
 }
 
 .right_panel2 {
@@ -112,13 +107,12 @@ body {
   border: 0 outset gray;
   border-radius: 6px;
   box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
-  margin: 5px 5px;
-  padding: 5px 5px;
-  width: 20%;
-  height: 53.5%;
+  padding: 5px;
+  width: 19%;
+  height: 51%;
   position: absolute;
-  left: 79.5%;
-  top: 45.5%;
+  left: 80%;
+  top: 47%;
   background-color: rgba(0,0,0,0.7);
   z-index: 0;
 }
