@@ -42,6 +42,7 @@ class Fleet < ApplicationRecord
   end
 
   def embark(quantity, fleet)
+    return nil if quantity < 1
     if fleet.weight > available_capacity
       quantity = (available_capacity / fleet.unit.weight).round
       return nil if quantity < 1
@@ -57,6 +58,7 @@ class Fleet < ApplicationRecord
   end
 
   def disembark(quantity, fleet)
+    return nil if quantity < 1
     if fleet.quantity == quantity
       fleet.update(carrier: nil, destination: nil, arrives_in: nil)
     else
@@ -68,6 +70,6 @@ class Fleet < ApplicationRecord
   end
 
   def embarkables
-    Fleet.where(planet: planet, squad: squad, destination: nil).select { |fleet| fleet.unit.weight <= available_capacity }.reject { |fleet| fleet == self}
+    Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil).select { |fleet| fleet.unit.weight <= available_capacity }.reject { |fleet| fleet == self}
   end
 end
