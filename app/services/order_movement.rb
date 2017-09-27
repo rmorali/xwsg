@@ -4,14 +4,14 @@ class OrderMovement
     @quantity = quantity
     @destination = destination
     @round = Round.current
-    if @quantity.zero? || @destination.nil?
-      cancel_move!
-    else
-      move!
-    end
+    return nil unless @fleet
   end
 
   def move!
+    if @quantity.zero? || @destination.nil?
+      cancel_move!
+      return nil
+    end
     if @quantity < @fleet.quantity
       left_behind = @fleet.dup
       left_behind.quantity = @fleet.quantity - @quantity
@@ -30,5 +30,6 @@ class OrderMovement
   def cancel_move!
     @fleet.update(destination: nil, arrives_in: nil)
     @fleet.cargo.each { |cargo| cargo.update(destination: nil, arrives_in: nil) }
+    return nil
   end
 end
