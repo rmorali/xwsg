@@ -22,9 +22,9 @@
 <br />
 
 <div class="form-inputs">
-  <% if @fleet.embarkables.count > 0 %>
+  <% if @fleet.carriables.count > 0 %>
     Carriables: <br />
-    <% @fleet.embarkables.each do |fleet| %>
+    <% @fleet.carriables.each do |fleet| %>
       <%= fleet.name %>
       <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
         <%= simple_fields_for :custom do |c| %>

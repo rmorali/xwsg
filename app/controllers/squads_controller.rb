@@ -1,4 +1,5 @@
 class SquadsController < ApplicationController
+  respond_to :html, :js
   def index; end
 
   def new
@@ -22,10 +23,6 @@ class SquadsController < ApplicationController
     @squad = current_user.squad
     @planets = Planet.all
     @moving_fleets = Fleet.where.not(destination: nil)
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   private

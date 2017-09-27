@@ -1,5 +1,7 @@
 <% @planets.each do |planet| %>
 
+  <% GroupFleet.new(planet).group! %>
+
   <div id="planet_image">
     <%= image_tag (planet.image), style: "width: 10%; position: absolute; left:#{ planet.x }%; top:#{ planet.y }%" if planet.sector == 5 %>
   </div>

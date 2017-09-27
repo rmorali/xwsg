@@ -1,12 +1,9 @@
 class FleetsController < ApplicationController
+  respond_to :html, :js
   def edit
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
-    @embarkables = @fleet.embarkables
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    @embarkables = @fleet.carriables
   end
 
   def move
@@ -21,7 +18,7 @@ class FleetsController < ApplicationController
     @carrier = Fleet.find(params[:id])
     @cargo = Fleet.find(cargo_params[:id])
     @quantity = cargo_params[:quantity].to_i
-    @carrier.embark(@quantity, @cargo)
+    #@carrier.embark(@quantity, @cargo)
     redirect_to squads_map_path
   end
 
@@ -29,7 +26,7 @@ class FleetsController < ApplicationController
     @carrier = Fleet.find(params[:id])
     @cargo = Fleet.find(cargo_params[:id])
     @quantity = cargo_params[:quantity].to_i
-    @carrier.disembark(@quantity, @cargo)
+    #@carrier.disembark(@quantity, @cargo)
     redirect_to squads_map_path
   end
 

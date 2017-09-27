@@ -28,11 +28,11 @@ Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space',
 Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space',
             hyperdrive: 3, producing_time: 2, weight: 5, capacity: 5, groupable: false).factions = all
 Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space',
-            hyperdrive: 1, producing_time: 2, weight: 1, capacity: 0).factions = reb
+            hyperdrive: 1, producing_time: 2, weight: 1, capacity: 0, groupable: true).factions = reb
 Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space',
-            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0).factions = emp
+            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true).factions = emp
 Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special',
-            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0).factions = reb
+            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true).factions = reb
 Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground',
             hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false).factions = all
 
@@ -68,8 +68,8 @@ Route.create([
 
 Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
 Fleet.create(unit: Unit.second, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
-Fleet.create(unit: Unit.find(5), quantity: 15, squad: Squad.first, planet: coruscant, round: Round.current)
-Fleet.create(unit: Unit.find(5), quantity: 15, squad: Squad.first, planet: coruscant, round: Round.current)
+Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.first, planet: coruscant, round: Round.current)
+Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.first, planet: coruscant, round: Round.current)
 
 Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
 Fleet.create(unit: Unit.third, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
