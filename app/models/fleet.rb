@@ -9,7 +9,7 @@ class Fleet < ApplicationRecord
   belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
 
-  delegate :name, :facility?, :image, :hyperdrive, to: :unit
+  delegate :name, :facility?, :image, :hyperdrive, :groupable, to: :unit
 
   def moving?
     true if destination
