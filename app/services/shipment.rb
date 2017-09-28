@@ -3,7 +3,7 @@ class Shipment
     @quantity = quantity
     @cargo = cargo
     @carrier = carrier
-    return nil if @quantity < 1 || cargo == nil || carrier || nil
+    return nil if @quantity < 1 || cargo.nil? || carrier || nil
   end
 
   def embark!

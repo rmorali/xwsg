@@ -30,6 +30,6 @@ class OrderMovement
   def cancel_move!
     @fleet.update(destination: nil, arrives_in: nil)
     @fleet.cargo.each { |cargo| cargo.update(destination: nil, arrives_in: nil) }
-    return nil
+    nil
   end
 end

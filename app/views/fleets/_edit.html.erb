@@ -8,15 +8,11 @@
 
 <div class="form-inputs">
   <% if @fleet.movable? %>
-    <table>
-      <tr>
-        <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
-          <td><%= f.input :quantity, collection: 0..@fleet.quantity, label: false %></td>
-          <td><%= f.input :destination, collection: @destinations, label: false %></td>
-          <td><%= f.submit 'Move!' %></td>
-        <% end %>
-      </tr>
-    </table>
+    <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
+        <%= f.input :quantity, collection: 0..@fleet.quantity, label: false %>
+        <%= f.input :destination, collection: @destinations, label: false %>
+        <%= f.submit 'Move!' %>
+    <% end %>
   <% end %>
 </div>
 
@@ -24,37 +20,30 @@
 
 <div class="form-inputs">
   <% if @fleet.carriables.count > 0 %>
-    <table>
-      <tr>
-        <% @fleet.carriables.each do |fleet| %>
-          <td><%= fleet.name %></td>
-          <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
-            <%= simple_fields_for :custom do |c| %>
-              <td><%= c.hidden_field :id, value: fleet.id, label: false %></td>
-              <td><%= c.input :quantity, collection: 0..fleet.quantity, label: false %></td>
-            <% end %>
-            <td><%= f.submit 'Embark' %></td>
-          <% end %>
+    <% @fleet.carriables.each do |fleet| %>
+      <%= fleet.name %>
+      <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
+        <%= simple_fields_for :custom do |c| %>
+          <%= c.hidden_field :id, value: fleet.id, label: false %>
+          <%= c.input :quantity, collection: 0..fleet.quantity, label: false %>
         <% end %>
-      </tr>
+        <%= f.submit 'Embark' %>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
 
 <div class="form-inputs">
   <% if @fleet.cargo.count > 0 %>
-    <table>
-      <tr>
-        <% @fleet.cargo.each do |fleet| %>
-          <td><%= fleet.name %></td>
-          <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
-            <%= simple_fields_for :custom do |c| %>
-              <td><%= c.hidden_field :id, value: fleet.id %></td>
-              <td><%= c.input :quantity, collection: 0..fleet.quantity %></td>
-            <% end %>
-            <td><%= f.submit 'Disembark' %></td>
-          <% end %>
+    <% @fleet.cargo.each do |fleet| %>
+      <%= fleet.name %>
+      <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
+        <%= simple_fields_for :custom do |c| %>
+          <%= c.hidden_field :id, value: fleet.id %>
+          <%= c.input :quantity, collection: 0..fleet.quantity %>
         <% end %>
-      </tr>
-    </table>
+        <%= f.submit 'Disembark' %>
+      <% end %>
+    <% end %>
   <% end %>
 </div>

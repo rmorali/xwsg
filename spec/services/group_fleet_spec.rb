@@ -9,15 +9,14 @@ RSpec.describe GroupFleet, type: :service do
     @facility = create(:unit, type: 'Facility', groupable: false)
     2.times do
       create(:fleet,
-              unit: @fighter,
-              squad: @squad,
-              planet: @planet,
-              quantity: 2,
-              destination: @planet,
-              arrives_in: nil,
-              carrier: nil,
-              ready_in: nil
-              )
+             unit: @fighter,
+             squad: @squad,
+             planet: @planet,
+             quantity: 2,
+             destination: @planet,
+             arrives_in: nil,
+             carrier: nil,
+             ready_in: nil)
     end
   end
   it 'groups identical fleets' do
