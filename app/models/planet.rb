@@ -6,5 +6,5 @@ class Planet < ApplicationRecord
     "planets/#{name.downcase}.png"
   end
 
-  #TODO Verify if a squad can build facilities, produce units etc
+  # TODO: Verify if a squad can build facilities, produce units etc
 end

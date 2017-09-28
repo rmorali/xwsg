@@ -42,6 +42,8 @@ class Fleet < ApplicationRecord
   end
 
   def carriables
-    Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil).select { |fleet| fleet.unit.weight <= available_capacity }.reject { |fleet| fleet == self }
+    fleets = Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil)
+    lighter = fleets.select { |fleet| fleet.unit.weight <= available_capacity }
+    lighter.reject { |fleet| fleet == self }
   end
 end
