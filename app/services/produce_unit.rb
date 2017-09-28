@@ -7,18 +7,10 @@ class ProduceUnit
   end
 
   def valid?
-    @facility.facility? && !in_production? && @squad.debit_resources(@unit)
-  end
-
-  def in_production?
-    @facility.in_production?
-  end
-
-  def ready_in
-    Round.current.number + @unit.producing_time
+    @squad.debit_resources(@unit)
   end
 
   def produce!
-    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.current, ready_in: ready_in, carrier: @facility) if valid?
+    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.current, ready_in: @unit.producing_time, carrier: @facility) if valid?
   end
 end
