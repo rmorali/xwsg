@@ -6,14 +6,10 @@ class BuildFacility
   end
 
   def valid?
-    @facility.facility? && @squad.debit_resources(@facility)
-  end
-
-  def ready_in
-    Round.current.number + @facility.producing_time
+    @squad.debit_resources(@facility)
   end
 
   def build!
-    Fleet.create(quantity: 1, unit: @facility, squad: @squad, planet: @planet, round: Round.current, ready_in: ready_in) if valid?
+    Fleet.create(quantity: 1, unit: @facility, squad: @squad, planet: @planet, round: Round.current, ready_in: @facility.producing_time) if valid?
   end
 end

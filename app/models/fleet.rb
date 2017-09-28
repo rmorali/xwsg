@@ -20,7 +20,7 @@ class Fleet < ApplicationRecord
   end
 
   def in_production?
-    Round.current.number < ready_in.to_i
+    ready_in.to_i > 0
   end
 
   def cargo
