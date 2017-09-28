@@ -3,7 +3,7 @@ class FleetsController < ApplicationController
   def edit
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
-    @embarkables = @fleet.carriables
+    @carriables = @fleet.carriables
   end
 
   def move
