@@ -1,0 +1,53 @@
+<div id="fleet_image">
+  <%= image_tag (@fleet.image), style: "width: 30%" %>
+</div>
+
+<div id="fleet_quantity" style="color: <%= @fleet.squad.color %>; font-weight: bold; font-size: 10px">
+  <%= @fleet.quantity %>
+</div>
+
+<div class="form-inputs">
+  <% if @fleet.movable? %>
+    <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
+      <table>
+        <tr>
+          <td><%= f.input :quantity, collection: 0..@fleet.quantity, label: false %></td>
+          <td><%= f.input :destination, collection: @destinations, label: false %></td>
+          <td><%= f.submit 'Move!' %></td>
+        </tr>
+      </table>
+    <% end %>
+  <% end %>
+</div>
+
+<br />
+
+<div class="form-inputs">
+  <% if @carriables.count > 0 %>
+    <% @carriables.each do |fleet| %>
+      <%= fleet.name %>
+      <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
+        <%= simple_fields_for :custom do |c| %>
+          <%= c.hidden_field :id, value: fleet.id, label: false %>
+          <%= c.input :quantity, collection: 0..fleet.quantity, label: false %>
+        <% end %>
+        <%= f.submit 'Embark' %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="form-inputs">
+  <% if @fleet.cargo.count > 0 %>
+    <% @fleet.cargo.each do |fleet| %>
+      <%= fleet.name %>
+      <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
+        <%= simple_fields_for :custom do |c| %>
+          <%= c.hidden_field :id, value: fleet.id %>
+          <%= c.input :quantity, collection: 0..fleet.quantity %>
+        <% end %>
+        <%= f.submit 'Disembark' %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

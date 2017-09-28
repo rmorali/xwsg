@@ -12,9 +12,8 @@ class Squad < ApplicationRecord
   end
 
   def debit_resources(unit)
-    if unit.credits <= credits && unit.metals <= metals
-      debit_credits(unit.credits)
-      debit_metals(unit.metals)
-    end
+    return unless unit.credits <= credits && unit.metals <= metals
+    debit_credits(unit.credits)
+    debit_metals(unit.metals)
   end
 end

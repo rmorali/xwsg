@@ -1,0 +1,27 @@
+<div class="commands">
+  Movements <br />
+  Personnel <br />
+  Messages <br />
+  Galaxy News <br />
+  Etc <br />
+</div>
+
+<div class="resources">
+  <%= render partial: 'resources', object: @squad %>
+</div>
+
+<div class="minimap">
+  <%= render partial: 'minimap', object: @planets %>
+</div>
+
+<div class="main_panel">
+  <%= render partial: 'sector' %>
+</div>
+
+<div class="right_panel1">
+
+</div>
+
+<div class="right_panel2">
+  <%= render partial: 'moving_fleets' %>
+</div>

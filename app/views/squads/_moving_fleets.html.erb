@@ -1,0 +1,21 @@
+<% @moving_fleets.each do |fleet| %>
+  <% if fleet.carrier == nil  %>
+    <div id="fleet_image">
+      <span style="color: <%= fleet.squad.color %>; font-weight: bold; font-size: 10px">
+        <%= fleet.quantity %>
+      </span>
+      <%= image_tag (fleet.unit.image), style: "width: 15%" %> -> <%= fleet.destination.name %> at round <%= fleet.arrives_in %>
+    </div>
+  <% end %>
+
+  <% fleet.cargo.each do |cargo| %>
+    <div id="cargo_image">
+      <span style="color: <%= cargo.squad.color %>; font-weight: bold; font-size: 10px">
+        <%= cargo.quantity %>
+      </span>
+      <%= image_tag (cargo.unit.image), style: "width: 15%" %>
+    </div>
+  <% end %>
+
+  <br />
+<% end %>

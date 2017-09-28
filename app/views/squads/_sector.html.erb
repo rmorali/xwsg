@@ -1,0 +1,37 @@
+<% @planets.each do |planet| %>
+
+  <% GroupFleet.new(planet).group! %>
+
+  <div id="planet_image">
+    <%= image_tag (planet.image), style: "width: 10%; position: absolute; left:#{ planet.x }%; top:#{ planet.y }%" if planet.sector == 5 %>
+  </div>
+
+  <div id="planet_name" style="position: absolute; left:<%= planet.x + 1 %>%; top:<%= planet.y - 3 %>%; font-weight: bold; font-size: 14px">
+    <%= planet.name if planet.sector == 5 %>
+  </div>
+
+  <% planet.fleets.where(destination: nil, carrier: nil).each do |fleet| %>
+
+      <div id="fleet_image">
+        <%= link_to (image_tag (fleet.image), style: "width: 3%; position: absolute; left:#{ planet.x + 11 }%; top:#{ planet.y += 3 }%"), edit_fleet_path(fleet), remote: true %>
+      </div>
+
+      <div id="fleet_quantity" style="position: absolute; left:<%= planet.x + 11 %>%; top:<%= planet.y + 2 %>%; color: <%= fleet.squad.color %>; font-weight: bold; font-size: 10px">
+        <%= fleet.quantity %>
+      </div>
+
+      <% fleet.cargo.each do |cargo| %>
+
+        <div id="cargo_image">
+          <%= image_tag (cargo.image), style: "width: 2%; position: absolute; left:#{ planet.x + 12 }%; top:#{ planet.y += 2 }%" %>
+        </div>
+
+        <div id="cargo_quantity" style="position: absolute; left:<%= planet.x + 12 %>%; top:<%= planet.y + 2 %>%; color: <%= fleet.squad.color %>; font-weight: bold; font-size: 10px">
+          <%= cargo.quantity %>
+        </div>
+
+      <% end %>
+
+  <% end %>
+
+<% end %>

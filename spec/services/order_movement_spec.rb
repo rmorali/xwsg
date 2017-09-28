@@ -16,9 +16,9 @@ RSpec.describe OrderMovement, type: :service do
       OrderMovement.new(@fleet, 10, @destination).move!
       expect(@fleet.destination).to eq(@destination)
     end
-    it 'predicts the round of arrival' do
+    it 'calculates the round of arrival' do
       OrderMovement.new(@fleet, 10, @destination).move!
-      expect(@fleet.arrives_in).to eq(Round.current.number + 2)
+      expect(@fleet.arrives_in).to eq(2)
     end
     it 'brings its cargo with it' do
       fleet.carrier = @fleet
@@ -48,7 +48,7 @@ RSpec.describe OrderMovement, type: :service do
       OrderMovement.new(@fleet, 10, @destination).move!
       expect(@fleet.destination).to eq(@destination)
       expect(fleet.reload.destination).to eq(@destination)
-      OrderMovement.new(@fleet, 0, @destination).cancel_move!
+      OrderMovement.new(@fleet, 0, @destination).move!
       expect(@fleet.destination).to eq(nil)
       expect(fleet.reload.destination).to eq(nil)
       expect(fleet.reload.carrier).to eq(@fleet)

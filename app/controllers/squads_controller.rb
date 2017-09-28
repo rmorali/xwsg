@@ -1,4 +1,5 @@
 class SquadsController < ApplicationController
+  respond_to :html, :js
   def index; end
 
   def new
@@ -17,6 +18,12 @@ class SquadsController < ApplicationController
   def edit; end
 
   def updated; end
+
+  def map
+    @squad = current_user.squad
+    @planets = Planet.all
+    @moving_fleets = Fleet.where.not(destination: nil)
+  end
 
   private
 
