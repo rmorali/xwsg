@@ -37,7 +37,7 @@ RSpec.describe GameLogic, type: :service do
   end
 
   context 'check phases' do
-    it 'executes logis accordingly to the round phase' do
+    it 'executes logics accordingly to the round phase' do
 
     end
   end
@@ -51,11 +51,25 @@ RSpec.describe GameLogic, type: :service do
   end
 
   context 'space combat phase' do
-    it 'updates travelling fleets situation ' do
-
+    before do
+      @rebel.ready!
+      @empire.ready!
+    end
+    it 'updates travelling fleets situation' do
+      expect(@strike_cruiser.planet).to eq(@origin)
+      expect(@strike_cruiser.arrives_in).to eq(2)
+      GameLogic.new.check_state!
+      expect(@strike_cruiser.reload.arrives_in).to eq(1)
+      expect(@strike_cruiser.reload.planet).to eq(@origin)
     end
     it 'updates arriving fleets location' do
-
+      expect(@xwing.planet).to eq(@origin)
+      GameLogic.new.space_combat!
+      expect(@xwing.reload.planet).to eq(@destination)
+      expect(@strike_cruiser.reload.planet).to eq(@origin)
+      GameLogic.new.space_combat!
+      expect(@strike_cruiser.reload.arrives_in).to eq(nil)
+      expect(@strike_cruiser.reload.planet).to eq(@far_destination)
     end
     it 'updates fleets and facilities producing situation' do
 
