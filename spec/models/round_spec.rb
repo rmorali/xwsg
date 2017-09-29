@@ -13,12 +13,20 @@ RSpec.describe Round, type: :model do
     expect(Round.current).to eq(Round.last)
   end
 
-  it 'has three phases' do
-    round.strategy!
-    expect(round.strategy?).to be true
-    round.space_combat!
-    expect(round.space_combat?).to be true
-    round.ground_combat!
-    expect(round.ground_combat?).to be true
+  it 'jumps to the next phase' do
+    expect(round.phase).to eq(0)
+    round.next_phase!
+    expect(round.phase).to eq(1)
   end
+
+  it 'starts a new round after the last phase' do
+    expect(round.phase).to eq(0)
+    round.next_phase!
+    round.next_phase!
+    round.next_phase!
+    round.next_phase!
+    expect(Round.count).to eq(2)
+  end
+
+
 end
