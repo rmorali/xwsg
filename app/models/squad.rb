@@ -18,6 +18,10 @@ class Squad < ApplicationRecord
   end
 
   def ready!
-    update(ready: true)
+    if ready?
+      update(ready: false)
+    else
+      update(ready: true)
+    end
   end
 end
