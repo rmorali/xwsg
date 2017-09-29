@@ -7,6 +7,12 @@ RSpec.describe Squad, type: :model do
   it { is_expected.to belong_to :faction }
   it { is_expected.to have_many :users }
 
+  it 'says it is ready' do
+    expect(squad.ready?).to_not be true
+    squad.ready!
+    expect(squad.ready?).to be true
+  end
+
   context 'credits and resources' do
     before do
       squad.credits = 1000
