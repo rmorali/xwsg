@@ -50,6 +50,8 @@ RSpec.describe Shipment, type: :service do
       expect(@capital_ship.cargo.first.quantity).to eq(6)
       expect(Fleet.last.quantity).to eq(4)
     end
+  end
+  context 'disembark fleets' do
     it 'disembarks a fleet from a carrier' do
       Shipment.new(10, @xwing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@xwing)
@@ -64,16 +66,16 @@ RSpec.describe Shipment, type: :service do
       expect(@capital_ship.cargo.first.quantity).to eq(4)
       expect(@xwing.quantity).to eq(6)
     end
-    it 'updates cargo destination on embarking and disembarking' do
-      Route.create(vector_a: @capital_ship.planet, vector_b: planet, distance: 1)
-      Shipment.new(10, @xwing, @capital_ship).embark!
-      OrderMovement.new(@capital_ship, 1, planet).move!
-      @xwing.reload
-      expect(@xwing.destination).to eq(planet)
-      expect(@xwing.arrives_in).to eq(@capital_ship.arrives_in)
-      Shipment.new(6, @xwing, @capital_ship).disembark!
-      expect(@xwing.destination).to eq(nil)
-      expect(@xwing.arrives_in).to eq(nil)
-    end
+  end
+  it 'updates cargo destination on embarking and disembarking' do
+    Route.create(vector_a: @capital_ship.planet, vector_b: planet, distance: 1)
+    Shipment.new(10, @xwing, @capital_ship).embark!
+    OrderMovement.new(@capital_ship, 1, planet).move!
+    @xwing.reload
+    expect(@xwing.destination).to eq(planet)
+    expect(@xwing.arrives_in).to eq(@capital_ship.arrives_in)
+    Shipment.new(6, @xwing, @capital_ship).disembark!
+    expect(@xwing.destination).to eq(nil)
+    expect(@xwing.arrives_in).to eq(nil)
   end
 end
