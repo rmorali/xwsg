@@ -30,7 +30,7 @@
 <div class="form-inputs">
   <% if @carriables.count > 0 %>
     <% @carriables.each do |fleet| %>
-      <%= fleet.name %>
+      <%= fleet.unit %>
       <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
         <%= simple_fields_for :custom do |c| %>
           <%= c.hidden_field :id, value: fleet.id, label: false %>
@@ -45,7 +45,7 @@
 <div class="form-inputs">
   <% if @fleet.cargo.count > 0 %>
     <% @fleet.cargo.each do |fleet| %>
-      <%= fleet.name %>
+      <%= fleet.unit %>
       <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
         <%= simple_fields_for :custom do |c| %>
           <%= c.hidden_field :id, value: fleet.id %>
