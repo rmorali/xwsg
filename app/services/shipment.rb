@@ -3,14 +3,13 @@ class Shipment
     @quantity = quantity
     @cargo = cargo
     @carrier = carrier
-    return nil if @quantity < 1 || cargo.nil? || carrier.nil?
   end
 
   def embark!
     if @cargo.unit.weight * @quantity > @carrier.available_capacity
       @quantity = (@carrier.available_capacity / @cargo.unit.weight).round
-      return nil if @quantity < 1
     end
+    return nil if @quantity < 1 || @cargo.nil? || @carrier.nil?
     if @cargo.quantity == @quantity
       @cargo.update(carrier: @carrier, destination: @carrier.destination, arrives_in: @carrier.arrives_in)
     else
@@ -22,6 +21,7 @@ class Shipment
   end
 
   def disembark!
+    return nil if @quantity < 1 || @cargo.nil? || @carrier.nil?
     if @cargo.quantity == @quantity
       @cargo.update(carrier: nil, destination: nil, arrives_in: nil)
     else
