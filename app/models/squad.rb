@@ -23,5 +23,6 @@ class Squad < ApplicationRecord
     else
       update(ready: true)
     end
+    GameLogic.new.check_state!
   end
 end
