@@ -54,8 +54,7 @@ RSpec.describe UpdateFleet, type: :service do
       expect(@origin.fleets.first.in_production?).to be false
     end
     it 'cancel updates if attacked or sabotaged' do
-      # TODO stops building on some situations
+      # TODO: stops building on some situations
     end
-
   end
 end

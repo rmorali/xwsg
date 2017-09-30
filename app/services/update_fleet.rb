@@ -5,6 +5,7 @@ class UpdateFleet
     arriving_fleets = Fleet.where(arrives_in: 0)
     arriving_fleets.each { |fleet| fleet.update(planet: fleet.destination, destination: nil, arrives_in: nil) }
   end
+
   def building
     building_fleets = Fleet.where.not(ready_in: nil)
     building_fleets.each { |fleet| fleet.update(ready_in: fleet.ready_in -= 1) }
