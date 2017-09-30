@@ -29,14 +29,14 @@ RSpec.describe BuildFacility, type: :service do
 
     it 'takes time to be built' do
       expect(planet.fleets).to be_empty
+      round = create(:round)
       BuildFacility.new(@shipyard, @squad, planet).build!
       expect(planet.fleets).to_not be_empty
-      # TODO: we only can check this when rounds logics be implemented
-      # expect(planet.fleets.first.in_production?).to be true
-      # create(:round)
-      # expect(planet.fleets.first.in_production?).to be true
-      # create(:round)
-      # expect(planet.fleets.first.in_production?).to be false
+      expect(planet.fleets.first.in_production?).to be true
+      GameLogic.new.space_combat!
+      expect(planet.fleets.first.in_production?).to be true
+      GameLogic.new.space_combat!
+      expect(planet.fleets.first.in_production?).to be false
     end
 
     it 'builds it in a specific planet' do

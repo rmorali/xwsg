@@ -18,11 +18,6 @@ RSpec.describe ProduceUnit, type: :service do
       create(:round)
     end
 
-    it 'facility cant be in construction' do
-      # TODO: we only can check this when rounds logics be implemented
-      # expect(ProduceUnit.new(@shipyard, @tie_fighter).in_production?).to_not be true
-    end
-
     it 'squad must have enough resources' do
       expect(ProduceUnit.new(@shipyard, @tie_fighter).valid?).to be true
       expect(ProduceUnit.new(@shipyard, @escort_carrier).valid?).to_not be true
@@ -42,11 +37,11 @@ RSpec.describe ProduceUnit, type: :service do
     end
 
     it 'takes time to be produced' do
+      round = create(:round)
       ProduceUnit.new(@shipyard, @tie_fighter).produce!
-      # TODO: we only can check this when rounds logics be implemented
-      # expect(Fleet.last.in_production?).to eq(true)
-      # create(:round)
-      # expect(Fleet.last.in_production?).to_not eq(true)
+      expect(Fleet.last.in_production?).to eq(true)
+      GameLogic.new.space_combat!
+      expect(Fleet.last.in_production?).to eq(false)
     end
 
     it 'keeps the producing unit in the facility' do

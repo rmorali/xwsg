@@ -23,6 +23,7 @@ class GameLogic
 
   def space_combat!
     UpdateFleet.new.moving
+    UpdateFleet.new.building
   end
 
   def ground_combat!; end
