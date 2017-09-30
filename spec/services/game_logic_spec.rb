@@ -39,11 +39,6 @@ RSpec.describe GameLogic, type: :service do
   end
 
   context 'space combat phase' do
-    before do
-      @rebel.ready!
-      @empire.ready!
-    end
-
     it 'updates fleets and facilities producing situation' do
     end
     it 'complete producing fleets and facilities' do
