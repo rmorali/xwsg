@@ -17,7 +17,10 @@ class SquadsController < ApplicationController
 
   def edit; end
 
-  def updated; end
+  def update
+    current_user.squad.ready!
+    redirect_to squads_map_path
+  end
 
   def map
     @squad = current_user.squad

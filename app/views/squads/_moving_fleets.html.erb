@@ -4,7 +4,7 @@
       <span style="color: <%= fleet.squad.color %>; font-weight: bold; font-size: 10px">
         <%= fleet.quantity %>
       </span>
-      <%= image_tag (fleet.unit.image), style: "width: 15%" %> -> <%= fleet.destination.name %> at round <%= fleet.arrives_in %>
+      <%= image_tag (fleet.unit.image), style: "width: 15%" %> -> <%= fleet.destination.name %> in <%= fleet.arrives_in %> rounds
     </div>
   <% end %>
 

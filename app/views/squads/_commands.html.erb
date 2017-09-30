@@ -1,0 +1,11 @@
+Movements <br />
+Personnel <br />
+Messages <br />
+Galaxy News <br />
+Etc <br />
+<br />
+Ready? <%= @squad.ready? %>
+<br />
+<%= simple_form_for @squad do |f| %>
+  <%= f.submit 'Ready!' %>
+<% end %>

@@ -2,9 +2,14 @@
   <%= image_tag (@fleet.image), style: "width: 30%" %>
 </div>
 
-<div id="fleet_quantity" style="color: <%= @fleet.squad.color %>; font-weight: bold; font-size: 10px">
-  <%= @fleet.quantity %>
+<div id="fleet_quantity" style="color: <%= @fleet.squad.color %>; font-weight: bold">
+  Quantity: <%= @fleet.quantity %>
 </div>
+
+<div id="available_capacity">
+  Capacity: <%= @fleet.available_capacity %>
+</div>
+
 
 <div class="form-inputs">
   <% if @fleet.movable? %>
