@@ -29,16 +29,13 @@ RSpec.describe GameLogic, type: :service do
 
   context 'check phases' do
     it 'executes logics accordingly to the round phase' do
-
     end
   end
 
   context 'new game' do
-
   end
 
   context 'strategy phase' do
-
   end
 
   context 'space combat phase' do
@@ -48,12 +45,8 @@ RSpec.describe GameLogic, type: :service do
     end
 
     it 'updates fleets and facilities producing situation' do
-
     end
     it 'complete producing fleets and facilities' do
-
     end
   end
-
-
 end

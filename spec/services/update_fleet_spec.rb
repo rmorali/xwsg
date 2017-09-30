@@ -32,5 +32,4 @@ RSpec.describe UpdateFleet, type: :service do
     expect(@strike_cruiser.reload.arrives_in).to eq(nil)
     expect(@strike_cruiser.reload.planet).to eq(@far_destination)
   end
-
 end

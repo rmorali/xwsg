@@ -5,7 +5,7 @@ class GameLogic
   end
 
   def check_state!
-    if @squads.all? { |squad| squad.ready? } == true
+    if @squads.all?(&:ready?) == true
       @round.next_phase!
       @squads.update_all(ready: nil)
       check_phase!
@@ -19,19 +19,13 @@ class GameLogic
     finished! if @round.phase == 3
   end
 
-  def strategy!
-
-  end
+  def strategy!; end
 
   def space_combat!
     UpdateFleet.new.moving
   end
 
-  def ground_combat!
+  def ground_combat!; end
 
-  end
-
-  def finished!
-
-  end
+  def finished!; end
 end

@@ -27,6 +27,4 @@ RSpec.describe Round, type: :model do
     round.next_phase!
     expect(Round.count).to eq(2)
   end
-
-
 end
