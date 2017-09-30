@@ -27,4 +27,8 @@ class Unit < ApplicationRecord
   def facility?
     type == 'Facility'
   end
+
+  def to_s
+    "#{name} w:#{weight}"
+  end
 end
