@@ -16,4 +16,12 @@ class Squad < ApplicationRecord
     debit_credits(unit.credits)
     debit_metals(unit.metals)
   end
+
+  def ready!
+    if ready?
+      update(ready: false)
+    else
+      update(ready: true)
+    end
+  end
 end
