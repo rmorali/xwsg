@@ -10,7 +10,6 @@
   Capacity: <%= @fleet.available_capacity %>
 </div>
 
-
 <div class="form-inputs">
   <% if @fleet.movable? %>
     <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
