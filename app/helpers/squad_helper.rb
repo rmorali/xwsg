@@ -27,7 +27,7 @@ module SquadHelper
 
   def style(fleet)
   	style = []
-  	style << "color: #{ fleet.squad.color }; font-weight: bold; font-size: 70%; width: 3%;"
+  	style << "color: #{ fleet.squad.color }; font-weight: bold; font-size: 70%; text-align: center; margin: auto; width: 3%;"
   	style.join(' ')
   end
 end

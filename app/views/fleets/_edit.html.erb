@@ -32,11 +32,15 @@
     <% @carriables.each do |fleet| %>
       <%= fleet.unit %>
       <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
-        <%= simple_fields_for :custom do |c| %>
-          <%= c.hidden_field :id, value: fleet.id, label: false %>
-          <%= c.input :quantity, collection: 0..fleet.quantity, label: false %>
-        <% end %>
-        <%= f.submit 'Embark' %>
+        <table>
+          <tr>
+            <%= simple_fields_for :custom do |c| %>
+              <%= c.hidden_field :id, value: fleet.id, label: false %>
+              <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
+            <% end %>
+            <td><%= f.submit 'In' %></td>
+          </tr>
+        </table>
       <% end %>
     <% end %>
   <% end %>
@@ -47,11 +51,15 @@
     <% @fleet.cargo.each do |fleet| %>
       <%= fleet.unit %>
       <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
-        <%= simple_fields_for :custom do |c| %>
-          <%= c.hidden_field :id, value: fleet.id %>
-          <%= c.input :quantity, collection: 0..fleet.quantity %>
-        <% end %>
-        <%= f.submit 'Disembark' %>
+        <table>
+          <tr>
+            <%= simple_fields_for :custom do |c| %>
+              <%= c.hidden_field :id, value: fleet.id %>
+              <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
+            <% end %>
+            <td><%= f.submit 'Out' %></td>
+          </tr>
+        </table>
       <% end %>
     <% end %>
   <% end %>
