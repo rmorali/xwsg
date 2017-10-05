@@ -21,7 +21,7 @@ class Unit < ApplicationRecord
   end
 
   def image
-    "units/#{name.downcase}.png"
+    "units/#{ name.downcase }.png"
   end
 
   def facility?
@@ -29,6 +29,6 @@ class Unit < ApplicationRecord
   end
 
   def to_s
-    "#{name} w:#{weight}"
+    "#{name}"
   end
 end

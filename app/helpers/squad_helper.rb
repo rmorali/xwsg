@@ -20,14 +20,4 @@ module SquadHelper
       return 66
     end
   end
-
-  def quantity(fleet)
-  	fleet.quantity if fleet.groupable
-  end
-
-  def style(fleet)
-  	style = []
-  	style << "color: #{ fleet.squad.color }; font-weight: bold; font-size: 70%; text-align: center; margin: auto; width: 3%;"
-  	style.join(' ')
-  end
 end
