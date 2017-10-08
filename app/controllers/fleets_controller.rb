@@ -1,5 +1,6 @@
 class FleetsController < ApplicationController
   respond_to :html, :js
+
   def edit
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
