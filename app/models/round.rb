@@ -14,6 +14,6 @@ class Round < ApplicationRecord
 
   def next_phase!
     increment!(:phase, 1)
-    Round.create if phase > 3
+    Round.create if phase > 1
   end
 end

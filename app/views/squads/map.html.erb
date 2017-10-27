@@ -1,9 +1,5 @@
 <div class="commands">
-  Movements <br />
-  Personnel <br />
-  Messages <br />
-  Galaxy News <br />
-  Etc <br />
+  <%= render partial: 'commands', object: @squad %>
 </div>
 
 <div class="resources">
@@ -15,7 +11,7 @@
 </div>
 
 <div class="main_panel">
-  <%= render partial: 'sector' %>
+  <%= render partial: '/planets/sector' %>
 </div>
 
 <div class="right_panel1">
@@ -23,5 +19,5 @@
 </div>
 
 <div class="right_panel2">
-  <%= render partial: 'moving_fleets' %>
+  <%= render partial: '/fleets/moving' %>
 </div>

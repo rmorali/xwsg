@@ -1,23 +1,17 @@
-module ApplicationHelper
-  def adjust_x(sector)
-    case sector
-    when 1, 4, 7
-      return 0
-    when 2, 5, 8
-      return 33
-    when 3, 6, 9
-      return 66
-    end
+module ApplicationHelper	
+  def quantity(fleet)
+  	fleet.quantity if fleet.groupable
   end
 
-  def adjust_y(sector)
-    case sector
-    when 1, 2, 3
-      return 0
-    when 4, 5, 6
-      return 33
-    when 7, 8, 9
-      return 66
-    end
+  def style(fleet)
+  	style = []
+  	style << "color: #{ fleet.squad.color }; font-weight: bold; font-size: 60%; text-align: center; margin: auto;"
+  	if fleet.groupable
+  	  style << "width: 3%; height: 3%;"
+  	else
+	  style << "width: 4%; height: 3%;"
+  	end
+
+  	style.join(' ')
   end
 end

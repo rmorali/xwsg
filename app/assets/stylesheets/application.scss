@@ -17,8 +17,17 @@
 body {
     overflow: hidden;
     color: white;
+    font-size: 1vw;
     background-color: black;
     background-image: url('starfield.jpg');
+}
+
+div {
+  vertical-align: middle;
+}
+
+img {
+  vertical-align: middle;
 }
 
 .commands {

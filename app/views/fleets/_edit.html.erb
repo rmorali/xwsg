@@ -2,8 +2,12 @@
   <%= image_tag (@fleet.image), style: "width: 30%" %>
 </div>
 
-<div id="fleet_quantity" style="color: <%= @fleet.squad.color %>; font-weight: bold; font-size: 10px">
-  <%= @fleet.quantity %>
+<div id="fleet_quantity" style="color: <%= @fleet.squad.color %>; font-weight: bold">
+  <%= quantity(@fleet) %>
+</div>
+
+<div id="available_capacity">
+  Capacity: <%= @fleet.available_capacity %>
 </div>
 
 <div class="form-inputs">
@@ -20,34 +24,41 @@
   <% end %>
 </div>
 
-<br />
+<div class="form-inputs">
+  <% if @fleet.cargo.count > 0 %>
+    <% @fleet.cargo.each do |fleet| %>
+      <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
+        <table>
+          <tr>
+            <td><%= image_tag fleet.image, style: "width: 20%" %></td>
+            <%= simple_fields_for :custom do |c| %>
+              <%= c.hidden_field :id, value: fleet.id %>
+              <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
+            <% end %>
+            <td><%= f.submit 'Out' %></td>
+          </tr>
+        </table>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
 
 <div class="form-inputs">
   <% if @carriables.count > 0 %>
     <% @carriables.each do |fleet| %>
-      <%= fleet.name %>
       <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
-        <%= simple_fields_for :custom do |c| %>
-          <%= c.hidden_field :id, value: fleet.id, label: false %>
-          <%= c.input :quantity, collection: 0..fleet.quantity, label: false %>
-        <% end %>
-        <%= f.submit 'Embark' %>
+        <table>
+          <tr>
+            <td><%= image_tag fleet.image, style: "width: 20%" %></td>
+            <%= simple_fields_for :custom do |c| %>
+              <%= c.hidden_field :id, value: fleet.id, label: false %>
+              <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
+            <% end %>
+            <td><%= f.submit 'In' %></td>
+          </tr>
+        </table>
       <% end %>
     <% end %>
   <% end %>
 </div>
 
-<div class="form-inputs">
-  <% if @fleet.cargo.count > 0 %>
-    <% @fleet.cargo.each do |fleet| %>
-      <%= fleet.name %>
-      <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
-        <%= simple_fields_for :custom do |c| %>
-          <%= c.hidden_field :id, value: fleet.id %>
-          <%= c.input :quantity, collection: 0..fleet.quantity %>
-        <% end %>
-        <%= f.submit 'Disembark' %>
-      <% end %>
-    <% end %>
-  <% end %>
-</div>

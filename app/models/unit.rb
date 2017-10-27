@@ -21,10 +21,14 @@ class Unit < ApplicationRecord
   end
 
   def image
-    "units/#{name.downcase}.png"
+    "units/#{ name.downcase }.png"
   end
 
   def facility?
     type == 'Facility'
+  end
+
+  def to_s
+    "#{name}"
   end
 end
