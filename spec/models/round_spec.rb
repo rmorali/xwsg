@@ -20,10 +20,11 @@ RSpec.describe Round, type: :model do
   end
 
   it 'starts a new round after the last phase' do
-    expect(Round.count).to eq(1)
+    expect(Round.count).to eq(0)
+    @round = round
     expect(round.phase).to eq(0)
-    round.next_phase!
-    round.next_phase!
+    @round.next_phase!
+    @round.next_phase!
     expect(Round.count).to eq(2)
   end
 end
