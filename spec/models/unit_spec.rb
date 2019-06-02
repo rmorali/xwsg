@@ -59,4 +59,15 @@ RSpec.describe Unit, type: :model do
       expect(unit.belongs?(squad.faction)).to be true
     end
   end
+  
+  context 'features' do
+    
+    it 'is a facility?' do
+      expect(unit.facility?).to_not be true
+      unit.type = 'Facility'
+      unit.save
+      expect(unit.facility?).to be true
+    end
+    
+  end
 end
