@@ -16,7 +16,7 @@ class Fleet < ApplicationRecord
   end
 
   def movable?
-    hyperdrive > 0
+    hyperdrive.to_i > 0
   end
 
   def in_production?
