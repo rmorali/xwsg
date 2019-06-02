@@ -41,12 +41,12 @@ RSpec.describe Fleet, type: :model do
       @ywing = create(:fleet, quantity: 10, squad: squad, planet: planet)
       @bwing = create(:fleet, quantity: 1, squad: squad, planet: planet)
     end
-    it 'checks if it is movable' do
+    it 'is movable?' do
       expect(@capital_ship.movable?).to be true
       @capital_ship.unit.update(hyperdrive: nil)
       expect(@capital_ship.movable?).to_not be true
     end
-    it 'checks if it is moving' do
+    it 'is moving?' do
       expect(@capital_ship.moving?).to_not be true
       @capital_ship.update(destination: planet)
       expect(@capital_ship.moving?).to be true
