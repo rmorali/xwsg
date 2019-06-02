@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170921151435) do
+ActiveRecord::Schema.define(version: 20190602222228) do
+
+  create_table "combats", force: :cascade do |t|
+    t.integer "round_id"
+    t.integer "unit_id"
+    t.integer "fleet_id"
+    t.integer "squad_id"
+    t.integer "planet_id"
+    t.integer "quantity"
+    t.integer "blasted"
+    t.integer "fled"
+    t.integer "captured"
+    t.integer "captor_id"
+    t.integer "final_quantity"
+    t.boolean "blocked"
+    t.boolean "moving"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "factions", force: :cascade do |t|
     t.string "name"

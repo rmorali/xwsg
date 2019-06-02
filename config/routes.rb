@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'squads/map'
 
   resources :squads
-  
+
   resources :fleets do
     member do
       patch :move

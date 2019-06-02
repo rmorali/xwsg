@@ -19,8 +19,8 @@ class Squad < ApplicationRecord
 
   def ready!
     state = case ready
-      when true then false
-      when !true then true
+            when true then false
+            when !true then true
     end
     update(ready: state)
     GameLogic.new.check_state!

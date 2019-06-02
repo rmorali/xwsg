@@ -31,6 +31,5 @@ class Movement
 
   def arrives_in
     @round.number + Route.cost(@fleet.planet, @destination) - 1
-  end  
-  
+  end
 end

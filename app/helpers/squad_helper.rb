@@ -1,5 +1,5 @@
 module SquadHelper
-	  def adjust_x(sector)
+  def adjust_x(sector)
     case sector
     when 1, 4, 7
       return 0
@@ -8,7 +8,7 @@ module SquadHelper
     when 3, 6, 9
       return 66
     end
-  end
+end
 
   def adjust_y(sector)
     case sector
