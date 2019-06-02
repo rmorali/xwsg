@@ -67,7 +67,7 @@ RSpec.describe Unit, type: :model do
     
     it 'is facility?' do
       expect(@unit.facility?).to_not be true
-      @unit.update_attributes(type: 'Facility')
+      @unit.update(type: 'Facility')
       expect(@unit.facility?).to be true
     end
     
