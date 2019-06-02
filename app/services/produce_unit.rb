@@ -1,9 +1,10 @@
 class ProduceUnit
-  def initialize(facility, unit)
+  def initialize(unit, squad, planet, *facility)
     @facility = facility
     @unit = unit
     @squad = facility.squad
     @planet = facility.planet
+    #TODO quantidades
   end
 
   def valid?
