@@ -71,5 +71,12 @@ RSpec.describe Unit, type: :model do
       expect(@unit.facility?).to be true
     end
     
+    it 'is movable?' do
+      expect(@unit.movable?).to be true
+      @unit.update_attributes(hyperdrive: 0)
+      expect(@unit.movable?).to_not be true
+    end
+    
   end
+  
 end

@@ -31,4 +31,8 @@ class Unit < ApplicationRecord
   def to_s
     "#{name}"
   end
+  
+  def movable?
+    hyperdrive > 0
+  end
 end
