@@ -11,7 +11,7 @@ class FleetsController < ApplicationController
     @fleet = Fleet.find(params[:id])
     @destination = Planet.find_by(id: fleet_params[:destination].to_i)
     @quantity = fleet_params[:quantity].to_i
-    OrderMovement.new(@fleet, @quantity, @destination).move!
+    Movement.new(@fleet, @quantity, @destination).order!
     redirect_to squads_map_path
   end
 
