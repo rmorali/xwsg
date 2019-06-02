@@ -61,12 +61,14 @@ RSpec.describe Unit, type: :model do
   end
   
   context 'features' do
+    before do
+      @unit = unit
+    end
     
     it 'is a facility?' do
-      expect(unit.facility?).to_not be true
-      unit.type = 'Facility'
-      unit.save
-      expect(unit.facility?).to be true
+      expect(@unit.facility?).to_not be true
+      @unit.update_attributes(type: 'Facility')
+      expect(@unit.facility?).to be true
     end
     
   end
