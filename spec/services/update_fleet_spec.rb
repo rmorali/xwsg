@@ -17,8 +17,8 @@ RSpec.describe UpdateFleet, type: :service do
       Route.create(vector_a: @destination, vector_b: @far_destination, distance: 1)
       @xwing = create(:fleet, quantity: 10, unit: unit, squad: @rebel, planet: @origin, round: Round.current)
       @strike_cruiser = create(:fleet, quantity: 1, unit: unit, squad: @empire, planet: @origin, round: Round.current)
-      OrderMovement.new(@xwing, 10, @destination).move!
-      OrderMovement.new(@strike_cruiser, 1, @far_destination).move!
+      Movement.new(@xwing, 10, @destination).order!
+      Movement.new(@strike_cruiser, 1, @far_destination).order!
     end
     it 'updates travelling situation' do
       expect(@strike_cruiser.planet).to eq(@origin)
