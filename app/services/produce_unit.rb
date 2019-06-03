@@ -1,17 +1,20 @@
 class ProduceUnit
-  def initialize(unit, squad, planet, *facility)
-    @facility = facility
+  def initialize(quantity, unit, squad, planet, *facility)
+    @quantity = quantity
     @unit = unit
-    @squad = facility.squad
-    @planet = facility.planet
-    #TODO quantidades
+    @squad = squad
+    @planet = planet
+    @facility = facility
+    @round = Round.current
   end
 
   def valid?
-    @squad.debit_resources(@unit)
+    credits = @quantity * @unit.credits
+    metals = @quantity * @unit.metals
+    @squad.debit_resources(credits, metals)
   end
 
   def produce!
-    Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: Round.current, ready_in: @unit.producing_time, carrier: @facility) if valid?
+    Fleet.create(quantity: @quantity, unit: @unit, squad: @squad, planet: @planet, round: @round, ready_in: @unit.producing_time, carrier: @facility) if valid?
   end
 end

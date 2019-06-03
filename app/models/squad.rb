@@ -11,10 +11,10 @@ class Squad < ApplicationRecord
     update(metals: metals - value) if value <= metals
   end
 
-  def debit_resources(unit)
-    return unless unit.credits <= credits && unit.metals <= metals
-    debit_credits(unit.credits)
-    debit_metals(unit.metals)
+  def debit_resources(credit, metal)
+    return unless credit <= credits && metal <= metals
+    debit_credits(credit)
+    debit_metals(metal)
   end
 
   def ready!

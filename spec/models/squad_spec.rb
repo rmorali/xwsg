@@ -34,14 +34,16 @@ RSpec.describe Squad, type: :model do
     end
 
     it 'debits resources as needed' do
-      unit = create(:unit, credits: 2000, metals: 1000)
-      expect(squad.debit_resources(unit)).to_not be(true)
+      unit = create(:unit, credits: 1000, metals: 1000)
+      credits = unit.credits * 2
+      metals = unit.metals * 2
+      expect(squad.debit_resources(credits, metals)).to_not be(true)
       expect(squad.credits).to eq(1000)
       expect(squad.metals).to eq(1000)
       squad.update(credits: 2000, metals: 2000)
-      expect(squad.debit_resources(unit)).to be(true)
+      expect(squad.debit_resources(credits, metals)).to be(true)
       expect(squad.credits).to eq(0)
-      expect(squad.metals).to eq(1000)
+      expect(squad.metals).to eq(0)
     end
   end
 end
