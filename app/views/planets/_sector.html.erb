@@ -12,7 +12,7 @@
 
   <% planet.fleets.where(destination: nil, carrier: nil).each do |fleet| %>
 
-    <div id="fleet_image" onclick="myFunction()">
+    <div id="fleet_image" onclick="showDiv()">
       <%= link_to (image_tag (fleet.image), style: "position: absolute; left:#{ planet.x + 11 }%; top:#{ planet.y }%; #{ style(fleet) }"), edit_fleet_path(fleet), remote: true %>
     </div>
 
