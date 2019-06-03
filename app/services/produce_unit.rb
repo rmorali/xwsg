@@ -4,8 +4,9 @@ class ProduceUnit
     @unit = unit
     @squad = squad
     @planet = planet
-    @facility = facility
     @round = Round.current
+    @facility = nil
+    @facility = facility.first unless facility.empty?
   end
 
   def valid?

@@ -19,33 +19,33 @@ RSpec.describe ProduceUnit, type: :service do
     end
 
     it 'squad must have enough resources' do
-      expect(ProduceUnit.new(@shipyard, @tie_fighter).valid?).to be true
-      expect(ProduceUnit.new(@shipyard, @escort_carrier).valid?).to_not be true
+      expect(ProduceUnit.new(1, @tie_fighter, @squad, planet).valid?).to be true
+      expect(ProduceUnit.new(1, @escort_carrier, @squad, planet).valid?).to_not be true
       @squad.update(credits: 1000, metals: 1000)
-      expect(ProduceUnit.new(@shipyard, @escort_carrier).valid?).to be true
+      expect(ProduceUnit.new(1, @escort_carrier, @squad, planet).valid?).to be true
     end
 
     it 'debits squad resources' do
-      ProduceUnit.new(@shipyard, @tie_fighter).produce!
+      ProduceUnit.new(1, @tie_fighter, @squad, planet).produce!
       expect(@squad.metals).to eq(990)
       expect(@squad.credits).to eq(100)
     end
 
     it 'starts to produce an unit' do
-      ProduceUnit.new(@shipyard, @tie_fighter).produce!
+      ProduceUnit.new(1, @tie_fighter, @squad, planet).produce!
       expect(Fleet.last.unit).to eq(@tie_fighter)
     end
 
     it 'takes time to be produced' do
       round = create(:round)
-      ProduceUnit.new(@shipyard, @tie_fighter).produce!
+      ProduceUnit.new(1, @tie_fighter, @squad, planet).produce!
       expect(Fleet.last.in_production?).to eq(true)
       GameLogic.new.space_combat!
       expect(Fleet.last.in_production?).to eq(false)
     end
 
     it 'keeps the producing unit in the facility' do
-      ProduceUnit.new(@shipyard, @tie_fighter).produce!
+      ProduceUnit.new(1, @tie_fighter, @squad, planet, @shipyard).produce!
       expect(@shipyard.cargo).to include(Fleet.last)
     end
   end
