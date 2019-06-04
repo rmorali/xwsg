@@ -11,9 +11,11 @@ class CreateUnits < ActiveRecord::Migration[5.1]
       t.integer :metals
       t.integer :rare_elements
       t.integer :producing_time
-      t.integer :load_weigth
-      t.integer :load_capacity
+      t.integer :influence
+      t.integer :weigth
+      t.integer :capacity
       t.boolean :groupable
+      t.boolean :carriable
 
       t.timestamps
     end
