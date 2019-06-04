@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20190603232431) do
     t.integer "rare_elements"
     t.integer "producing_time"
     t.integer "influence"
-    t.integer "weigth"
+    t.integer "weight"
     t.integer "capacity"
     t.boolean "groupable"
     t.boolean "carriable"

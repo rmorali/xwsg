@@ -67,6 +67,8 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.carriables).to_not include(@xwing)
       @bwing.unit.update(weight: 21)
       expect(@capital_ship.carriables).to_not include(@bwing)
+      @ywing.unit.update(carriable: false)
+      expect(@capital_ship.carriables).to_not include(@ywing)
     end
   end
 end

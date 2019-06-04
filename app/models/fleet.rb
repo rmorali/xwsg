@@ -9,7 +9,7 @@ class Fleet < ApplicationRecord
   belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
 
-  delegate :name, :facility?, :image, :hyperdrive, :groupable, to: :unit
+  delegate :name, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
 
   def moving?
     true if destination
@@ -43,7 +43,7 @@ class Fleet < ApplicationRecord
 
   def carriables
     fleets = Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil)
-    lighter = fleets.select { |fleet| fleet.unit.weight <= available_capacity }
+    lighter = fleets.select { |fleet| fleet.unit.weight <= available_capacity && fleet.carriable }
     lighter.reject { |fleet| fleet == self }
   end
 end
