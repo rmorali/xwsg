@@ -54,7 +54,7 @@ FactoryGirl.define do
     groupable true
     carriable true
   end
-  factory :combat do
+  factory :result do
     association :round, factory: :round
     association :unit, factory: :unit
     association :planet, factory: :planet

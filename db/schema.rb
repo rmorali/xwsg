@@ -12,24 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20190603232431) do
 
-  create_table "combats", force: :cascade do |t|
-    t.integer "round_id"
-    t.integer "unit_id"
-    t.integer "fleet_id"
-    t.integer "squad_id"
-    t.integer "planet_id"
-    t.integer "quantity"
-    t.integer "blasted"
-    t.integer "fled"
-    t.integer "captured"
-    t.integer "captor_id"
-    t.integer "final_quantity"
-    t.boolean "blocked"
-    t.boolean "moving"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "factions", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -63,6 +45,25 @@ ActiveRecord::Schema.define(version: 20190603232431) do
     t.string "domination"
     t.integer "x"
     t.integer "y"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "results", force: :cascade do |t|
+    t.integer "round_id"
+    t.integer "unit_id"
+    t.integer "fleet_id"
+    t.integer "squad_id"
+    t.integer "planet_id"
+    t.integer "quantity"
+    t.integer "blasted"
+    t.integer "fled"
+    t.integer "captured"
+    t.integer "captor_id"
+    t.integer "final_quantity"
+    t.boolean "blocked"
+    t.boolean "moving"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

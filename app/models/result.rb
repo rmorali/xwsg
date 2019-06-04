@@ -1,4 +1,4 @@
-class Combat < ApplicationRecord
+class Result < ApplicationRecord
   belongs_to :round
   belongs_to :unit
   belongs_to :fleet

@@ -1,6 +1,6 @@
-class CreateCombats < ActiveRecord::Migration[5.1]
+class CreateResults < ActiveRecord::Migration[5.1]
   def change
-    create_table :combats do |t|
+    create_table :results do |t|
       t.integer :round_id
       t.integer :unit_id
       t.integer :fleet_id
@@ -14,6 +14,7 @@ class CreateCombats < ActiveRecord::Migration[5.1]
       t.integer :final_quantity
       t.boolean :blocked
       t.boolean :moving
+      t.string :description
 
       t.timestamps
     end
