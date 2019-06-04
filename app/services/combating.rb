@@ -1,4 +1,4 @@
-class CombatFleet
+class Combating
   def initialize
     
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BuildFleet, type: :service do
+RSpec.describe Building, type: :service do
   let(:faction) { create(:faction) }
   let(:squad) { create(:squad) }
   let(:planet) { create(:planet) }
@@ -19,33 +19,33 @@ RSpec.describe BuildFleet, type: :service do
     end
 
     it 'squad must have enough resources' do
-      expect(BuildFleet.new(1, @tie_fighter, @squad, planet).valid?).to be true
-      expect(BuildFleet.new(1, @escort_carrier, @squad, planet).valid?).to_not be true
+      expect(Building.new(1, @tie_fighter, @squad, planet).valid?).to be true
+      expect(Building.new(1, @escort_carrier, @squad, planet).valid?).to_not be true
       @squad.update(credits: 1000, metals: 1000)
-      expect(BuildFleet.new(1, @escort_carrier, @squad, planet).valid?).to be true
+      expect(Building.new(1, @escort_carrier, @squad, planet).valid?).to be true
     end
 
     it 'debits squad resources' do
-      BuildFleet.new(1, @tie_fighter, @squad, planet).build!
+      Building.new(1, @tie_fighter, @squad, planet).build!
       expect(@squad.metals).to eq(990)
       expect(@squad.credits).to eq(100)
     end
 
     it 'starts to produce an unit' do
-      BuildFleet.new(1, @tie_fighter, @squad, planet).build!
+      Building.new(1, @tie_fighter, @squad, planet).build!
       expect(Fleet.last.unit).to eq(@tie_fighter)
     end
 
     it 'takes time to be produced' do
       round = create(:round)
-      BuildFleet.new(1, @tie_fighter, @squad, planet).build!
+      Building.new(1, @tie_fighter, @squad, planet).build!
       expect(Fleet.last.in_production?).to eq(true)
       GameLogic.new.space_combat!
       expect(Fleet.last.in_production?).to eq(false)
     end
 
     it 'keeps the producing unit in the facility' do
-      BuildFleet.new(1, @tie_fighter, @squad, planet, @shipyard).build!
+      Building.new(1, @tie_fighter, @squad, planet, @shipyard).build!
       expect(@shipyard.cargo).to include(Fleet.last)
     end
   end

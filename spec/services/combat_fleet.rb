@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe CombatFleet, type: :service do
+RSpec.describe Combating, type: :service do
 
 end

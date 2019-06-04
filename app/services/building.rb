@@ -1,4 +1,4 @@
-class BuildFleet
+class Building
   def initialize(quantity, unit, squad, planet, *facility)
     @quantity = quantity
     @unit = unit

@@ -45,7 +45,7 @@ RSpec.describe UpdateFleet, type: :service do
       @strike_cruiser = create(:unit, type: 'CapitalShip', producing_time: 2, credits: 1, metals: 1)
     end
     it 'updates situation' do
-      BuildFleet.new(1, @shipyard, @squad, @origin).build!
+      Building.new(1, @shipyard, @squad, @origin).build!
       expect(@origin.fleets).to_not be_empty
       expect(@origin.fleets.first.in_production?).to be true
       UpdateFleet.new.building
