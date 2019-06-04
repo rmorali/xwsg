@@ -12,7 +12,7 @@ class CreateUnits < ActiveRecord::Migration[5.1]
       t.integer :rare_elements
       t.integer :producing_time
       t.integer :influence
-      t.integer :weigth
+      t.integer :weight
       t.integer :capacity
       t.boolean :groupable
       t.boolean :carriable
