@@ -52,4 +52,11 @@ FactoryGirl.define do
     capacity 1
     groupable true
   end
+  factory :combat do
+    association :round, factory: :round
+    association :unit, factory: :unit
+    association :planet, factory: :planet
+    association :fleet, factory: :fleet
+    association :squad, factory: :squad
+  end
 end
