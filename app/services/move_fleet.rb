@@ -1,4 +1,4 @@
-class Movement
+class MoveFleet
   def initialize(fleet, quantity, destination)
     @fleet = fleet
     @quantity = quantity
