@@ -11,6 +11,8 @@ class Fleet < ApplicationRecord
 
   delegate :name, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
 
+  after_save :destroy_if_empty
+
   def moving?
     true if destination
   end
@@ -45,5 +47,9 @@ class Fleet < ApplicationRecord
     fleets = Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil)
     lighter = fleets.select { |fleet| fleet.unit.weight <= available_capacity && fleet.carriable }
     lighter.reject { |fleet| fleet == self }
+  end
+
+  def destroy_if_empty
+    destroy if quantity == 0
   end
 end

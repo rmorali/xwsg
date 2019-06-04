@@ -13,6 +13,13 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :carrier }
   it { is_expected.to belong_to :destination }
 
+  it 'delete fleet if empty' do
+    @fleet = fleet
+    expect(Fleet.all).to_not be_empty
+    @fleet.update(quantity: 0)
+    expect(Fleet.all).to be_empty
+  end
+
   context 'scopes' do
     before do
       fleet.unit.producing_time = 1
