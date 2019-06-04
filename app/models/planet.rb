@@ -1,6 +1,6 @@
 class Planet < ApplicationRecord
   scope :seen_by, ->(squad) { joins(:fleets).where(fleets: {squad: squad}).group("planets.id") }
-  scope :fog_seen_by, ->(squad) { joins(:results).where(results: {squad: squad}).group("planets.id") }
+  scope :result_seen_by, ->(squad) { joins(:results).where(results: {squad: squad}).group("planets.id") }
 
   serialize :domination, Hash
   has_many :fleets
