@@ -29,4 +29,14 @@ RSpec.describe Planet, type: :model do
   it 'has an image' do
     expect(planet.image).to eq("planets/#{planet.name.downcase}.png")
   end
+
+  it 'check if has enemy squads' do
+    @squad_a = create(:squad)
+    @squad_b = create(:squad)
+    @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
+    @fleet_b = create(:fleet, squad: @squad_b)
+    expect(planet.under_attack?).to_not be true
+    @fleet_b.update(planet: planet)
+    expect(planet.under_attack?).to be true    
+  end
 end
