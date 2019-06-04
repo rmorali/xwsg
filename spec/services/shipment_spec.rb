@@ -70,7 +70,7 @@ RSpec.describe Shipment, type: :service do
   it 'updates cargo destination on embarking and disembarking' do
     Route.create(vector_a: @capital_ship.planet, vector_b: planet, distance: 1)
     Shipment.new(10, @xwing, @capital_ship).embark!
-    OrderMovement.new(@capital_ship, 1, planet).move!
+    Movement.new(@capital_ship, 1, planet).order!
     @xwing.reload
     expect(@xwing.destination).to eq(planet)
     expect(@xwing.arrives_in).to eq(@capital_ship.arrives_in)

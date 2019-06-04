@@ -11,18 +11,18 @@ class Squad < ApplicationRecord
     update(metals: metals - value) if value <= metals
   end
 
-  def debit_resources(unit)
-    return unless unit.credits <= credits && unit.metals <= metals
-    debit_credits(unit.credits)
-    debit_metals(unit.metals)
+  def debit_resources(credit, metal)
+    return if credit > credits || metal > metals
+    debit_credits(credit)
+    debit_metals(metal)
   end
 
   def ready!
-    if ready?
-      update(ready: false)
-    else
-      update(ready: true)
+    state = case ready
+            when true then false
+            when !true then true
     end
+    update(ready: state)
     GameLogic.new.check_state!
   end
 end
