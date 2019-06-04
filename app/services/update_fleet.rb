@@ -12,16 +12,4 @@ class UpdateFleet
     built_fleets = Fleet.where(ready_in: 0)
     built_fleets.each { |fleet| fleet.update(ready_in: nil) }
   end
-
-  def blast!
-
-  end
-
-  def flee!
-
-  end
-
-  def capture!
-
-  end
 end

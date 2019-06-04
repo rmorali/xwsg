@@ -60,5 +60,7 @@ FactoryGirl.define do
     association :planet, factory: :planet
     association :fleet, factory: :fleet
     association :squad, factory: :squad
+    quantity 10
+    final_quantity 0
   end
 end

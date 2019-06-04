@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe UpdateFleet, type: :service do
   let(:unit) { create(:unit) }
   let(:faction) { create(:faction) }
+  let(:planet) { create(:planet) }
   before do
     @empire = create(:squad)
     @rebel = create(:squad)
@@ -56,33 +57,6 @@ RSpec.describe UpdateFleet, type: :service do
     end
     it 'cancel updates if attacked or sabotaged' do
       # TODO: stops building on some situations
-    end
-  end
-
-  context 'apllying results' do
-    context 'blasted units' do
-      before(:each) do
-      end
-      it 'all of them' do
-      end
-      it 'only one' do
-      end
-    end
-    context 'fled units' do
-      before(:each) do
-      end
-      it 'all of them' do
-      end
-      it 'only one' do
-      end
-    end
-    context 'captured units' do
-      before(:each) do
-      end
-      it 'all of them' do
-      end
-      it 'only one' do
-      end
     end
   end
 end
