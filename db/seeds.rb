@@ -22,19 +22,19 @@ reb = ['Rebel']
 all = %w[Empire Rebel Mercenary]
 
 Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space',
-            hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false).factions = all
+            hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false, carriable: false).factions = all
 Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space',
-            hyperdrive: 3, producing_time: 2, weight: 10, capacity: 10, groupable: false).factions = emp
+            hyperdrive: 3, producing_time: 2, weight: 10, capacity: 10, groupable: false, carriable: false).factions = emp
 Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space',
-            hyperdrive: 3, producing_time: 2, weight: 5, capacity: 5, groupable: false).factions = all
+            hyperdrive: 3, producing_time: 2, weight: 5, capacity: 5, groupable: false, carriable: false).factions = all
 Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space',
-            hyperdrive: 1, producing_time: 2, weight: 1, capacity: 0, groupable: true).factions = reb
+            hyperdrive: 1, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = reb
 Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space',
-            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true).factions = emp
+            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = emp
 Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special',
-            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true).factions = reb
+            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = reb
 Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground',
-            hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false).factions = all
+            hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false, carriable: false).factions = all
 
 anaxes = Planet.create(name: 'Anaxes', sector: 5, population: 1_502_500_345, x: 26, y: 4)
 byss = Planet.create(name: 'Byss', sector: 5, population: 1_522_900_890, x: 5, y: 38)
@@ -66,12 +66,14 @@ Route.create([
                { vector_a: corellia, vector_b: tatooine, distance: 1 }
              ])
 
-Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
-Fleet.create(unit: Unit.second, quantity: 1, squad: Squad.first, planet: coruscant, round: Round.current)
-Fleet.create(unit: Unit.find(4), quantity: 10, squad: Squad.first, planet: coruscant, round: Round.current)
-Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.first, planet: coruscant, round: Round.current)
+round = Round.current
 
-Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
-Fleet.create(unit: Unit.third, quantity: 1, squad: Squad.second, planet: corellia, round: Round.current)
-Fleet.create(unit: Unit.find(4), quantity: 10, squad: Squad.second, planet: corellia, round: Round.current)
-Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.second, planet: corellia, round: Round.current)
+Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.first, planet: coruscant, round: round)
+Fleet.create(unit: Unit.second, quantity: 1, squad: Squad.first, planet: coruscant, round: round)
+Fleet.create(unit: Unit.find(4), quantity: 10, squad: Squad.first, planet: coruscant, round: round)
+Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.first, planet: coruscant, round: round)
+
+Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.second, planet: corellia, round: round)
+Fleet.create(unit: Unit.third, quantity: 1, squad: Squad.second, planet: corellia, round: round)
+Fleet.create(unit: Unit.find(4), quantity: 10, squad: Squad.second, planet: corellia, round: round)
+Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.second, planet: corellia, round: round)
