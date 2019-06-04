@@ -4,6 +4,7 @@ RSpec.describe Planet, type: :model do
   let(:planet) { build(:planet) }
 
   it { is_expected.to have_many :fleets }
+  it { is_expected.to have_many :results }
 
   it 'has its attributes' do
     expect(planet).to be_an_instance_of(Planet)
@@ -37,6 +38,6 @@ RSpec.describe Planet, type: :model do
     @fleet_b = create(:fleet, squad: @squad_b)
     expect(planet.under_attack?).to_not be true
     @fleet_b.update(planet: planet)
-    expect(planet.under_attack?).to be true    
+    expect(planet.under_attack?).to be true
   end
 end

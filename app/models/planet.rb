@@ -1,6 +1,7 @@
 class Planet < ApplicationRecord
   serialize :domination, Hash
   has_many :fleets
+  has_many :results
 
   def image
     "planets/#{name.downcase}.png"

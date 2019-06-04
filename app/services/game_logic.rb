@@ -22,8 +22,8 @@ class GameLogic
   def strategy!; end
 
   def space_combat!
-    UpdateFleet.new.moving
-    UpdateFleet.new.building
+    UpdateFleet.new.move!
+    UpdateFleet.new.build!
   end
 
   def ground_combat!; end

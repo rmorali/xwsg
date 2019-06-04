@@ -23,20 +23,21 @@ RSpec.describe UpdateFleet, type: :service do
     it 'updates travelling situation' do
       expect(@strike_cruiser.planet).to eq(@origin)
       expect(@strike_cruiser.arrives_in).to eq(2)
-      UpdateFleet.new.moving
+      UpdateFleet.new.move!
       expect(@strike_cruiser.reload.arrives_in).to eq(1)
       expect(@strike_cruiser.reload.planet).to eq(@origin)
     end
     it 'updates location at its arrival' do
       expect(@xwing.planet).to eq(@origin)
-      UpdateFleet.new.moving
+      UpdateFleet.new.move!
       expect(@xwing.reload.planet).to eq(@destination)
       expect(@strike_cruiser.reload.planet).to eq(@origin)
-      UpdateFleet.new.moving
+      UpdateFleet.new.move!
       expect(@strike_cruiser.reload.arrives_in).to eq(nil)
       expect(@strike_cruiser.reload.planet).to eq(@far_destination)
     end
   end
+
   context 'producing and building fleets' do
     before do
       faction.save!
@@ -48,13 +49,40 @@ RSpec.describe UpdateFleet, type: :service do
       BuildFleet.new(1, @shipyard, @squad, @origin).build!
       expect(@origin.fleets).to_not be_empty
       expect(@origin.fleets.first.in_production?).to be true
-      UpdateFleet.new.building
+      UpdateFleet.new.build!
       expect(@origin.fleets.first.in_production?).to be true
-      UpdateFleet.new.building
+      UpdateFleet.new.build!
       expect(@origin.fleets.first.in_production?).to be false
     end
     it 'cancel updates if attacked or sabotaged' do
       # TODO: stops building on some situations
+    end
+  end
+
+  context 'apllying results' do
+    context 'blasted units' do
+      before(:each) do
+      end
+      it 'all of them' do
+      end
+      it 'only one' do
+      end
+    end
+    context 'fled units' do
+      before(:each) do
+      end
+      it 'all of them' do
+      end
+      it 'only one' do
+      end
+    end
+    context 'captured units' do
+      before(:each) do
+      end
+      it 'all of them' do
+      end
+      it 'only one' do
+      end
     end
   end
 end
