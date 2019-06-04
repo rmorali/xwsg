@@ -17,6 +17,25 @@ RSpec.describe Planet, type: :model do
     expect(planet.domination).to be_a(Hash)
   end
 
+  context '.seen_by squad' do
+    before do
+      @squad = create(:squad)
+      @fleet = create(:fleet, planet: planet, squad: @squad)
+    end
+    it 'finds planets where squad has fleets' do
+      expect(Planet.seen_by(@squad)).to include(planet)
+    end
+    it 'not includes planets where squad hasnt fleets' do
+      not_seen = create(:planet)
+      expect(Planet.seen_by(@squad)).to_not include(not_seen)
+    end
+    it 'shows only one instance of planet' do
+      create(:fleet, planet: planet, squad: @squad)
+      planets = Planet.seen_by(@squad)
+      expect(planets).to eq(planets.uniq)
+    end
+  end
+
   it 'retrieves serialized domination data' do
     planet.domination = { 1 => 40, 2 => 60 }
     planet.save
