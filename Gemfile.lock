@@ -1,16 +1,4 @@
 GIT
-  remote: https://github.com/gogovan/devise.git
-  revision: 931ae3985872ea1f0039cd3a749779c0023a622a
-  branch: rails-5.1
-  specs:
-    devise (4.2.0)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 4.1.0, < 5.2)
-      responders
-      warden (~> 1.2.3)
-
-GIT
   remote: https://github.com/oscartanner/dijkstra.gem.git
   revision: 4e5e5b3ff65b6fc1740f49bd821fceee8c2cee6f
   specs:
@@ -70,7 +58,7 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
-    bcrypt (3.1.11)
+    bcrypt (3.1.13)
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.1.0)
@@ -79,6 +67,12 @@ GEM
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     crass (1.0.2)
+    devise (4.6.2)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0, < 6.0)
+      responders
+      warden (~> 1.2.3)
     diff-lcs (1.3)
     erubi (1.6.1)
     erubis (2.7.0)
@@ -166,9 +160,9 @@ GEM
       railties (>= 3.2)
       tilt
     ref (2.0.0)
-    responders (2.4.0)
-      actionpack (>= 4.2.0, < 5.3)
-      railties (>= 4.2.0, < 5.3)
+    responders (2.4.1)
+      actionpack (>= 4.2.0, < 6.0)
+      railties (>= 4.2.0, < 6.0)
     rspec-core (3.6.0)
       rspec-support (~> 3.6.0)
     rspec-expectations (3.6.0)
@@ -256,7 +250,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  devise!
+  devise
   dijkstra!
   erubis
   factory_girl_rails
@@ -283,4 +277,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.16.0.pre.2
+   1.17.3
