@@ -58,7 +58,7 @@ RSpec.describe Fleet, type: :model do
       @capital_ship.unit.update(capacity: 20)
       @capital_ship.update(quantity: 2)
       expect(@capital_ship.available_capacity).to eq(40)
-      Shipment.new(10, @xwing, @capital_ship).embark!
+      EmbarkFleet.new(10, @xwing, @capital_ship).embark!
       expect(@capital_ship.available_capacity).to eq(30)
     end
     it 'finds carriable fleets' do
