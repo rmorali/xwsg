@@ -32,7 +32,7 @@ class Planet < ApplicationRecord
   end
 
   def fleets_presence
-    presence =[]
+    presence = []
     squads.each do |squad|
       presence << [ squad, fleets.where(squad: squad).sum { |f| f.quantity * f.credits } ]
     end

@@ -32,9 +32,9 @@ FactoryGirl.define do
     name Faker::StarWars.planet
     sector 1
     population 1000
-    credits 1
-    metals 1
-    rare_elements 1
+    credits 1000
+    metals 1000
+    rare_elements 1000
     x 1
     y 1
   end
@@ -48,7 +48,7 @@ FactoryGirl.define do
     metals 1
     rare_elements 1
     producing_time 1
-    influence 1
+    influence_ratio 1
     weight 1
     capacity 1
     groupable true

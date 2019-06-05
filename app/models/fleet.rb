@@ -10,7 +10,7 @@ class Fleet < ApplicationRecord
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
   has_many :results
 
-  delegate :name, :credits, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
+  delegate :name, :credits, :influence_ratio, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
 
   after_save :destroy_if_empty
 
@@ -51,7 +51,7 @@ class Fleet < ApplicationRecord
   end
 
   def credits
-    fleet_credits = quantity * unit.credits
+    fleet_credits = quantity * unit.credits * unit.influence_ratio
   end
 
   def destroy_if_empty

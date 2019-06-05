@@ -18,7 +18,7 @@ RSpec.describe Unit, type: :model do
     expect(unit.metals).to be_an(Integer)
     expect(unit.rare_elements).to be_an(Integer)
     expect(unit.producing_time).to be_an(Integer)
-    expect(unit.influence).to be_an(Integer)
+    expect(unit.influence_ratio).to be_an(Integer)
     expect(unit.weight).to be_an(Integer)
     expect(unit.capacity).to be_an(Integer)
     expect(unit.groupable).to be_truthy
