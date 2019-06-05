@@ -33,6 +33,24 @@ RSpec.describe GameLogic, type: :service do
   end
 
   context 'new game' do
+    before do
+      @facility = create(:unit, type: 'Facility' )
+      @capital_ship = create(:unit, type: 'CapitalShip' )
+      @fighter = create(:unit, type: 'Fighter' )
+      5.times { create(:planet) }
+    end
+
+    it 'sets initial credits for squads' do
+
+    end
+
+    it 'populates random planets for squads' do
+
+    end
+
+    it 'debits squads credits to populate planets' do
+
+    end
   end
 
   context 'strategy phase' do

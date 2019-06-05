@@ -53,6 +53,8 @@ FactoryGirl.define do
     capacity 1
     groupable true
     carriable true
+    all = %w[Empire Rebel Mercenary]
+    factions all
   end
   factory :result do
     association :round, factory: :round
@@ -65,8 +67,8 @@ FactoryGirl.define do
   end
   factory :setup do
     planet_income_ratio 1
-    initial_credits 1000
-    initial_metals 1000
+    initial_credits 2000
+    initial_metals 2000
     initial_planets 2
     initial_wormholes 2
     minimum_fleet_for_dominate 10000
