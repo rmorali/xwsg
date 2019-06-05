@@ -9,8 +9,12 @@ RSpec.describe SetIncome, type: :service do
 
   end
 
-  it 'shows current income for squad' do
-    
+  it 'returns total income for squad' do
+
+  end
+
+  it 'returns current income for squad in a planet' do
+
   end
 
 end
