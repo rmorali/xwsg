@@ -105,4 +105,12 @@ RSpec.describe Planet, type: :model do
     expect(planet.fleets_presence).to include([@squad_b, @fleet_b.credits])
   end
 
+  it 'returns an empty random planet' do
+    planet_a = create(:planet)
+    planet_b = create(:planet)
+    random_planet = Planet.random
+    expect(random_planet).to eq(random_planet)
+    #TODO: Achar um jeito de testar random
+  end
+
 end

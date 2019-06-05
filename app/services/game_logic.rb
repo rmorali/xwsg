@@ -4,6 +4,13 @@ class GameLogic
     @round = Round.current
   end
 
+  def new_game!
+    Squad.all.each do |squad|
+      squad.update(credits: Setup.current.initial_credits)
+      warp_fleets_for(squad)
+    end
+  end
+
   def check_state!
     if @squads.all?(&:ready?) == true
       @round.next_phase!
@@ -30,3 +37,19 @@ class GameLogic
 
   def finished!; end
 end
+
+def warp_fleets_for(squad)
+    quantity = Setup.current.initial_planets
+    quantity.times do
+      planet = Planet.random
+      facilities = Unit.allowed_for(squad.faction).where("type = ? AND credits <= ?", 'Facility', 1200)
+      capital_ships = Unit.allowed_for(squad.faction).where("type = ? AND credits <= ?", 'CapitaShip', 600)
+      fighters = Unit.allowed_for(squad.faction).where("type = ? AND credits <= ?", 'Fighter', 100)
+      facility = facilities[rand(facilities.count)]
+      capital_ship = capital_ships[rand(capital_ships.count)]
+      fighter = fighters[rand(fighters.count)]
+      BuildFleet.new(1200 / facility.credits, facility, squad, planet).build!
+      BuildFleet.new(600 / capital_ship.credits, capital_ship, squad, planet).build!
+      BuildFleet.new(squad.credits / fighter.credits, fighter, squad, planet).build!
+    end
+  end

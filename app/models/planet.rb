@@ -46,5 +46,11 @@ class Planet < ApplicationRecord
     end
     squads.uniq
   end
+
+  def self.random
+    planets = Planet.all.select { |p| p.fleets.empty? }
+    planet = planets[rand(planets.count)]
+    planet
+  end
   # TODO: Verify if a squad can build facilities, produce units etc
 end
