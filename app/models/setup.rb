@@ -1,0 +1,3 @@
+class Setup < ApplicationRecord
+
+end

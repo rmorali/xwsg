@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190603232431) do
+ActiveRecord::Schema.define(version: 20190605172451) do
 
   create_table "factions", force: :cascade do |t|
     t.string "name"
@@ -80,6 +80,19 @@ ActiveRecord::Schema.define(version: 20190603232431) do
     t.integer "distance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "setups", force: :cascade do |t|
+    t.integer "planet_income_ratio"
+    t.integer "initial_credits"
+    t.integer "initial_metals"
+    t.integer "initial_planets"
+    t.integer "initial_wormholes"
+    t.integer "minimum_fleet_for_dominate"
+    t.integer "minimum_fleet_for_build"
+    t.string "builder_unit"
+    t.boolean "ai"
+    t.integer "ai_level"
   end
 
   create_table "squads", force: :cascade do |t|

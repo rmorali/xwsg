@@ -63,4 +63,16 @@ FactoryGirl.define do
     quantity 10
     final_quantity 0
   end
+  factory :setup do
+    planet_income_ratio 1
+    initial_credits 1000
+    initial_metals 1000
+    initial_planets 2
+    initial_wormholes 2
+    minimum_fleet_for_dominate 10000
+    minimum_fleet_for_build 1
+    builder_unit 'CapitalShip'
+    ai true
+    ai_level 1
+  end
 end
