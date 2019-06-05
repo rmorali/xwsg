@@ -6,18 +6,11 @@
   <%= render partial: 'resources', object: @squad %>
 </div>
 
-<div class="minimap">
-  <%= render partial: 'minimap', object: @planets %>
+<div class="planets">
+  <%= render partial: 'planets' %>
 </div>
 
-<div class="main_panel">
-  <%= render partial: '/planets/sector' %>
-</div>
-
-<div class="right_panel1" id="right_panel1" onclick=dragElement(document.getElementById("right_panel1"));>
+<div class="edit_box" id="edit_box" onclick=dragElement(document.getElementById("edit_box"));>
 
 </div>
 
-<div class="right_panel2">
-  <%= render partial: '/fleets/moving' %>
-</div>
