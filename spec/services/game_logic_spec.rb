@@ -2,9 +2,16 @@ require 'rails_helper'
 
 RSpec.describe GameLogic, type: :service do
   let(:unit) { create(:unit) }
+  let(:setup) { create(:setup) }
+  let(:faction) { create(:faction) }
   before do
-    @empire = create(:squad)
-    @rebel = create(:squad)
+    Faction.create([
+                     { name: 'Empire' },
+                     { name: 'Rebel' },
+                     { name: 'Mercenary' }
+                   ])
+    @empire = create(:squad, faction: Faction.first)
+    @rebel = create(:squad, faction: Faction.second)
     @round = Round.current
   end
 
@@ -34,18 +41,26 @@ RSpec.describe GameLogic, type: :service do
 
   context 'new game' do
     before do
-      @facility = create(:unit, type: 'Facility' )
-      @capital_ship = create(:unit, type: 'CapitalShip' )
-      @fighter = create(:unit, type: 'Fighter' )
+      @setup = setup
+      all = %w[Empire Rebel Mercenary]
+      @facility = create(:unit, type: 'Facility', credits: 1200 ).factions = all
+      @capital_ship = create(:unit, type: 'CapitalShip', credits: 600 ).factions = all
+      @fighter = create(:unit, type: 'Fighter', credits: 100 ).factions = all
       5.times { create(:planet) }
     end
 
     it 'sets initial credits for squads' do
+      GameLogic.new.new_game!
+      expect(@empire.reload.credits).to eq(2400)
+      expect(@rebel.reload.credits).to eq(2400)
+      expect(@empire.reload.metals).to eq(2000)
+      expect(@rebel.reload.metals).to eq(2000)
 
     end
 
     it 'populates random planets for squads' do
-
+      GameLogic.new.new_game!
+      expect(@empire.fleets).to_not be_empty
     end
 
     it 'debits squads credits to populate planets' do

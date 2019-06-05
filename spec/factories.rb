@@ -67,7 +67,7 @@ FactoryGirl.define do
   end
   factory :setup do
     planet_income_ratio 1
-    initial_credits 2000
+    initial_credits 2400
     initial_metals 2000
     initial_planets 2
     initial_wormholes 2
