@@ -14,6 +14,12 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :destination }
   it { is_expected.to have_many :results }
 
+  it 'returns fleet cost' do
+    @fleet = fleet
+    fleet_cost = @fleet.quantity * @fleet.credits
+    expect(@fleet.credits).to eq(fleet_cost)
+  end
+
   it 'delete fleet if empty' do
     @fleet = fleet
     expect(Fleet.all).to_not be_empty

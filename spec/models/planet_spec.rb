@@ -17,13 +17,14 @@ RSpec.describe Planet, type: :model do
     expect(planet.domination).to be_a(Hash)
   end
 
+  before do
+    @squad_a = create(:squad)
+    @squad_b = create(:squad)
+    @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
+    @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
+  end
+
   context '.fleets_seen by squad' do
-    before do
-      @squad_a = create(:squad)
-      @squad_b = create(:squad)
-      @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
-      @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
-    end
     it 'finds planets where squad has fleets' do
       expect(Planet.seen_by(@squad_a)).to include(planet)
     end
@@ -50,10 +51,6 @@ RSpec.describe Planet, type: :model do
 
   context '.fog_seen_by squad' do
     before do
-      @squad_a = create(:squad)
-      @squad_b = create(:squad)
-      @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
-      @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
       @round = Round.current
       CreateResult.new.create!
     end
@@ -92,14 +89,20 @@ RSpec.describe Planet, type: :model do
     expect(planet.image).to eq("planets/#{planet.name.downcase}.png")
   end
 
+  it 'returns present squads' do
+    expect(planet.squads).to include(@squad_a)
+    expect(planet.squads).to include(@squad_b)
+  end
+
   it 'check if has enemy squads' do
-    @squad_a = create(:squad)
-    @squad_b = create(:squad)
-    @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
-    @fleet_b = create(:fleet, squad: @squad_b)
-    expect(planet.under_attack?).to_not be true
-    @fleet_b.update(planet: planet)
     expect(planet.under_attack?).to be true
+    @fleet_b.update(planet: create(:planet))
+    expect(planet.under_attack?).to_not be true
+  end
+
+  it 'returns fleet presence' do
+    expect(planet.fleets_presence).to include([@squad_a, @fleet_a.credits])
+    expect(planet.fleets_presence).to include([@squad_b, @fleet_b.credits])
   end
 
 end

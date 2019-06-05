@@ -22,20 +22,20 @@ emp = ['Empire']
 reb = ['Rebel']
 all = %w[Empire Rebel Mercenary]
 
-Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space',
+Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', credits: 1000, metals: 1000,
             hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false, carriable: false).factions = all
-Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space',
+Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', credits: 500, metals: 500,
             hyperdrive: 3, producing_time: 2, weight: 10, capacity: 10, groupable: false, carriable: false).factions = emp
-Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space',
+Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space', credits: 100, metals: 100,
             hyperdrive: 3, producing_time: 2, weight: 5, capacity: 5, groupable: false, carriable: false).factions = all
-Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space',
+Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', credits: 50, metals: 50,
             hyperdrive: 1, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = reb
-Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space',
+Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', credits: 10, metals: 10,
             hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = emp
-Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special',
-            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = reb
-Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground',
-            hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false, carriable: false).factions = all
+#Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special',
+            #hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = reb
+#Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground',
+            #hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false, carriable: false).factions = all
 
 anaxes = Planet.create(name: 'Anaxes', sector: 1, population: 1_502_500_345, x: 26, y: 4)
 byss = Planet.create(name: 'Byss', sector: 1, population: 1_522_900_890, x: 5, y: 38)
@@ -73,4 +73,3 @@ Fleet.create(unit: Unit.find(4), quantity: 10, squad: Squad.second, planet: coru
 Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.second, planet: coruscant, round: round)
 
 Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.third, planet: mandalore, round: round)
-

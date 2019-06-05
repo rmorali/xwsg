@@ -10,7 +10,7 @@ class Fleet < ApplicationRecord
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
   has_many :results
 
-  delegate :name, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
+  delegate :name, :credits, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
 
   after_save :destroy_if_empty
 
@@ -48,6 +48,10 @@ class Fleet < ApplicationRecord
     fleets = Fleet.where(planet: planet, squad: squad, destination: nil, carrier: nil)
     lighter = fleets.select { |fleet| fleet.unit.weight <= available_capacity && fleet.carriable }
     lighter.reject { |fleet| fleet == self }
+  end
+
+  def credits
+    fleet_credits = quantity * unit.credits
   end
 
   def destroy_if_empty

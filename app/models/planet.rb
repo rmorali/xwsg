@@ -30,5 +30,21 @@ class Planet < ApplicationRecord
     fleets_seen
     #TODO: Show enemy fleets produced before current round if squad has a radar
   end
+
+  def fleets_presence
+    presence =[]
+    squads.each do |squad|
+      presence << [ squad, fleets.where(squad: squad).sum { |f| f.quantity * f.credits } ]
+    end
+    presence
+  end
+
+  def squads
+    squads = []
+    fleets.each do |f|
+      squads << f.squad
+    end
+    squads.uniq
+  end
   # TODO: Verify if a squad can build facilities, produce units etc
 end
