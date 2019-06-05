@@ -3,11 +3,11 @@
   <% GroupFleet.new(planet).group! %>
 
   <div id="planet_image">
-    <%= image_tag (planet.image), style: "width: 10%; position: absolute; left:#{ planet.x }%; top:#{ planet.y }%" if planet.sector == 5 %>
+    <%= image_tag (planet.image), style: "width: 10%; position: absolute; left:#{ planet.x }%; top:#{ planet.y }%" %>
   </div>
 
   <div id="planet_name" style="position: absolute; left:<%= planet.x + 1 %>%; top:<%= planet.y - 3 %>%; font-weight: bold; font-size: 105%">
-    <%= planet.name if planet.sector == 5 %>
+    <%= planet.name %>
   </div>
 
   <% planet.fleets.where(destination: nil, carrier: nil).each do |fleet| %>
