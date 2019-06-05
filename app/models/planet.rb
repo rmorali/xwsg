@@ -14,9 +14,13 @@ class Planet < ApplicationRecord
     return true if fleets.distinct.count('squad_id') > 1
   end
 
-  def fog_for(squad)
-    results.where.not(squad: squad)
+  def fog_seen_by(squad)
     # TODO: Show fog of planet based on results table
+    fog = []
+    results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |combat|
+      fog << combat if combat.round.number >= results.maximum("round_id") && combat.squad != squad 
+    end
+    fog
   end
   # TODO: Verify if a squad can build facilities, produce units etc
 end

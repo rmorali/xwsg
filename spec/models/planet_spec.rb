@@ -42,6 +42,7 @@ RSpec.describe Planet, type: :model do
       @squad_b = create(:squad)
       @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
       @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
+      @round = Round.current
       CreateResult.new.create!
     end
     it 'finds planets where squad had results' do
@@ -55,6 +56,13 @@ RSpec.describe Planet, type: :model do
       create(:result, planet: planet, squad: @squad_a)
       planets = Planet.result_seen_by(@squad_a)
       expect(planets).to eq(planets.uniq)
+    end
+    it 'shows enemy fleets seen by squad' do
+      expect(planet.fog_seen_by(@squad_a)).to_not be_empty
+      expect(planet.fog_seen_by(@squad_a)).to include(@fleet_b.results.first)
+    end
+    it 'shows only enemy fleets seen by squad' do
+      expect(planet.fog_seen_by(@squad_a)).to_not include(@fleet_a.results.first)
     end
   end
 
@@ -81,4 +89,5 @@ RSpec.describe Planet, type: :model do
     @fleet_b.update(planet: planet)
     expect(planet.under_attack?).to be true
   end
+
 end

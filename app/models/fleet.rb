@@ -8,6 +8,7 @@ class Fleet < ApplicationRecord
   belongs_to :round
   belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
+  has_many :results
 
   delegate :name, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
 

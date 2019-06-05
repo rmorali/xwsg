@@ -12,6 +12,7 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :round }
   it { is_expected.to belong_to :carrier }
   it { is_expected.to belong_to :destination }
+  it { is_expected.to have_many :results }
 
   it 'delete fleet if empty' do
     @fleet = fleet
