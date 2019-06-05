@@ -46,15 +46,15 @@ RSpec.describe Planet, type: :model do
       CreateResult.new.create!
     end
     it 'finds planets where squad had results' do
-      expect(Planet.result_seen_by(@squad_a)).to include(planet)
+      expect(Planet.fog_seen_by(@squad_a)).to include(planet)
     end
     it 'not includes planets where squad hasnt results' do
       not_seen = create(:planet)
-      expect(Planet.result_seen_by(@squad_a)).to_not include(not_seen)
+      expect(Planet.fog_seen_by(@squad_a)).to_not include(not_seen)
     end
     it 'shows only one instance of planet' do
       create(:result, planet: planet, squad: @squad_a)
-      planets = Planet.result_seen_by(@squad_a)
+      planets = Planet.fog_seen_by(@squad_a)
       expect(planets).to eq(planets.uniq)
     end
     it 'shows enemy fleets seen by squad' do

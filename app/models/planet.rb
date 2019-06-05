@@ -1,6 +1,6 @@
 class Planet < ApplicationRecord
   scope :seen_by, ->(squad) { joins(:fleets).where(fleets: {squad: squad}).group("planets.id") }
-  scope :result_seen_by, ->(squad) { joins(:results).where(results: {squad: squad}).group("planets.id") }
+  scope :fog_seen_by, ->(squad) { joins(:results).where(results: {squad: squad}).group("planets.id") }
 
   serialize :domination, Hash
   has_many :fleets
@@ -18,7 +18,7 @@ class Planet < ApplicationRecord
     # TODO: Show fog of planet based on results table
     fog = []
     results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |combat|
-      fog << combat if combat.round.number >= results.maximum("round_id") && combat.squad != squad 
+      fog << combat if combat.round.number >= results.maximum("round_id") && combat.squad != squad
     end
     fog
   end
