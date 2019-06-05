@@ -17,26 +17,38 @@ RSpec.describe Planet, type: :model do
     expect(planet.domination).to be_a(Hash)
   end
 
-  context '.seen_by squad' do
+  context '.fleets_seen by squad' do
     before do
-      @squad = create(:squad)
-      @fleet = create(:fleet, planet: planet, squad: @squad)
+      @squad_a = create(:squad)
+      @squad_b = create(:squad)
+      @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
+      @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
     end
     it 'finds planets where squad has fleets' do
-      expect(Planet.seen_by(@squad)).to include(planet)
+      expect(Planet.seen_by(@squad_a)).to include(planet)
     end
     it 'not includes planets where squad hasnt fleets' do
       not_seen = create(:planet)
-      expect(Planet.seen_by(@squad)).to_not include(not_seen)
+      expect(Planet.seen_by(@squad_a)).to_not include(not_seen)
     end
     it 'shows only one instance of planet' do
-      create(:fleet, planet: planet, squad: @squad)
-      planets = Planet.seen_by(@squad)
+      create(:fleet, planet: planet, squad: @squad_a)
+      planets = Planet.seen_by(@squad_a)
       expect(planets).to eq(planets.uniq)
+    end
+    it 'shows only squad fleets' do
+      @fleet_a2 = create(:fleet, squad: @squad_a, planet: planet)
+      expect(planet.fleets_seen_by(@squad_a)).to_not be_empty
+      expect(planet.fleets_seen_by(@squad_a)).to include(@fleet_a)
+      expect(planet.fleets_seen_by(@squad_a)).to include(@fleet_a2)
+      expect(planet.fleets_seen_by(@squad_a)).to_not include(@fleet_b)
+    end
+    it 'Show enemy fleets produced before current round if squad has a radar' do
+      #TODO: radar
     end
   end
 
-  context '.result_seen_by squad' do
+  context '.fog_seen_by squad' do
     before do
       @squad_a = create(:squad)
       @squad_b = create(:squad)

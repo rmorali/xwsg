@@ -15,12 +15,20 @@ class Planet < ApplicationRecord
   end
 
   def fog_seen_by(squad)
-    # TODO: Show fog of planet based on results table
     fog = []
-    results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |combat|
-      fog << combat if combat.round.number >= results.maximum("round_id") && combat.squad != squad
+    results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |result|
+      fog << result if result.round.number >= results.maximum("round_id") && result.squad != squad
     end
     fog
+  end
+
+  def fleets_seen_by(squad)
+    fleets_seen = []
+    fleets.sort_by { |a| [a.squad.name, a.unit.id, a.quantity] }.each do |fleet|
+      fleets_seen << fleet if fleet.squad == squad
+    end
+    fleets_seen
+    #TODO: Show enemy fleets produced before current round if squad has a radar
   end
   # TODO: Verify if a squad can build facilities, produce units etc
 end
