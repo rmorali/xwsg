@@ -23,9 +23,12 @@ class SquadsController < ApplicationController
   end
 
   def map
+    @map_ratio = 1
+    @map_x_adjust = 0
+    @map_y_adjust = 65
     @squad = current_user.squad
     @planets = Planet.all
-    @moving_fleets = Fleet.where.not(destination: nil)
+
   end
 
   private

@@ -1,39 +1,30 @@
 <% @planets.each do |planet| %>
 
+  <% pos_x = ( planet.x + @map_x_adjust ) * @map_ratio %>
+  <% pos_y = ( planet.y + @map_y_adjust ) * @map_ratio %>
   <% GroupFleet.new(planet).group! %>
 
-  <div id="planet_image">
-    <%= image_tag (planet.image), style: "width: 65px; position: absolute; left:#{ planet.x }px; top:#{ planet.y }px; z-index: 10" %>
+  <div id="images" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y %>px; z-index: 5" >
+    <%= image_tag (planet.image), style: "width: 50px" %>
   </div>
 
-  <div id="planet_name" style="position: absolute; left:<%= planet.x + 1 %>px; top:<%= planet.y - 3 %>px; font-weight: bold; font-size: 10">
-    <%= planet.name %>
+  <div id="names" style="position: absolute; left:<%= pos_x + 5 %>px; top:<%= pos_y - 25 %>px" >
+    <span style="color: white; font-weight: bold; font-size: 12px">
+      <%= planet.name %>
+    </span>
   </div>
 
-  <% planet.fleets.where(destination: nil, carrier: nil).each do |fleet| %>
-
-    <div id="fleet_image" onclick="showDiv('edit_box', '30%','30%')" >
-      <%= link_to (image_tag (fleet.image), style: "position: absolute; left:#{ planet.x + 11 }px; top:#{ planet.y }px; #{ style(fleet) }"), edit_fleet_path(fleet), remote: true %>
-    </div>
-
-    <div id="fleet_quantity" style="position: absolute; left:<%= planet.x + 12 %>px; top:<%= planet.y + 2 %>px; <%= style(fleet) %>">
-      <%= quantity(fleet) %>
-    </div>
-
-    <% cargo_x = planet.x + 12 %>
-    <% fleet.cargo.each do |cargo| %>
-
-      <% cargo_x += 2 %>
-
-      <div id="cargo_image">
-        <%= image_tag (cargo.image), style: "width: 2%; position: absolute; left:#{ cargo_x }px; top:#{ planet.y }px" %>
-      </div>
-
-      <div id="cargo_quantity" style="position: absolute; left:<%= cargo_x + 0.3 %>px; top:<%= planet.y + 1 %>px; <%= style(fleet) %>">
-        <%= quantity(cargo) %>
-      </div>
-
+  <div id="fleets" class="fleets" style="position:absolute; left:<%= pos_x + 50 %>px; top:<%= pos_y + 5 %>px">
+    <% planet.fleets.where(destination: nil, carrier: nil).each do |fleet| %>
+      <span style="<%= style(fleet) %>">
+        <%= link_to show(fleet), edit_fleet_path(fleet), remote: true %>
+      </span>
+      <% fleet.cargo.each do |cargo| %>
+        <br>
+        <%= show(cargo) %>
+      <% end %>
+      <br>
     <% end %>
-    <% planet.y += 3 %>
-  <% end %>
+  </div>
+
 <% end %>

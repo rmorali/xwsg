@@ -20,4 +20,29 @@ module SquadHelper
       return 66
     end
   end
+
+	def show(fleet)
+		case fleet.type
+		when 'CapitalShip'
+			fleet.name
+		when 'Facility'
+			fleet.name
+		else
+			"#{fleet.quantity} #{fleet.name}"
+		end
+	end
+
+	def style(fleet)
+		params = "font-color: #{fleet.squad.color}; "
+		case fleet.type
+		when 'CapitalShip'
+			params << "font-weight: bold; font-size: 14px"
+		when 'Facility'
+			"font-color: #{fleet.squad.color};font-weight: bold; font-size: 14px"
+		else
+			"#{fleet.quantity} #{fleet.name}"
+		end
+		params
+	end
+
 end

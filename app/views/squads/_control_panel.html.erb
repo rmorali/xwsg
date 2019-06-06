@@ -1,9 +1,12 @@
-MoveFleets / Personnel / Messages / Galaxy News / Ready? <%= @squad.ready? %> /
-<%= simple_form_for @squad do |f| %>
-  <%= f.submit 'Ready!' %>
-<% end %>
 <table>
   <tr>
+    <td>MoveFleets / Personnel / Messages / Galaxy News / Ready? <%= @squad.ready? %></td>
+    <td>
+      <%= simple_form_for @squad do |f| %>
+        <%= f.submit 'Ready!' %>
+      <% end %>
+    </td>
+
     <td><%= image_tag ('squads/yellow01.png'), style: "width: 25px" %></td>
     <td><%= @squad.credits %></td>
     <td><%= image_tag ('squads/plumb01.png'), style: "width: 25px" %></td>

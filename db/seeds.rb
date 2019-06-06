@@ -28,7 +28,7 @@ hoth = Planet.create(name: 'Hoth', sector: 1, x: 475, y: 700)
 ilum = Planet.create(name: 'Ilum', sector: 1, x: 250, y: 250)
 kamino = Planet.create(name: 'Kamino', sector: 3, x: 1375, y: 700)
 kashyyyk = Planet.create(name: 'Kashyyyk', sector: 3, x: 1263, y: 475)
-kessel_asteroids = Planet.create(name: 'Kessel Asteroids', sector: 3, x: 1038, y: 475)
+kessel = Planet.create(name: 'Kessel', sector: 3, x: 1038, y: 475)
 kuat = Planet.create(name: 'Kuat', sector: 4, x: 925, y: 700)
 mandalore = Planet.create(name: 'Mandalore', sector: 2, x: 588, y: 475)
 mon_calamari = Planet.create(name: 'Mon Calamari', sector: 3, x: 1375, y: 250)
@@ -62,11 +62,11 @@ Route.create([
   { vector_a: mandalore, vector_b: corellia, distance: 1 },
   { vector_a: mandalore, vector_b: deathstar, distance: 1 },
   { vector_a: concord_dawn, vector_b: felucia, distance: 1 },
-  { vector_a: concord_dawn, vector_b: kessel_asteroids, distance: 1 },
+  { vector_a: concord_dawn, vector_b: kessel, distance: 1 },
   { vector_a: concord_dawn, vector_b: deathstar, distance: 1 },
   { vector_a: felucia, vector_b: mon_calamari, distance: 1 },
   { vector_a: felucia, vector_b: kashyyyk, distance: 1 },
-  { vector_a: felucia, vector_b: kessel_asteroids, distance: 1 },
+  { vector_a: felucia, vector_b: kessel, distance: 1 },
   { vector_a: mon_calamari, vector_b: bonadan, distance: 1 },
   { vector_a: mon_calamari, vector_b: kashyyyk, distance: 1 },
   { vector_a: endor, vector_b: bespin, distance: 1 },
@@ -80,10 +80,10 @@ Route.create([
   { vector_a: bespin, vector_b: hoth, distance: 1 },
   { vector_a: corellia, vector_b: deathstar, distance: 1 },
   { vector_a: corellia, vector_b: haruun_kal, distance: 1 },
-  { vector_a: kuat, vector_b: kessel_asteroids, distance: 1 },
-  { vector_a: kessel_asteroids, vector_b: kashyyyk, distance: 1 },
-  { vector_a: kessel_asteroids, vector_b: nal_hutta, distance: 1 },
-  { vector_a: kessel_asteroids, vector_b: corellia, distance: 1 },
+  { vector_a: kuat, vector_b: kessel, distance: 1 },
+  { vector_a: kessel, vector_b: kashyyyk, distance: 1 },
+  { vector_a: kessel, vector_b: nal_hutta, distance: 1 },
+  { vector_a: kessel, vector_b: corellia, distance: 1 },
   { vector_a: kashyyyk, vector_b: bonadan, distance: 1 },
   { vector_a: kashyyyk, vector_b: kamino, distance: 1 },
   { vector_a: kashyyyk, vector_b: nal_hutta, distance: 1 },

@@ -10,7 +10,7 @@ class Fleet < ApplicationRecord
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
   has_many :results
 
-  delegate :name, :credits, :influence_ratio, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
+  delegate :name, :credits, :type, :influence_ratio, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
 
   after_save :destroy_if_empty
 
