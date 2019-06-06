@@ -1,3 +1,17 @@
+Faction.create([
+  { name: 'Empire' },
+  { name: 'Rebel' },
+  { name: 'Mercenary' },
+  { name: 'Pirate' }
+])
+
+Squad.create([
+  { name: 'Empire', credits: 1000, metals: 2000, rare_elements: 50, color: 'green', faction: Faction.first },
+  { name: 'Rebel', credits: 1000, metals: 2000, rare_elements: 50, color: 'red', faction: Faction.second },
+  { name: 'Mercenary', credits: 1000, metals: 2000, rare_elements: 50, color: 'yellow', faction: Faction.third }
+])
+
+User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
 
 bespin = Planet.create(name: 'Bespin', sector: 1, x: 363, y: 475)
 bonadan = Planet.create(name: 'Bonadan', sector: 3, x: 1488, y: 475)
@@ -277,17 +291,15 @@ Unit.create(name: 'Chaff', :acronym => 'Chaff', credits: 2,
 Unit.create(name: 'Flare', :acronym => 'Flare', credits: 10,
  hyperdrive: 0, producing_time: 1, weight: 1, capacity: 0, groupable: true, carriable: true ).factions = all
 
-
-Faction.create([
-  { name: 'Empire' },
-  { name: 'Rebel' },
-  { name: 'Mercenary' }
-])
-
-Squad.create([
-  { name: 'Empire', credits: 1000, metals: 2000, rare_elements: 50, color: 'green', faction: Faction.first },
-  { name: 'Rebel', credits: 1000, metals: 2000, rare_elements: 50, color: 'red', faction: Faction.second },
-  { name: 'Mercenary', credits: 1000, metals: 2000, rare_elements: 50, color: 'yellow', faction: Faction.third }
-])
-
-User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
+Setup.create(
+  planet_income_ratio: 10,
+  initial_credits: 2000,
+  initial_metals: 2000,
+  initial_planets: 3,
+  initial_wormholes: 2,
+  minimum_fleet_for_dominate: 5000,
+  minimum_fleet_for_build: 1,
+  builder_unit: 'CapitalShip',
+  ai: true,
+  ai_level: 3
+)

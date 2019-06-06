@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
   root to: 'home#index'
-  get 'planets/index'
   get 'units/index'
   get 'squads/map'
+  get 'setups/new_game'
 
+  resources :setups
+
+  resources :planets
+  
   resources :squads
   
   resources :fleets do

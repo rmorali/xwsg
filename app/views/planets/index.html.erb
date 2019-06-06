@@ -6,7 +6,6 @@
       <th></th>
       <th>Name</th>
       <th>Sector</th>
-      <th>Population</th>
     </tr>
   </thead>
 
@@ -16,7 +15,6 @@
         <td><%= image_tag("#{planet.image}", size: "100x100") %></td>
         <td><%= planet.name %></td>
         <td><%= planet.sector %></td>
-        <td><%= planet.population.to_s(:delimited, delimiter: '.') %></td>
       </tr>
     <% end %>
   </tbody>
