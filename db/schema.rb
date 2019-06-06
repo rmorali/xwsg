@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20190605172451) do
     t.integer "capacity"
     t.boolean "groupable"
     t.boolean "carriable"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
