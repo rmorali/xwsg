@@ -14,7 +14,7 @@
     </span>
   </div>
 
-  <div id="fleets" class="fleets" style="position:absolute; left:<%= pos_x + 50 %>px; top:<%= pos_y + 5 %>px">
+  <div id="fleets" class="fleets" style="position:absolute; left:<%= pos_x + 50 %>px; top:<%= pos_y %>px">
     <% planet.fleets_seen_by(@squad).each do |fleet| %>
       <span style="<%= style(fleet) %>" onclick=showDiv('edit_box','15%','10%')>
         <%= link_to show(fleet), edit_fleet_path(fleet), remote: true, style: style(fleet) %>

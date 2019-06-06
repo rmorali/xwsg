@@ -10,7 +10,7 @@
   box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
   padding: 5px;
   width: 60%;
-  height: 5%;
+  height: 6%;
   position: absolute;
   left: 0%;
   top: 0%;
@@ -36,6 +36,7 @@
   top: 0%;
   background-color: rgba(0,0,0,0.7);
   z-index: 10;
+  display: none;
 }
 
 .fleets {

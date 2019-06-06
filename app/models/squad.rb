@@ -25,4 +25,8 @@ class Squad < ApplicationRecord
     update(ready: state)
     GameLogic.new.check_state!
   end
+
+  def image
+    "squads/#{faction.name.downcase}.png"
+  end
 end

@@ -1,6 +1,23 @@
 <table>
   <tr>
-    <td>MoveFleets / Personnel / Messages / Galaxy News / Ready? <%= @squad.ready? %></td>
+    <td>
+      <info class="tooltip">
+        <tip>Config do Sistema</tip>
+        <a href = "" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Config Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=350, height=280')">
+        <%= image_tag (@squad.image), style: "width: 50px" %>
+      </info>
+    </td>
+    <td>
+      <span style="color:<%= @squad.color %>;font-size: 20px; font-weight: bold">
+        <%= @squad.name %>
+      </span>
+    </td>
+    <td>
+      <span style="font-size: 18px; font-weight: bold">
+        Turno: <%= @round.current.number %>
+      </span>
+    </td>
+    <td>Messages / Galaxy News / Ready? <%= @squad.ready? %></td>
     <td>
       <%= simple_form_for @squad do |f| %>
         <%= f.submit 'Ready!' %>

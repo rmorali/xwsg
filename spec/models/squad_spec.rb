@@ -44,4 +44,8 @@ RSpec.describe Squad, type: :model do
       expect(squad.metals.to_i).to eq(0)
     end
   end
+
+  it 'shows squad image' do
+    
+  end
 end
