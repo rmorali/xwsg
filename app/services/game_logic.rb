@@ -7,7 +7,7 @@ class GameLogic
 
   def new_game!
     Squad.all.each do |squad|
-      squad.update(credits: @setup.initial_credits, credits: @setup.initial_metals)
+      set_initial(squad)
       warp_fleets_for(squad)
     end
   end
@@ -37,9 +37,8 @@ class GameLogic
   def ground_combat!; end
 
   def finished!; end
-end
 
-def warp_fleets_for(squad)
+  def warp_fleets_for(squad)
     quantity = Setup.current.initial_planets
     quantity.times do
       planet = Planet.random
@@ -52,5 +51,12 @@ def warp_fleets_for(squad)
       BuildFleet.new(1200 / facility.credits, facility, squad, planet).build!
       BuildFleet.new(600 / capital_ship.credits, capital_ship, squad, planet).build!
       BuildFleet.new(squad.credits / fighter.credits, fighter, squad, planet).build!
+      exit if squad.credits <= 0
     end
   end
+  
+  def set_initial(squad)
+    squad.update(credits: @setup.initial_credits, metals: @setup.initial_metals)
+  end
+
+end

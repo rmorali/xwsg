@@ -18,8 +18,8 @@ FactoryGirl.define do
     name 'DarkSide Squadron'
     association :faction, factory: :faction
     credits 1000
-    metals 1
-    rare_elements 1
+    metals 1000
+    rare_elements 1000
     url Faker::Internet.url('squad.com')
     ready false
   end
@@ -45,8 +45,8 @@ FactoryGirl.define do
     terrain 'Space'
     hyperdrive 1
     credits 1
-    metals 1
-    rare_elements 1
+    metals 0
+    rare_elements 0
     producing_time 1
     influence_ratio 1
     weight 1
@@ -68,7 +68,7 @@ FactoryGirl.define do
   factory :setup do
     planet_income_ratio 1
     initial_credits 2400
-    initial_metals 2000
+    initial_metals 2400
     initial_planets 2
     initial_wormholes 2
     minimum_fleet_for_dominate 10000
