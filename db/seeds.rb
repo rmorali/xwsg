@@ -1,71 +1,147 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
 
-Faction.create([
-                 { name: 'Empire' },
-                 { name: 'Rebel' },
-                 { name: 'Mercenary' }
-               ])
+bespin = Planet.create(name: 'Bespin', sector: 1, x: 363, y: 475)
+bonadan = Planet.create(name: 'Bonadan', sector: 3, x: 1488, y: 475)
+concord_dawn = Planet.create(name: 'Concord Dawn', sector: 2, x: 925, y: 250)
+corellia = Planet.create(name: 'Corellia', sector: 2, x: 813, y: 475)
+coruscant = Planet.create(name: 'Coruscant', sector: 2, x: 475, y: 250)
+dagobah = Planet.create(name: 'Dagobah', sector: 4, x: 475, y: 1150)
+deathstar = Planet.create(name: 'Death Star', sector: 2, x: 700, y: 250)
+endor = Planet.create(name: 'Endor', sector: 1, x: 250, y: 700)
+felucia = Planet.create(name: 'Felucia', sector: 3, x: 1150, y: 250)
+geonosis = Planet.create(name: 'Geonosis', sector: 4, x: 813, y: 925)
+haruun_kal = Planet.create(name: 'Haruun Kal', sector: 4, x: 700, y: 700)
+hoth = Planet.create(name: 'Hoth', sector: 1, x: 475, y: 700)
+ilum = Planet.create(name: 'Ilum', sector: 1, x: 250, y: 250)
+kamino = Planet.create(name: 'Kamino', sector: 3, x: 1375, y: 700)
+kashyyyk = Planet.create(name: 'Kashyyyk', sector: 3, x: 1263, y: 475)
+kessel_asteroids = Planet.create(name: 'Kessel Asteroids', sector: 3, x: 1038, y: 475)
+kuat = Planet.create(name: 'Kuat', sector: 4, x: 925, y: 700)
+mandalore = Planet.create(name: 'Mandalore', sector: 2, x: 588, y: 475)
+mon_calamari = Planet.create(name: 'Mon Calamari', sector: 3, x: 1375, y: 250)
+mustafar = Planet.create(name: 'Mustafar', sector: 1, x: 138, y: 925)
+mygeeto = Planet.create(name: 'Mygeeto', sector: 2, x: 588, y: 25)
+naboo = Planet.create(name: 'Naboo', sector: 4, x: 588, y: 925)
+nal_hutta = Planet.create(name: 'Nal Hutta', sector: 3, x: 1150, y: 700)
+ord_ibanna = Planet.create(name: 'Ord Ibanna', sector: 1, x: 363, y: 925)
+polis_massa = Planet.create(name: 'Polis Massa', sector: 1, x: 25, y: 700)
+rattatak = Planet.create(name: 'Rattatak', sector: 1, x: 138, y: 475)
+rhen_var = Planet.create(name: 'Rhen Var', sector: 3, x: 1038, y: 25)
+ryloth = Planet.create(name: 'Ryloth', sector: 4, x: 925, y: 1150)
+tatooine = Planet.create(name: 'Tatooine', sector: 4, x: 1038, y: 925)
+utapau = Planet.create(name: 'Utapau', sector: 4, x: 700, y: 1150)
+yavin = Planet.create(name: 'Yavin', sector: 2, x: 813, y: 25)
 
-Squad.create([
-               { name: 'Empire', credits: 1000, metals: 2000, rare_elements: 50, color: 'green', faction: Faction.first },
-               { name: 'Rebel', credits: 1000, metals: 2000, rare_elements: 50, color: 'red', faction: Faction.second },
-               { name: 'Mercenary', credits: 1000, metals: 2000, rare_elements: 50, color: 'yellow', faction: Faction.third }
-             ])
+Route.create([
+  { vector_a: mygeeto, vector_b: yavin, distance: 1 },
+  { vector_a: mygeeto, vector_b: deathstar, distance: 1 },
+  { vector_a: mygeeto, vector_b: coruscant, distance: 1 },
+  { vector_a: yavin, vector_b: rhen_var, distance: 1 },
+  { vector_a: yavin, vector_b: deathstar, distance: 1 },
+  { vector_a: yavin, vector_b: concord_dawn, distance: 1 },
+  { vector_a: rhen_var, vector_b: felucia, distance: 1 },
+  { vector_a: rhen_var, vector_b: concord_dawn, distance: 1 },
+  { vector_a: deathstar, vector_b: coruscant, distance: 1 },
+  { vector_a: coruscant, vector_b: mandalore, distance: 1 },
+  { vector_a: coruscant, vector_b: bespin, distance: 1 },
+  { vector_a: corellia, vector_b: concord_dawn, distance: 1 },
+  { vector_a: corellia, vector_b: kuat, distance: 1 },
+  { vector_a: mandalore, vector_b: corellia, distance: 1 },
+  { vector_a: mandalore, vector_b: deathstar, distance: 1 },
+  { vector_a: concord_dawn, vector_b: felucia, distance: 1 },
+  { vector_a: concord_dawn, vector_b: kessel_asteroids, distance: 1 },
+  { vector_a: concord_dawn, vector_b: deathstar, distance: 1 },
+  { vector_a: felucia, vector_b: mon_calamari, distance: 1 },
+  { vector_a: felucia, vector_b: kashyyyk, distance: 1 },
+  { vector_a: felucia, vector_b: kessel_asteroids, distance: 1 },
+  { vector_a: mon_calamari, vector_b: bonadan, distance: 1 },
+  { vector_a: mon_calamari, vector_b: kashyyyk, distance: 1 },
+  { vector_a: endor, vector_b: bespin, distance: 1 },
+  { vector_a: endor, vector_b: hoth, distance: 1 },
+  { vector_a: endor, vector_b: rattatak, distance: 1 },
+  { vector_a: endor, vector_b: ord_ibanna, distance: 1 },
+  { vector_a: endor, vector_b: polis_massa, distance: 1 },
+  { vector_a: rattatak, vector_b: polis_massa, distance: 1 },
+  { vector_a: bespin, vector_b: rattatak, distance: 1 },
+  { vector_a: bespin, vector_b: mandalore, distance: 1 },
+  { vector_a: bespin, vector_b: hoth, distance: 1 },
+  { vector_a: corellia, vector_b: deathstar, distance: 1 },
+  { vector_a: corellia, vector_b: haruun_kal, distance: 1 },
+  { vector_a: kuat, vector_b: kessel_asteroids, distance: 1 },
+  { vector_a: kessel_asteroids, vector_b: kashyyyk, distance: 1 },
+  { vector_a: kessel_asteroids, vector_b: nal_hutta, distance: 1 },
+  { vector_a: kessel_asteroids, vector_b: corellia, distance: 1 },
+  { vector_a: kashyyyk, vector_b: bonadan, distance: 1 },
+  { vector_a: kashyyyk, vector_b: kamino, distance: 1 },
+  { vector_a: kashyyyk, vector_b: nal_hutta, distance: 1 },
+  { vector_a: ilum, vector_b: rattatak, distance: 1 },
+  { vector_a: ilum, vector_b: coruscant, distance: 1 },
+  { vector_a: ilum, vector_b: bespin, distance: 1 },
+  { vector_a: hoth, vector_b: haruun_kal, distance: 1 },
+  { vector_a: hoth, vector_b: ord_ibanna, distance: 1 },
+  { vector_a: hoth, vector_b: mandalore, distance: 1 },
+  { vector_a: hoth, vector_b: naboo, distance: 1 },
+  { vector_a: haruun_kal, vector_b: naboo, distance: 1 },
+  { vector_a: haruun_kal, vector_b: mandalore, distance: 1 },
+  { vector_a: haruun_kal, vector_b: geonosis, distance: 1 },
+  { vector_a: haruun_kal, vector_b: kuat, distance: 1 },
+  { vector_a: kuat, vector_b: nal_hutta, distance: 1 },
+  { vector_a: kuat, vector_b: tatooine, distance: 1 },
+  { vector_a: kuat, vector_b: geonosis, distance: 1 },
+  { vector_a: nal_hutta, vector_b: kamino, distance: 1 },
+  { vector_a: nal_hutta, vector_b: tatooine, distance: 1 },
+  { vector_a: bonadan, vector_b: kamino, distance: 1 },
+  { vector_a: mustafar, vector_b: endor, distance: 1 },
+  { vector_a: mustafar, vector_b: polis_massa, distance: 1 },
+  { vector_a: mustafar, vector_b: ord_ibanna, distance: 1 },
+  { vector_a: ord_ibanna, vector_b: naboo, distance: 1 },
+  { vector_a: ord_ibanna, vector_b: dagobah, distance: 1 },
+  { vector_a: naboo, vector_b: geonosis, distance: 1 },
+  { vector_a: naboo, vector_b: utapau, distance: 1 },
+  { vector_a: naboo, vector_b: dagobah, distance: 1 },
+  { vector_a: geonosis, vector_b: tatooine, distance: 1 },
+  { vector_a: geonosis, vector_b: ryloth, distance: 1 },
+  { vector_a: geonosis, vector_b: utapau, distance: 1 },
+  { vector_a: dagobah, vector_b: utapau, distance: 1 },
+  { vector_a: utapau, vector_b: ryloth, distance: 1 },
+  { vector_a: ryloth, vector_b: tatooine, distance: 1 }
+])
 
 emp = ['Empire']
 reb = ['Rebel']
-all = %w[Empire Rebel Mercenary]
+emp_reb = ['Empire','Rebel']
+merc = ['Mercenary']
+merc_reb = ['Mercenary','Rebel']
+mand = ['Pirate']
+mand_merc = ['Pirate','Mercenary']
+none = ['Nenhuma']
+all = %w[Empire Rebel Mercenary Pirate]
 
-Unit.create(name: 'Shipyard', type: 'Facility', terrain: 'Space', credits: 1000, metals: 1000, influence_ratio: 20,
-            hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false, carriable: false).factions = all
-Unit.create(name: 'Star Destroyer', type: 'CapitalShip', terrain: 'Space', credits: 500, metals: 500, influence_ratio: 10,
-            hyperdrive: 3, producing_time: 2, weight: 10, capacity: 10, groupable: false, carriable: false).factions = all
-Unit.create(name: 'Nebulon Frigate', type: 'CapitalShip', terrain: 'Space', credits: 100, metals: 100, influence_ratio: 10,
-            hyperdrive: 3, producing_time: 2, weight: 5, capacity: 5, groupable: false, carriable: false).factions = all
-Unit.create(name: 'X-Wing', type: 'Fighter', terrain: 'Space', credits: 50, metals: 50, influence_ratio: 1,
-            hyperdrive: 1, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = all
-Unit.create(name: 'Tie Fighter', type: 'Fighter', terrain: 'Space', credits: 10, metals: 10, influence_ratio: 1,
-            hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = all
-#Unit.create(name: 'Luke Skywalker', type: 'Diplomat', terrain: 'Special',
-            #hyperdrive: 0, producing_time: 2, weight: 1, capacity: 0, groupable: true, carriable: true).factions = reb
-#Unit.create(name: 'Barrack', type: 'Facility', terrain: 'Ground',
-            #hyperdrive: 0, producing_time: 2, weight: 50, capacity: 50, groupable: false, carriable: false).factions = all
+type = 'Facility'
+terrain = 'Space'
+ir = 10
+Unit.create(name: 'Ind.Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false).factions = emp_reb
+Unit.create(name: 'Platforms', credits: 1800, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
+Unit.create(name: 'Asteroid Hangar', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
+Unit.create(name: 'Rebel Platform', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false).factions = reb
+Unit.create(name: 'Golan I', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
+Unit.create(name: 'Shipyard', credits: 3600, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
 
-anaxes = Planet.create(name: 'Anaxes', sector: 1, population: 1_502_500_345, x: 26, y: 4, credits: 1000)
-byss = Planet.create(name: 'Byss', sector: 1, population: 1_522_900_890, x: 5, y: 38, credits: 1000)
-corellia = Planet.create(name: 'Corellia', sector: 1, population: 2_102_270_234, x: 60, y: 72, credits: 1000)
-coruscant = Planet.create(name: 'Coruscant', sector: 1, population: 999_302_444_400, x: 43, y: 38, credits: 1000)
-fresia = Planet.create(name: 'Fresia', sector: 1, population: 7_902_070_999, x: 60, y: 4, credits: 1000)
-kuat = Planet.create(name: 'Kuat', sector: 1, population: 9_502_600_900, x: 77, y: 38, credits: 1000)
-mandalore = Planet.create(name: 'Mandalore', sector: 1, population: 202_055_077, x: 26, y: 72, credits: 1000)
+Faction.create([
+  { name: 'Empire' },
+  { name: 'Rebel' },
+  { name: 'Mercenary' }
+])
 
-Route.create([
-               { vector_a: anaxes, vector_b: fresia, distance: 1 },
-               { vector_a: anaxes, vector_b: byss, distance: 1 },
-               { vector_a: anaxes, vector_b: coruscant, distance: 1 },
-               { vector_a: fresia, vector_b: coruscant, distance: 1 },
-               { vector_a: fresia, vector_b: kuat, distance: 1 },
-               { vector_a: byss, vector_b: coruscant, distance: 1 },
-               { vector_a: byss, vector_b: mandalore, distance: 1 },
-               { vector_a: coruscant, vector_b: mandalore, distance: 1 },
-               { vector_a: coruscant, vector_b: corellia, distance: 1 },
-               { vector_a: coruscant, vector_b: kuat, distance: 1 },
-               { vector_a: kuat, vector_b: corellia, distance: 1 },
-               { vector_a: mandalore, vector_b: corellia, distance: 1 }
-             ])
+Squad.create([
+  { name: 'Empire', credits: 1000, metals: 2000, rare_elements: 50, color: 'green', faction: Faction.first },
+  { name: 'Rebel', credits: 1000, metals: 2000, rare_elements: 50, color: 'red', faction: Faction.second },
+  { name: 'Mercenary', credits: 1000, metals: 2000, rare_elements: 50, color: 'yellow', faction: Faction.third }
+])
 
-round = Round.current
-
-Fleet.create(unit: Unit.first, quantity: 1, squad: Squad.first, planet: anaxes, round: round)
-Fleet.create(unit: Unit.second, quantity: 1, squad: Squad.first, planet: anaxes, round: round)
-Fleet.create(unit: Unit.find(5), quantity: 10, squad: Squad.first, planet: anaxes, round: round)
-
-Fleet.create(unit: Unit.find(3), quantity: 1, squad: Squad.second, planet: anaxes, round: round)
-
-Fleet.create(unit: Unit.find(3), quantity: 1, squad: Squad.third, planet: anaxes, round: round)
+User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
