@@ -39,8 +39,9 @@ class GameLogic
   def finished!; end
 
   def warp_fleets_for(squad)
-    quantity = Setup.current.initial_planets
-    quantity.times do
+    planets_quantity = Setup.current.initial_planets
+    available_credits = squad.credits / planets_quantity
+    planets_quantity.times do
       planet = Planet.random
       facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', 1200)
       capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', 600)
@@ -50,11 +51,11 @@ class GameLogic
       fighter = fighters[rand(fighters.count)]
       BuildFleet.new(1200 / facility.credits, facility, squad, planet).build! unless facility.nil?
       BuildFleet.new(600 / capital_ship.credits, capital_ship, squad, planet).build! unless capital_ship.nil?
-      BuildFleet.new(squad.credits / fighter.credits, fighter, squad, planet).build! unless fighter.nil?
+      BuildFleet.new((available_credits - 1800) / fighter.credits, fighter, squad, planet).build! unless fighter.nil?
       break if squad.credits <= 0
     end
   end
-  
+
   def set_initial(squad)
     squad.update(credits: @setup.initial_credits, metals: @setup.initial_metals)
   end

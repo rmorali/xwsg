@@ -21,10 +21,10 @@ RSpec.describe GameLogic, type: :service do
     end
     it 'starts another phase' do
       GameLogic.new.check_state!
-      expect(@round.phase).to eq(0)
+      expect(@round.strategy?).to be true
       @rebel.ready!
       GameLogic.new.check_state!
-      expect(@round.reload.phase).to eq(1)
+      expect(@round.reload.space_combat?).to be true
     end
     it 'turns back their states' do
       @rebel.ready!
