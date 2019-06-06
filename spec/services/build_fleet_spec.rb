@@ -27,7 +27,7 @@ RSpec.describe BuildFleet, type: :service do
 
     it 'debits squad resources' do
       BuildFleet.new(1, @tie_fighter, @squad, planet).build!
-      expect(@squad.metals).to eq(990)
+      expect(@squad.metals.to_i).to eq(990)
       expect(@squad.credits).to eq(100)
     end
 

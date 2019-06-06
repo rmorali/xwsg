@@ -53,6 +53,7 @@ FactoryGirl.define do
     capacity 1
     groupable true
     carriable true
+    description 'unit'
     all = %w[Empire Rebel Mercenary]
     factions all
   end

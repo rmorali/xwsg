@@ -12,7 +12,7 @@ RSpec.describe Planet, type: :model do
     expect(planet.sector).to be_a(Integer)
     expect(planet.population).to be_an(Integer)
     expect(planet.credits).to be_an(Integer)
-    expect(planet.metals).to be_an(Integer)
+    expect(planet.metals.to_i).to be_an(Integer)
     expect(planet.rare_elements).to be_an(Integer)
     expect(planet.domination).to be_a(Hash)
   end

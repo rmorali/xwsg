@@ -48,10 +48,10 @@ class GameLogic
       facility = facilities[rand(facilities.count)]
       capital_ship = capital_ships[rand(capital_ships.count)]
       fighter = fighters[rand(fighters.count)]
-      BuildFleet.new(1200 / facility.credits, facility, squad, planet).build!
-      BuildFleet.new(600 / capital_ship.credits, capital_ship, squad, planet).build!
-      BuildFleet.new(squad.credits / fighter.credits, fighter, squad, planet).build!
-      exit if squad.credits <= 0
+      BuildFleet.new(1200 / facility.credits, facility, squad, planet).build! unless facility.nil?
+      BuildFleet.new(600 / capital_ship.credits, capital_ship, squad, planet).build! unless capital_ship.nil?
+      BuildFleet.new(squad.credits / fighter.credits, fighter, squad, planet).build! unless fighter.nil?
+      break if squad.credits <= 0
     end
   end
   
