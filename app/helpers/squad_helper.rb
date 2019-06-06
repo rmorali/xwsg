@@ -33,14 +33,12 @@ module SquadHelper
 	end
 
 	def style(fleet)
-		params = "font-color: #{fleet.squad.color}; "
+		params = "color: #{fleet.squad.color}; "
 		case fleet.type
 		when 'CapitalShip'
-			params << "font-weight: bold; font-size: 14px"
+			params << "font-weight: bold; font-size: 12px"
 		when 'Facility'
-			"font-color: #{fleet.squad.color};font-weight: bold; font-size: 14px"
-		else
-			"#{fleet.quantity} #{fleet.name}"
+			params << "font-weight: bold; font-size: 14px"
 		end
 		params
 	end

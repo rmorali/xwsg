@@ -1,9 +1,9 @@
 <div id="fleet_image">
-  <%= image_tag (@fleet.image), style: "width: 30%" %>
+  <%=  %>
 </div>
 
-<div id="fleet_quantity" style="color: <%= @fleet.squad.color %>; font-weight: bold">
-  <%= quantity(@fleet) %>
+<div id="fleet_name" style="color: <%= @fleet.squad.color %>; font-weight: bold">
+  <%= show(@fleet) %>
 </div>
 
 <div id="available_capacity">
@@ -30,7 +30,7 @@
       <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
         <table>
           <tr>
-            <td><%= image_tag fleet.image, style: "width: 20%" %></td>
+            <td><%= show(fleet) %></td>
             <%= simple_fields_for :custom do |c| %>
               <%= c.hidden_field :id, value: fleet.id %>
               <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
@@ -49,7 +49,7 @@
       <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
         <table>
           <tr>
-            <td><%= image_tag fleet.image, style: "width: 20%" %></td>
+            <td><%= show(fleet) %></td>
             <%= simple_fields_for :custom do |c| %>
               <%= c.hidden_field :id, value: fleet.id, label: false %>
               <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
@@ -61,4 +61,3 @@
     <% end %>
   <% end %>
 </div>
-

@@ -10,11 +10,11 @@
 
   <script type="text/javascript">
 
-   function showDiv(id, posx, posy) {
+   function showDiv(id, pos_x, pos_y) {
      var x = document.getElementById(id);
        x.style.display = "block";
-       x.style.left = posx;
-       x.style.top = posy;
+       x.style.left = pos_x;
+       x.style.top = pos_y;
    }
 
    function hideDiv() {
@@ -45,7 +45,7 @@
 
     function elementDrag(e) {
       e = e || window.event;
-    
+
       // calculate the new cursor position:
       pos1 = pos3 - e.clientX;
       pos2 = pos4 - e.clientY;

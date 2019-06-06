@@ -29,3 +29,34 @@ div {
 img {
   vertical-align: middle;
 }
+
+info.tooltip{
+  position:relative;
+  cursor:help;
+}
+
+info.tooltip:hover{
+  background:transparent;
+  color:white;
+  z-index:250;
+}
+
+info.tooltip tip{
+  display: none
+}
+
+info.tooltip:hover tip{
+  clear:both;
+  display:block;
+  position:absolute;
+  top:20px;
+  left:40px;
+  width:auto;
+  font-weight: normal;
+  font-size: 8px;
+  padding:2px;
+  border:0px solid #999;
+  background-color: white;
+  color:black;
+  text-shadow: none;
+}
