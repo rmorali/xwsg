@@ -15,7 +15,7 @@ class BuildFleet
   end
 
   def valid?
-    credits = @quantity * @unit.credits
+    credits = @unit.credits
     @squad.debit_resources(credits)
   end
 

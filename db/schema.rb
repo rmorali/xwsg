@@ -66,8 +66,6 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "sector"
     t.integer "population", limit: 8
     t.integer "credits"
-    t.integer "metals"
-    t.integer "rare_elements"
     t.string "domination"
     t.integer "x"
     t.integer "y"
@@ -142,8 +140,6 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "faction_mask"
     t.integer "hyperdrive"
     t.integer "credits"
-    t.integer "metals"
-    t.integer "rare_elements"
     t.integer "producing_time"
     t.integer "influence_ratio"
     t.integer "weight"
