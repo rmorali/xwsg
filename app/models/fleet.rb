@@ -51,8 +51,7 @@ class Fleet < ApplicationRecord
   end
 
   def influence
-    #TODO arrumar essa cagada aqui
-    fleet_credits = quantity * unit.credits * unit.influence_ratio
+    fleet_influence = quantity * credits * unit.influence_ratio
   end
 
   def destroy_if_empty
