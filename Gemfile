@@ -54,6 +54,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.49.1', require: false
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'active_reload'
 end
 
 group :development do
