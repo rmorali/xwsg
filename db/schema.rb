@@ -109,7 +109,6 @@ ActiveRecord::Schema.define(version: 20190607011929) do
   create_table "setups", force: :cascade do |t|
     t.integer "planet_income_ratio"
     t.integer "initial_credits"
-    t.integer "initial_metals"
     t.integer "initial_planets"
     t.integer "initial_wormholes"
     t.integer "minimum_fleet_for_dominate"

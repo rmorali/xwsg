@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :admin_user do
-    
+
   end
   factory :user do
   end
@@ -21,8 +21,6 @@ FactoryGirl.define do
     name 'DarkSide Squadron'
     association :faction, factory: :faction
     credits 1000
-    metals 1000
-    rare_elements 1000
     url Faker::Internet.url('squad.com')
     ready false
   end
@@ -36,8 +34,6 @@ FactoryGirl.define do
     sector 1
     population 1000
     credits 1000
-    metals 1000
-    rare_elements 1000
     x 1
     y 1
   end
@@ -54,8 +50,8 @@ FactoryGirl.define do
     capacity 1
     groupable true
     carriable true
-    description 'unit'
-    all = %w[Empire Rebel Mercenary]
+    description 'Descricao'
+    all = %w[Empire Rebel Mercenary Pirate]
     factions all
   end
   factory :result do
