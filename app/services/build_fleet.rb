@@ -9,7 +9,10 @@ class BuildFleet
   end
 
   def build!
-      Fleet.create(quantity: @quantity, unit: @unit, squad: @squad, planet: @planet, round: @round, ready_in: @unit.producing_time, carrier: @facility) if valid?
+    @quantity.times do
+      Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: @round, ready_in: @unit.producing_time, carrier: @facility) if valid?
+    end
+    #GroupFleet.new(@planet).group!
   end
 
   def valid?

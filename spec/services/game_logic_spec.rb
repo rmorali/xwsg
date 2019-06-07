@@ -46,7 +46,7 @@ RSpec.describe GameLogic, type: :service do
       @facility = create(:unit, type: 'Facility', credits: 1200 ).factions = all
       @capital_ship = create(:unit, type: 'CapitalShip', credits: 600 ).factions = all
       @fighter = create(:unit, type: 'Fighter', credits: 100 ).factions = all
-      5.times { create(:planet) }
+      5.times { create(:planet, credits: 0) }
     end
 
     it 'sets initial credits for squads' do
@@ -56,13 +56,19 @@ RSpec.describe GameLogic, type: :service do
       expect(@empire.reload.metals.to_i).to eq(2400)
     end
 
+    it 'sets income for planets' do
+      expect(Planet.first.credits).to eq(0)
+      GameLogic.new.new_game!
+      expect(Planet.first.credits).to eq(100)
+    end
+
     it 'populates random planets for squads' do
       GameLogic.new.new_game!
-      expect(@empire.fleets).to_not be_empty
+      expect(@empire.reload.fleets).to_not be_empty
     end
 
     it 'debits squads credits to populate planets' do
-      expect(@empire.reload.credits).to eq(0)
+      expect(@empire.reload.credits).to be < 2400
     end
   end
 

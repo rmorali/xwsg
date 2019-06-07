@@ -28,7 +28,7 @@ class SquadsController < ApplicationController
     @map_y_adjust = 65
     @squad = current_user.squad
     @planets = Planet.all
-
+    @round = Round.current
   end
 
   private

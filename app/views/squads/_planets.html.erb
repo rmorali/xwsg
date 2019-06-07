@@ -2,7 +2,6 @@
 
   <% pos_x = ( planet.x + @map_x_adjust ) * @map_ratio %>
   <% pos_y = ( planet.y + @map_y_adjust ) * @map_ratio %>
-  <% GroupFleet.new(planet).group! %>
 
   <div id="images" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y %>px; z-index: 5" >
     <%= image_tag (planet.image), style: "width: 50px" %>

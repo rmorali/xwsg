@@ -1,8 +1,8 @@
 Setup do XWSG
 <br>
 <%= simple_form_for @setup do |f| %>
-  <%= f.input :initial_credits, label: 'Creditos: ', collection: (2000..10000).step(500) %>
-  <%= f.input :initial_planets, label: 'Planetas:', collection: (1..5) %>
+  <%= f.input :initial_credits, label: 'Creditos: ', collection: (6000..12000).step(1000) %>
+  <%= f.input :initial_planets, label: 'Planetas:', collection: (1..3) %>
   <%= f.input :initial_wormholes, label: 'Wormholes:', collection: (1..3) %>
   <%= f.input :planet_income_ratio, label: 'Income rate:', collection: (10..100).step(10) %>
   <%= f.input :minimum_fleet_for_dominate, label: 'Frota para dominar:', collection: (5000..30000).step(1000) %>
@@ -13,6 +13,8 @@ Setup do XWSG
   <%= f.submit 'Aplicar Alterações' %>
 <% end %>
 <br>
-Ferramentas para Reset e Inicio de Partida
+<h1>Ferramentas para Reset e Inicio de Partida</h1>
 <br><br>
 <%= link_to 'NEW GAME', setups_new_game_path %> - Inicia uma nova partida
+<br><br>
+<%= link_to 'Voltar',root_path %> - Menu Principal

@@ -13,13 +13,12 @@ class SetupsController < ApplicationController
   def update
     @setup = Setup.find(params[:id])
     @setup.update(setup_params)
-    redirect_to(root_path)
+    redirect_back(fallback_location: root_path)
   end
 
   def new_game
     @round = Round.current
     GameLogic.new.new_game!
-    render :text => 'New Game OK - Retorne a pagina anterior'
   end
 
   private

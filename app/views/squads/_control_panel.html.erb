@@ -14,7 +14,8 @@
     </td>
     <td>
       <span style="font-size: 18px; font-weight: bold">
-        Turno: <%= @round.current.number %>
+        Turno: <%= @round.number %><br>
+        <%= @round.phase.upcase_first %>
       </span>
     </td>
     <td>Messages / Galaxy News / Ready? <%= @squad.ready? %></td>
