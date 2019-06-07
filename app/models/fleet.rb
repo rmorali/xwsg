@@ -51,6 +51,7 @@ class Fleet < ApplicationRecord
   end
 
   def credits
+    #TODO arrumar essa cagada aqui
     fleet_credits = quantity * unit.credits * unit.influence_ratio
   end
 
