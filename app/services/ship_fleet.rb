@@ -1,4 +1,4 @@
-class EmbarkFleet
+class ShipFleet
   def initialize(quantity, cargo, carrier)
     @quantity = quantity
     @cargo = cargo

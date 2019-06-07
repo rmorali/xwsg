@@ -19,7 +19,7 @@ class FleetsController < ApplicationController
     @carrier = Fleet.find(params[:id])
     @cargo = Fleet.find(cargo_params[:id])
     @quantity = cargo_params[:quantity].to_i
-    EmbarkFleet.new(@quantity, @cargo, @carrier).embark!
+    ShipFleet.new(@quantity, @cargo, @carrier).embark!
     redirect_to squads_map_path
   end
 
@@ -27,7 +27,7 @@ class FleetsController < ApplicationController
     @carrier = Fleet.find(params[:id])
     @cargo = Fleet.find(cargo_params[:id])
     @quantity = cargo_params[:quantity].to_i
-    EmbarkFleet.new(@quantity, @cargo, @carrier).disembark!
+    ShipFleet.new(@quantity, @cargo, @carrier).disembark!
     redirect_to squads_map_path
   end
 

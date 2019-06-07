@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EmbarkFleet, type: :service do
+RSpec.describe ShipFleet, type: :service do
   let(:planet) { create(:planet) }
   let(:squad) { create(:squad) }
   before do
@@ -12,40 +12,40 @@ RSpec.describe EmbarkFleet, type: :service do
   end
   context 'embark fleets' do
     it 'only embarks fleets that carrier can afford to' do
-      EmbarkFleet.new(10, @xwing, @capital_ship).embark!
-      EmbarkFleet.new(10, @ywing, @capital_ship).embark!
-      EmbarkFleet.new(5, @bwing, @capital_ship).embark!
+      ShipFleet.new(10, @xwing, @capital_ship).embark!
+      ShipFleet.new(10, @ywing, @capital_ship).embark!
+      ShipFleet.new(5, @bwing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo).to include(@ywing)
       expect(@capital_ship.cargo).to_not include(@bwing)
-      EmbarkFleet.new(10, @xwing, @capital_ship).disembark!
-      EmbarkFleet.new(5, @bwing, @capital_ship).embark!
+      ShipFleet.new(10, @xwing, @capital_ship).disembark!
+      ShipFleet.new(5, @bwing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@bwing)
     end
     it 'embarks fleets until reachs carrier capacity' do
       @ywing.unit.update(weight: 3)
-      EmbarkFleet.new(10, @xwing, @capital_ship).embark!
-      EmbarkFleet.new(10, @ywing, @capital_ship).embark!
+      ShipFleet.new(10, @xwing, @capital_ship).embark!
+      ShipFleet.new(10, @ywing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo).to include(@ywing)
       expect(@capital_ship.cargo.first.quantity).to eq(10)
       expect(@capital_ship.cargo.last.quantity).to eq(3)
       expect(Fleet.last.quantity).to eq(7)
-      EmbarkFleet.new(3, @ywing, @capital_ship).disembark!
+      ShipFleet.new(3, @ywing, @capital_ship).disembark!
       corvette = create(:unit, weight: 15)
       @corvette = create(:fleet, quantity: 1, unit: corvette)
-      EmbarkFleet.new(1, @corvette, @capital_ship).embark!
+      ShipFleet.new(1, @corvette, @capital_ship).embark!
       expect(@capital_ship.cargo).to_not include(@corvette)
     end
     it 'embarks fleet in a carrier' do
-      EmbarkFleet.new(10, @xwing, @capital_ship).embark!
-      EmbarkFleet.new(10, @ywing, @capital_ship).embark!
+      ShipFleet.new(10, @xwing, @capital_ship).embark!
+      ShipFleet.new(10, @ywing, @capital_ship).embark!
       expect(@xwing.carrier).to be @capital_ship
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo).to include(@ywing)
     end
     it 'splits a partially embarked fleet' do
-      EmbarkFleet.new(6, @xwing, @capital_ship).embark!
+      ShipFleet.new(6, @xwing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo.first.quantity).to eq(6)
       expect(Fleet.last.quantity).to eq(4)
@@ -53,15 +53,15 @@ RSpec.describe EmbarkFleet, type: :service do
   end
   context 'disembark fleets' do
     it 'disembarks a fleet from a carrier' do
-      EmbarkFleet.new(10, @xwing, @capital_ship).embark!
+      ShipFleet.new(10, @xwing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@xwing)
-      EmbarkFleet.new(10, @xwing, @capital_ship).disembark!
+      ShipFleet.new(10, @xwing, @capital_ship).disembark!
       expect(@capital_ship.cargo).to_not include(@xwing)
     end
     it 'splits a partially disembarked fleet' do
-      EmbarkFleet.new(10, @xwing, @capital_ship).embark!
+      ShipFleet.new(10, @xwing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@xwing)
-      EmbarkFleet.new(6, @xwing, @capital_ship).disembark!
+      ShipFleet.new(6, @xwing, @capital_ship).disembark!
       expect(@capital_ship.cargo).to_not include(@xwing)
       expect(@capital_ship.cargo.first.quantity).to eq(4)
       expect(@xwing.quantity).to eq(6)
@@ -69,12 +69,12 @@ RSpec.describe EmbarkFleet, type: :service do
   end
   it 'updates cargo destination on embarking and disembarking' do
     Route.create(vector_a: @capital_ship.planet, vector_b: planet, distance: 1)
-    EmbarkFleet.new(10, @xwing, @capital_ship).embark!
+    ShipFleet.new(10, @xwing, @capital_ship).embark!
     MoveFleet.new(@capital_ship, 1, planet).order!
     @xwing.reload
     expect(@xwing.destination).to eq(planet)
     expect(@xwing.arrives_in).to eq(@capital_ship.arrives_in)
-    EmbarkFleet.new(6, @xwing, @capital_ship).disembark!
+    ShipFleet.new(6, @xwing, @capital_ship).disembark!
     expect(@xwing.destination).to eq(nil)
     expect(@xwing.arrives_in).to eq(nil)
   end
