@@ -50,15 +50,3 @@
     transition: all ease-in-out 0.36s;
     z-index: 10;
 }
-
-a:link {
-    cursor:pointer;
-    text-decoration: none;
-}
-a:visited {
-    text-decoration: none;
-}
-a:hover {
-    filter: brightness(1.65);
-    text-decoration: none;
-}

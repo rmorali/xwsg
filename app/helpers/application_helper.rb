@@ -1,17 +1,23 @@
-module ApplicationHelper	
-  def quantity(fleet)
-  	fleet.quantity if fleet.groupable
-  end
+module ApplicationHelper
+  def show(fleet)
+		case fleet.type
+		when 'CapitalShip'
+			fleet.name
+		when 'Facility'
+			fleet.name
+		else
+			"#{fleet.quantity} #{fleet.name}"
+		end
+	end
 
-  def style(fleet)
-  	style = []
-  	style << "color: #{ fleet.squad.color }; font-weight: bold; font-size: 60%; text-align: center; margin: auto;"
-  	if fleet.groupable
-  	  style << "width: 3%; height: 3%;"
-  	else
-	  style << "width: 4%; height: 3%;"
-  	end
-
-  	style.join(' ')
-  end
+	def style(fleet)
+		params = "color: #{fleet.squad.color}; "
+		case fleet.type
+		when 'CapitalShip'
+			params << "font-weight: bold; font-size: 12px"
+		when 'Facility'
+			params << "font-weight: bold; font-size: 14px"
+		end
+		params
+	end
 end

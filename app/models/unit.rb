@@ -21,7 +21,8 @@ class Unit < ApplicationRecord
   end
 
   def image
-    "units/#{ name.downcase }.png"
+    #"units/#{ name.downcase }.png" if (File.file?("units/#{ name.downcase }.png"))
+    "units/x-wing.png"
   end
 
   def facility?
