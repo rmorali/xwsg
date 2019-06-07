@@ -8,12 +8,12 @@ class Squad < ApplicationRecord
   end
 
   def debit_resources(value)
-    return false if value > credits 
+    return false if value > credits
     debit_credits(value)
   end
 
   def ready!
-    state = case ready
+    state = case ready?
             when true then false
             when !true then true
     end

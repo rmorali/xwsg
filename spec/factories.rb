@@ -69,8 +69,8 @@ FactoryGirl.define do
     initial_planets 2
     initial_wormholes 2
     minimum_fleet_for_dominate 10000
-    minimum_fleet_for_build 1
-    builder_unit 'CapitalShip'
+    minimum_fleet_for_build 10
+    builder_unit 'Trooper'
     ai true
     ai_level 1
   end

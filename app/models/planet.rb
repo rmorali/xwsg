@@ -6,6 +6,11 @@ class Planet < ApplicationRecord
   has_many :fleets
   has_many :results
 
+  def income
+    @setup = Setup.current
+    credits * @setup.planet_income_ratio
+  end
+
   def image
     "planets/#{name.downcase}.png"
   end

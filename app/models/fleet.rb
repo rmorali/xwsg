@@ -14,6 +14,11 @@ class Fleet < ApplicationRecord
 
   after_save :destroy_if_empty
 
+  def builder?
+    @setup = Setup.current
+    true if type == 'Facility' || ( type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build )
+  end
+
   def moving?
     true if destination
   end

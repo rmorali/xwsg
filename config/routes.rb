@@ -10,14 +10,15 @@ Rails.application.routes.draw do
   resources :setups
 
   resources :planets
-  
+
   resources :squads
-  
+
   resources :fleets do
     member do
       patch :move
       patch :embark
       patch :disembark
+      patch :build
     end
   end
 

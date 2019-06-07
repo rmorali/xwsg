@@ -30,6 +30,6 @@ class Unit < ApplicationRecord
   end
 
   def to_s
-    "#{name}"
+    "#{name} - #{credits}"
   end
 end

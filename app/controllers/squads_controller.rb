@@ -27,8 +27,15 @@ class SquadsController < ApplicationController
     @map_x_adjust = 0
     @map_y_adjust = 65
     @squad = current_user.squad
+    @squad_credits = @squad.credits
+    @squad_income = SetIncome.new(@squad, Planet.first).total
     @planets = Planet.all
     @round = Round.current
+    @status = ""
+    @squads = Squad.all
+    @squads.each do |squad|
+      @status << "<span style=color:#{squad.color}>" + squad.name + " pronto!</span><br>" if squad.ready?
+    end
   end
 
   private

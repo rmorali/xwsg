@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Planet, type: :model do
   let(:planet) { build(:planet) }
+  let(:setup) { create(:setup) }
 
   it { is_expected.to have_many :fleets }
   it { is_expected.to have_many :results }
@@ -109,6 +110,11 @@ RSpec.describe Planet, type: :model do
     random_planet = Planet.random
     expect(random_planet).to eq(random_planet)
     #TODO: Achar um jeito de testar random
+  end
+
+  it 'returns its total income' do
+    @setup = setup
+    expect(planet.income).to eq(planet.credits * @setup.planet_income_ratio)
   end
 
 end

@@ -22,10 +22,9 @@ class GameLogic
   end
 
   def check_phase!
-    strategy! if @round.phase == 0
-    space_combat! if @round.phase == 1
-    ground_combat! if @round.phase == 2
-    finished! if @round.phase == 3
+    strategy! if @round.strategy?
+    space_combat! if @round.space_combat?
+    finished! if @round.finished?
   end
 
   def strategy!; end

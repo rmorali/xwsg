@@ -2,9 +2,11 @@ class FleetsController < ApplicationController
   respond_to :html, :js
 
   def edit
+    @squad = current_user.squad
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
     @carriables = @fleet.carriables
+    @units = Unit.allowed_for(@squad.faction.name)
   end
 
   def move
@@ -31,6 +33,17 @@ class FleetsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def build
+    @squad = current_user.squad
+    @carrier = Fleet.find(params[:id])
+    @facility = nil
+    @facility = @carrier if @carrier.type == 'Facility'
+    @unit = Unit.find(build_params[:unit])
+    @quantity = build_params[:quantity].to_i
+    BuildFleet.new(@quantity, @unit, @squad, @carrier.planet, @facility).build!
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def fleet_params
@@ -39,5 +52,9 @@ class FleetsController < ApplicationController
 
   def cargo_params
     params.require(:custom).permit(:id, :quantity)
+  end
+
+  def build_params
+    params.require(:fleet).permit(:id, :quantity, :unit)
   end
 end

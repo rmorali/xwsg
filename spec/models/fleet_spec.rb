@@ -5,6 +5,7 @@ RSpec.describe Fleet, type: :model do
   let(:planet) { create(:planet) }
   let(:squad) { create(:squad) }
   let(:unit) { create(:unit, capacity: 20) }
+  let(:setup) { create(:setup) }
 
   it { is_expected.to belong_to :unit }
   it { is_expected.to belong_to :squad }
@@ -49,8 +50,11 @@ RSpec.describe Fleet, type: :model do
 
   context 'fleet abilities and states' do
     before do
+      @setup = setup
       @strike_cruiser = create(:unit, capacity: 20)
+      @shipyard = create(:unit, type: 'Facility', carriable: false)
       @capital_ship = create(:fleet, unit: @strike_cruiser, squad: squad, planet: planet)
+      @facility = create(:fleet, unit: @shipyard, squad: squad, planet: planet)
       @xwing = create(:fleet, quantity: 10, squad: squad, planet: planet)
       @ywing = create(:fleet, quantity: 10, squad: squad, planet: planet)
       @bwing = create(:fleet, quantity: 1, squad: squad, planet: planet)
@@ -64,6 +68,14 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.moving?).to_not be true
       @capital_ship.update(destination: planet)
       expect(@capital_ship.moving?).to be true
+    end
+    it 'is builder?' do
+      expect(@capital_ship.builder?).to_not be true
+      @setup.update(builder_unit: 'CapitalShip')
+      expect(@capital_ship.builder?).to_not be true
+      @setup.update(minimum_fleet_for_build: 1)
+      expect(@capital_ship.builder?).to be true
+      expect(@facility.builder?).to be true
     end
     it 'calculate its total weight' do
       expect(@capital_ship.weight).to eq(@capital_ship.quantity * @capital_ship.unit.weight)

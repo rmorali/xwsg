@@ -2,10 +2,14 @@
   <%= render partial: 'control_panel', object: @squad %>
 </div>
 
+<div class="status_panel">
+  <%= render partial: 'status_panel', object: @squad %>
+</div>
+
 <div class="planets">
   <%= render partial: 'planets' %>
 </div>
 
-<div class="edit_box" id="edit_box" onclick=dragElement(document.getElementById("edit_box"));>
+<div class="edit_box" id="edit_box" onclick=dragElement(document.getElementById("edit_box"))>
 
 </div>

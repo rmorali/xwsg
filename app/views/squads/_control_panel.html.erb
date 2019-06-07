@@ -1,14 +1,14 @@
-<table>
+<table width="100%">
   <tr>
     <td>
       <info class="tooltip">
-        <tip>Config do Sistema</tip>
+      <tip>Config do Sistema</tip>
         <a href = "" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Config Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=350, height=280')">
         <%= image_tag (@squad.image), style: "width: 50px" %>
       </info>
     </td>
     <td>
-      <span style="color:<%= @squad.color %>;font-size: 20px; font-weight: bold">
+      <span style="color:<%= @squad.color %>;font-size: 24px; font-weight: bold">
         <%= @squad.name %>
       </span>
     </td>
@@ -18,14 +18,28 @@
         <%= @round.phase.upcase_first %>
       </span>
     </td>
-    <td>Messages / Galaxy News / Ready? <%= @squad.ready? %></td>
+    <td>
+      <info class="tooltip">
+      <tip>Creditos e Income</tip>
+        <%= image_tag ('squads/credits.png'), style: "width: 50px; align: left; vertical-align: top" %>
+      </info>
+    </td>
+    <td>
+      <span style="color: yellow; align: right">
+        <%= @squad_credits %><br>
+        <%= @squad_income %>
+      </span>
+    </td>
+    <td>
+      <%= image_tag ('squads/units.png'), style: "width: 50px; align: left" %>
+    </td>
+    <td>
+      <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %>
+    </td>
     <td>
       <%= simple_form_for @squad do |f| %>
-        <%= f.submit 'Ready!' %>
+        <%= f.submit 'Passar Turno' %>
       <% end %>
     </td>
-
-    <td><%= image_tag ('squads/yellow01.png'), style: "width: 25px" %></td>
-    <td><%= @squad.credits %></td>
   </tr>
 </table>

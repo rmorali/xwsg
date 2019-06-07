@@ -7,8 +7,12 @@
         </div>
       </td>
       <td>
-        <div id="fleet_name" style="color: <%= @fleet.squad.color %>; font-weight: bold">
+        <div id="fleet_name" style="<%= style(@fleet) %>; font-size: 20px">
           <%= show(@fleet) %>
+        </div>
+        <div id="destination" style="color: white; font-size: 14px">
+          <%= "--> #{@fleet.destination.name}" if @fleet.destination %>
+        </div>
           <br>
           <div class="form-inputs">
             <% if @fleet.movable? %>
@@ -28,12 +32,30 @@
     </tr>
   </table>
 </div>
+
+<% if @fleet.builder? %>
+  <div class="edit_fleets">
+    <div class="form-inputs">
+      <%= simple_form_for @fleet, url: url_for(action: 'build') do |f| %>
+        <table>
+          <tr>
+            <td><%= f.input :quantity, label: false %></td>
+            <td><%= f.input :unit, collection: @units, label: false %></td>
+            <td><%= f.submit 'Build' %></td>
+          </tr>
+        </table>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
 <table>
   <tr>
     <td>
       <div class="edit_fleets">
         <div id="available_capacity">
-          Embarcados: (<%= @fleet.available_capacity %> / <%= @fleet.capacity %>)
+          Embarcados: (<%= @fleet.capacity - @fleet.available_capacity %> / <%= @fleet.capacity %>)
         </div>
         <div class="form-inputs">
           <% if @fleet.cargo.count > 0 %>
