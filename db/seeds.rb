@@ -303,4 +303,4 @@ Setup.create(
   ai: true,
   ai_level: 3
 )
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create!(email: 'setup@xwsg.com', password: '123456', password_confirmation: '123456') if Rails.env.development?
