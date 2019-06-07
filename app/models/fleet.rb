@@ -50,7 +50,7 @@ class Fleet < ApplicationRecord
     lighter.reject { |fleet| fleet == self }
   end
 
-  def credits
+  def influence
     #TODO arrumar essa cagada aqui
     fleet_credits = quantity * unit.credits * unit.influence_ratio
   end
