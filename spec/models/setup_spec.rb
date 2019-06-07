@@ -7,7 +7,6 @@ RSpec.describe Setup, type: :model do
     expect(setup).to be_an_instance_of(Setup)
     expect(setup.planet_income_ratio).to be_a(Integer)
     expect(setup.initial_credits).to be_a(Integer)
-    expect(setup.initial_metals).to be_a(Integer)
     expect(setup.initial_planets).to be_a(Integer)
     expect(setup.initial_wormholes).to be_a(Integer)
     expect(setup.minimum_fleet_for_dominate).to be_a(Integer)

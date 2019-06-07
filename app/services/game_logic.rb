@@ -52,12 +52,12 @@ class GameLogic
       fighter = fighters[rand(fighters.count)]
       BuildFleet.new(1, facility, squad, planet).build! unless facility.nil?
       BuildFleet.new( (1200 / capital_ship.credits), capital_ship, squad, planet).build! unless capital_ship.nil?
-      BuildFleet.new( (600 / fighter.credits), fighter, squad, planet).build! unless fighter.nil?
+      BuildFleet.new( ((available_credits - 2400) / fighter.credits), fighter, squad, planet).build! unless fighter.nil?
     end
   end
 
   def set_initial(squad)
-    squad.update(credits: @setup.initial_credits, metals: @setup.initial_metals)
+    squad.update(credits: @setup.initial_credits)
   end
 
 end

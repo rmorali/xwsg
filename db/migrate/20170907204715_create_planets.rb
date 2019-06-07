@@ -5,8 +5,6 @@ class CreatePlanets < ActiveRecord::Migration[5.1]
       t.string :sector
       t.integer :population, limit: 8
       t.integer :credits
-      t.integer :metals
-      t.integer :rare_elements
       t.string :domination
       t.integer :x
       t.integer :y

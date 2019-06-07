@@ -10,24 +10,23 @@ RSpec.describe BuildFleet, type: :service do
   context 'building fleets' do
     before do
       faction.save!
-      @squad = create(:squad, credits: 100, metals: 1000, faction: faction)
+      @squad = create(:squad, credits: 100, faction: faction)
       shipyard = create(:unit, name: 'Shipyard', type: 'Facility', producing_time: 1)
       @shipyard = create(:fleet, squad: @squad, unit: shipyard)
-      @tie_fighter = create(:unit, credits: 0, metals: 10, producing_time: 1)
-      @escort_carrier = create(:unit, credits: 500, metals: 500, producing_time: 1)
+      @tie_fighter = create(:unit, credits: 0, producing_time: 1)
+      @escort_carrier = create(:unit, credits: 500, producing_time: 1)
       create(:round)
     end
 
     it 'squad must have enough resources' do
       expect(BuildFleet.new(1, @tie_fighter, @squad, planet).valid?).to be true
       expect(BuildFleet.new(1, @escort_carrier, @squad, planet).valid?).to_not be true
-      @squad.update(credits: 1000, metals: 1000)
+      @squad.update(credits: 1000)
       expect(BuildFleet.new(1, @escort_carrier, @squad, planet).valid?).to be true
     end
 
     it 'debits squad resources' do
       BuildFleet.new(1, @tie_fighter, @squad, planet).build!
-      expect(@squad.metals.to_i).to eq(990)
       expect(@squad.credits).to eq(100)
     end
 

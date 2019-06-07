@@ -53,7 +53,6 @@ RSpec.describe GameLogic, type: :service do
       game = GameLogic.new
       game.set_initial(@empire)
       expect(@empire.reload.credits).to eq(2400)
-      expect(@empire.reload.metals.to_i).to eq(2400)
     end
 
     it 'sets income for planets' do

@@ -8,8 +8,6 @@ class CreateUnits < ActiveRecord::Migration[5.1]
       t.integer :faction_mask
       t.integer :hyperdrive
       t.integer :credits
-      t.integer :metals
-      t.integer :rare_elements
       t.integer :producing_time
       t.integer :influence_ratio
       t.integer :weight

@@ -17,7 +17,6 @@ RSpec.describe Squad, type: :model do
   context 'credits and resources' do
     before do
       squad.credits = 1000
-      squad.metals = 1000
       squad.save
     end
 
@@ -27,21 +26,13 @@ RSpec.describe Squad, type: :model do
       expect(squad.credits).to eq(0)
     end
 
-    it 'debits metals if available' do
-      expect(squad.debit_metals(1500)).to_not be(true)
-      squad.debit_metals(1000)
-      expect(squad.metals.to_i).to eq(0)
-    end
-
     it 'debits resources as needed' do
-      unit = create(:unit, credits: 2000, metals: 1000)
-      squad.debit_resources(unit.credits, unit.metals.to_i)
+      unit = create(:unit, credits: 2000)
+      squad.debit_resources(unit.credits)
       expect(squad.credits).to eq(1000)
-      expect(squad.metals.to_i).to eq(1000)
-      squad.update(credits: 2000, metals: 1000)
-      squad.debit_resources(unit.credits, unit.metals.to_i)
+      squad.update(credits: 2000)
+      squad.debit_resources(unit.credits)
       expect(squad.credits).to eq(0)
-      expect(squad.metals.to_i).to eq(0)
     end
   end
 

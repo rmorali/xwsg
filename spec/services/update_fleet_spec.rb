@@ -42,9 +42,9 @@ RSpec.describe UpdateFleet, type: :service do
   context 'producing and building fleets' do
     before do
       faction.save!
-      @squad = create(:squad, credits: 1000, metals: 1000, faction: faction)
-      @shipyard = create(:unit, type: 'Facility', producing_time: 2, credits: 1, metals: 1)
-      @strike_cruiser = create(:unit, type: 'CapitalShip', producing_time: 2, credits: 1, metals: 1)
+      @squad = create(:squad, credits: 1000, faction: faction)
+      @shipyard = create(:unit, type: 'Facility', producing_time: 2, credits: 1)
+      @strike_cruiser = create(:unit, type: 'CapitalShip', producing_time: 2, credits: 1)
     end
     it 'updates situation' do
       BuildFleet.new(1, @shipyard, @squad, @origin).build!

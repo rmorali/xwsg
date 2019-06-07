@@ -27,7 +27,6 @@ class SetupsController < ApplicationController
     params.require(:setup).permit(
       :planet_income_ratio,
       :initial_credits,
-      :initial_metals,
       :initial_planets,
       :initial_wormholes,
       :minimum_fleet_for_dominate,
