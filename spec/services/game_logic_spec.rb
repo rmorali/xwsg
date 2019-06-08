@@ -4,6 +4,7 @@ RSpec.describe GameLogic, type: :service do
   let(:unit) { create(:unit) }
   let(:setup) { create(:setup) }
   let(:faction) { create(:faction) }
+  let(:planet) { create(:planet) }
   before do
     Faction.create([
                      { name: 'Empire' },
@@ -75,6 +76,18 @@ RSpec.describe GameLogic, type: :service do
   end
 
   context 'space combat phase' do
+    before do
+      @squad_a = create(:squad)
+      @squad_b = create(:squad)
+      @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
+      @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
+    end
+    it 'creates result table for combats' do
+      expect(Result.all.count).to eq(0)
+      GameLogic.new.space_combat!
+      expect(Result.all.count).to be > 0
+    end
+
     it 'updates fleets and facilities producing situation' do
     end
     it 'complete producing fleets and facilities' do

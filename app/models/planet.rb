@@ -28,11 +28,11 @@ class Planet < ApplicationRecord
   end
 
   def fleets_seen_by(squad)
-    fleets_seen = []
-    fleets.sort_by { |a| [a.squad.name, a.unit.id, a.quantity] }.each do |fleet|
-      fleets_seen << fleet if fleet.squad == squad
-    end
-    fleets_seen
+    round = Round.current
+    seen_fleet = []
+    seen_fleets = fleets.sort_by { |a| [a.squad.name, a.unit.id, a.quantity] } 
+    seen_fleets.reject! { |fleet| fleet.squad != squad } if round.strategy?
+    seen_fleets
     #TODO: Show enemy fleets produced before current round if squad has a radar
   end
 

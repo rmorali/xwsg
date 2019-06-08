@@ -20,7 +20,8 @@ class Route < ApplicationRecord
   end
 
   def self.in_range_for(fleet)
-    hyperdrive = fleet.unit.hyperdrive
+
+=begin    hyperdrive = fleet.unit.hyperdrive
     origin = fleet.planet
     edges = Route.edges
     destinations = []
@@ -31,5 +32,16 @@ class Route < ApplicationRecord
       end
     end
     destinations.reject { |r| r == origin }.uniq
+=end
+
+    return if fleet.hyperdrive.to_i < 1
+    planets = []
+    routes = Route.where("vector_a = ? or vector_b = ?", fleet.planet, fleet.planet)
+    routes.each do |route|
+      planets << route.vector_a
+      planets << route.vector_b
+    end
+    planets.reject! {|planet| planet == self}
+    planets.uniq
   end
 end

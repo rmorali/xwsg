@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "unit_id"
     t.integer "squad_id"
     t.integer "planet_id"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "round_id"
@@ -86,7 +87,10 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "captor_id"
     t.integer "final_quantity"
     t.boolean "blocked"
-    t.boolean "moving"
+    t.integer "carrier_id"
+    t.integer "destination_id"
+    t.integer "arrives_in"
+    t.integer "ready_in"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

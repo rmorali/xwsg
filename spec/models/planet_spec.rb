@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Planet, type: :model do
   let(:planet) { build(:planet) }
   let(:setup) { create(:setup) }
+  let(:round) { build(:round) }
 
   it { is_expected.to have_many :fleets }
   it { is_expected.to have_many :results }
@@ -36,12 +37,19 @@ RSpec.describe Planet, type: :model do
       planets = Planet.seen_by(@squad_a)
       expect(planets).to eq(planets.uniq)
     end
-    it 'shows only squad fleets' do
+    it 'if round strategy shows only squad fleets' do
+      round.strategy!
       @fleet_a2 = create(:fleet, squad: @squad_a, planet: planet)
       expect(planet.fleets_seen_by(@squad_a)).to_not be_empty
       expect(planet.fleets_seen_by(@squad_a)).to include(@fleet_a)
       expect(planet.fleets_seen_by(@squad_a)).to include(@fleet_a2)
       expect(planet.fleets_seen_by(@squad_a)).to_not include(@fleet_b)
+    end
+    it 'if round combat shows all fleets' do
+      round.space_combat!
+      expect(planet.fleets_seen_by(@squad_a)).to_not be_empty
+      expect(planet.fleets_seen_by(@squad_a)).to include(@fleet_a)
+      expect(planet.fleets_seen_by(@squad_a)).to include(@fleet_b)
     end
     it 'Show enemy fleets produced before current round if squad has a radar' do
       #TODO: radar

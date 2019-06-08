@@ -13,7 +13,10 @@ class CreateResults < ActiveRecord::Migration[5.1]
       t.integer :captor_id
       t.integer :final_quantity
       t.boolean :blocked
-      t.boolean :moving
+      t.integer :carrier_id
+      t.integer :destination_id
+      t.integer :arrives_in
+      t.integer :ready_in
       t.string :description
 
       t.timestamps
