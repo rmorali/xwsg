@@ -20,17 +20,18 @@ class Planet < ApplicationRecord
   end
 
   def fog_seen_by(squad)
+    round = Round.current
     fog = []
     results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |result|
-      fog << result if result.round.number >= results.maximum("round_id") && result.squad != squad
+      fog << result if result.round.number >= results.maximum("round_id") && result.squad != squad && round.strategy?
     end
     fog
   end
 
   def fleets_seen_by(squad)
     round = Round.current
-    seen_fleet = []
-    seen_fleets = fleets.sort_by { |a| [a.squad.name, a.unit.id, a.quantity] } 
+    seen_fleets = []
+    seen_fleets = fleets.sort_by { |a| [a.squad.name, a.unit.id, a.quantity] } if fleets.any? { |f| f.squad == squad }
     seen_fleets.reject! { |fleet| fleet.squad != squad } if round.strategy?
     seen_fleets
     #TODO: Show enemy fleets produced before current round if squad has a radar

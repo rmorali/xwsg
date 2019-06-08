@@ -20,4 +20,15 @@ module ApplicationHelper
 	end
 	params
   end
+
+  def style_fog(fleet)
+	params = "color: #{fleet.squad.color}; opacity: 0.3;"
+	case fleet.type
+	when 'CapitalShip'
+		params << "font-weight: bold; font-size: 12px"
+	when 'Facility'
+		params << "font-weight: bold; font-size: 14px"
+	end
+	params
+  end
 end
