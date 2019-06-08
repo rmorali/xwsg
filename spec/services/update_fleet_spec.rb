@@ -13,29 +13,16 @@ RSpec.describe UpdateFleet, type: :service do
   context 'moving fleets' do
     before do
       @destination = create(:planet)
-      @far_destination = create(:planet)
       Route.create(vector_a: @origin, vector_b: @destination, distance: 1)
-      Route.create(vector_a: @destination, vector_b: @far_destination, distance: 1)
       @xwing = create(:fleet, quantity: 10, unit: unit, squad: @rebel, planet: @origin, round: Round.current)
-      @strike_cruiser = create(:fleet, quantity: 1, unit: unit, squad: @empire, planet: @origin, round: Round.current)
       MoveFleet.new(@xwing, 10, @destination).order!
-      MoveFleet.new(@strike_cruiser, 1, @far_destination).order!
     end
     it 'updates travelling situation' do
-      expect(@strike_cruiser.planet).to eq(@origin)
-      expect(@strike_cruiser.arrives_in).to eq(2)
-      UpdateFleet.new.move!
-      expect(@strike_cruiser.reload.arrives_in).to eq(1)
-      expect(@strike_cruiser.reload.planet).to eq(@origin)
-    end
-    it 'updates location at its arrival' do
       expect(@xwing.planet).to eq(@origin)
+      expect(@xwing.arrives_in).to eq(1)
       UpdateFleet.new.move!
+      expect(@xwing.reload.arrives_in).to be nil
       expect(@xwing.reload.planet).to eq(@destination)
-      expect(@strike_cruiser.reload.planet).to eq(@origin)
-      UpdateFleet.new.move!
-      expect(@strike_cruiser.reload.arrives_in).to eq(nil)
-      expect(@strike_cruiser.reload.planet).to eq(@far_destination)
     end
   end
 

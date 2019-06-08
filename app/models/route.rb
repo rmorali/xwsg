@@ -33,7 +33,6 @@ class Route < ApplicationRecord
     end
     destinations.reject { |r| r == origin }.uniq
 =end
-
     return if fleet.hyperdrive.to_i < 1
     planets = []
     routes = Route.where("vector_a = ? or vector_b = ?", fleet.planet, fleet.planet)
@@ -41,7 +40,7 @@ class Route < ApplicationRecord
       planets << route.vector_a
       planets << route.vector_b
     end
-    planets.reject! {|planet| planet == self}
+    planets.reject! {|planet| planet == fleet.planet}
     planets.uniq
   end
 end

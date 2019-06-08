@@ -14,6 +14,10 @@ class Fleet < ApplicationRecord
 
   after_save :destroy_if_empty
 
+  def loadable?
+    true if capacity.to_i > 0
+  end
+
   def builder?
     @setup = Setup.current
     true if type == 'Facility' || ( type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build )

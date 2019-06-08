@@ -36,7 +36,9 @@ class GameLogic
 
   def ground_combat!; end
 
-  def finished!; end
+  def finished!;
+    UpdateFleet.new.build!
+  end
 
   def warp_fleets_for(squad)
     planets_quantity = @setup.initial_planets

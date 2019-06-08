@@ -47,7 +47,7 @@ FactoryGirl.define do
     producing_time 1
     influence_ratio 1
     weight 1
-    capacity 1
+    capacity 0
     groupable true
     carriable true
     description 'Descricao'

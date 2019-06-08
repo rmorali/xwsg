@@ -77,6 +77,10 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.builder?).to be true
       expect(@facility.builder?).to be true
     end
+    it 'is loadable?' do
+      expect(@capital_ship.loadable?).to be true
+      expect(@xwing.loadable?).to_not be true
+    end
     it 'calculate its total weight' do
       expect(@capital_ship.weight).to eq(@capital_ship.quantity * @capital_ship.unit.weight)
     end

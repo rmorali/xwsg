@@ -4,7 +4,7 @@
   <% GroupFleet.new(planet).group! %>
 
   <div id="images" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y %>px; z-index: 5" >
-    <%= image_tag (planet.image), style: "width: 50px" %>
+    <%= image_tag (planet.image), style: "width: 60px" %>
   </div>
 
   <div id="names" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y - 25 %>px" >
@@ -22,7 +22,7 @@
     </span>
   </div>
 
-  <div id="squad_income" style="position:absolute; left:<%= pos_x - 25 %>px; top:<%= pos_y - 5 %>px;z-index: 15; white-space: nowrap">
+  <div id="squad_income" style="position:absolute; left:<%= pos_x - 20 %>px; top:<%= pos_y - 5 %>px;z-index: 15; white-space: nowrap">
     <span style="color:yellow;font-size: 10px;font-weight: bold">
       <info class="tooltip">
       <tip>Income ao squad</tip>
@@ -31,7 +31,7 @@
     </span>
   </div>
 
-  <div id="fleets" class="fleets" style="position:absolute; left:<%= pos_x + 50 %>px; top:<%= pos_y %>px">
+  <div id="fleets" class="fleets" style="position:absolute; left:<%= pos_x + 48 %>px; top:<%= pos_y %>px">
     <% planet.fleets_seen_by(@squad).reject { |f| !f.carrier.nil? }.each do |fleet| %>
       <!-- <span style="<%= style(fleet) %>" onclick=showDiv('edit_box','15%','10%')> -->
       <a href = "" onclick="window.open('/fleets/<%= fleet.id %>/edit','<%= fleet.name %> - <%= fleet.planet %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=600')">

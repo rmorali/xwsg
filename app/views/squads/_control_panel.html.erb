@@ -7,35 +7,46 @@
         <%= image_tag (@squad.image), style: "width: 50px" %>
       </info>
     </td>
+  <tr>
     <td>
       <span style="color:<%= @squad.color %>;font-size: 24px; font-weight: bold">
         <%= @squad.name %>
       </span>
     </td>
+  </tr>
+  <tr>
     <td>
       <span style="font-size: 18px; font-weight: bold">
         Turno: <%= @round.number %><br>
         <%= @round.phase.upcase_first %>
       </span>
     </td>
+  </tr>
     <td>
       <info class="tooltip">
       <tip>Creditos e Income</tip>
         <%= image_tag ('squads/credits.png'), style: "width: 50px; align: left; vertical-align: top" %>
       </info>
     </td>
+  <tr>
     <td>
       <span style="color: yellow; align: right">
         <%= @squad_credits %><br>
         <%= @squad_income %>
       </span>
     </td>
+  </tr>
+  <tr>
     <td>
       <%= image_tag ('squads/units.png'), style: "width: 50px; align: left" %>
     </td>
+  </tr>
+  <tr>
     <td>
       <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %>
     </td>
+  </tr>
+  <tr>
     <td>
       <%= simple_form_for @squad do |f| %>
         <%= f.submit 'Passar Turno' %>

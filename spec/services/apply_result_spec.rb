@@ -8,7 +8,7 @@ RSpec.describe ApplyResult, type: :service do
     @fleet_a = create(:fleet, quantity: 10, squad: @squad_a, planet: planet)
     @fleet_b = create(:fleet, quantity:10, squad: @squad_b, planet: planet)
     CreateResult.new.create!
-    @result = Result.first
+    @result = Result.last
     @fleet = @result.fleet
   end
   context 'blasted units' do

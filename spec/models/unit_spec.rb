@@ -25,7 +25,8 @@ RSpec.describe Unit, type: :model do
   end
 
   it 'has an image' do
-    expect(unit.image).to eq("units/#{unit.name.downcase}.png")
+    #expect(unit.image).to eq("units/#{unit.name.downcase}.png")
+    expect(unit.image).to eq("units/all_ships.jpg")
   end
 
   context 'belongings' do

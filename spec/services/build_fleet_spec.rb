@@ -38,9 +38,11 @@ RSpec.describe BuildFleet, type: :service do
     it 'takes time to be produced' do
       round = create(:round)
       BuildFleet.new(1, @tie_fighter, @squad, planet).build!
-      expect(Fleet.last.in_production?).to eq(true)
+      expect(Fleet.last.in_production?).to be true
       GameLogic.new.space_combat!
-      expect(Fleet.last.in_production?).to eq(false)
+      expect(Fleet.last.in_production?).to be true
+      GameLogic.new.finished!
+      expect(Fleet.last.in_production?).to_not be true
     end
 
     it 'keeps the producing unit in the facility' do

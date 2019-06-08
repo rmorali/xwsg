@@ -16,7 +16,7 @@ module ApplicationHelper
 	when 'CapitalShip'
 		params << "font-weight: bold; font-size: 12px"
 	when 'Facility'
-		params << "font-weight: bold; font-size: 14px"
+		params << "font-weight: bold; font-size: 14px; border-radius: 0%; border: solid 1px; padding: 0px; background-color: #111111"
 	end
 	params
   end
