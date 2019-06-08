@@ -1,55 +1,58 @@
-<table width="100%">
+<table style="text-align: left">
   <tr>
-    <td>
+    <td colspan="2" style="text-align:center">
       <info class="tooltip">
       <tip>Config do Sistema</tip>
         <a href = "" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Config Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=350, height=280')">
-        <%= image_tag (@squad.image), style: "width: 50px" %>
+        <%= image_tag (@squad.image), style: "width: 70px" %>
       </info>
     </td>
   <tr>
-    <td>
+    <td colspan="2" style="text-align:center">
       <span style="color:<%= @squad.color %>;font-size: 24px; font-weight: bold">
         <%= @squad.name %>
       </span>
     </td>
   </tr>
   <tr>
-    <td>
+    <td colspan="2" style="text-align:center">
       <span style="font-size: 18px; font-weight: bold">
         Turno: <%= @round.number %><br>
         <%= @round.phase.upcase_first %>
       </span>
     </td>
   </tr>
-    <td>
+  <tr>
+    <td style="text-align:center">
       <info class="tooltip">
       <tip>Creditos e Income</tip>
-        <%= image_tag ('squads/credits.png'), style: "width: 50px; align: left; vertical-align: top" %>
+        <%= image_tag ('squads/credits.png'), style: "width: 50px; align: right; vertical-align: top" %>
       </info>
     </td>
-  <tr>
     <td>
-      <span style="color: yellow; align: right">
+      <span style="color: yellow; font-size: 13px">
         <%= @squad_credits %><br>
-        <%= @squad_income %>
+      </span>
+      <span style="color: yellow">
+        +<%= @squad_income %>
       </span>
     </td>
   </tr>
   <tr>
-    <td>
+    <td colspan="2" style="text-align:center">
       <%= image_tag ('squads/units.png'), style: "width: 50px; align: left" %>
     </td>
+
   </tr>
   <tr>
-    <td>
+    <td colspan="2" style="text-align:center">
       <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %>
     </td>
   </tr>
   <tr>
-    <td>
+    <td colspan="2" style="text-align:center">
       <%= simple_form_for @squad do |f| %>
-        <%= f.submit 'Passar Turno' %>
+        <%= f.submit 'Pronto!' %>
       <% end %>
     </td>
   </tr>

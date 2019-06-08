@@ -3,16 +3,16 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .control_panel {
-  white-space: pre-line;
+  white-space: normal;
   text-align: left;
   border: 0 outset gray;
   border-radius: 6px;
   box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
   margin: 5px;
-  padding: 1px 5px 5px 5px;
-  width: 10%;
+  padding: 5px 5px 5px 5px;
+  width: auto;
   height: auto;
-  position: absolute;
+  position: fixed;
   left: 0%;
   top: 0%;
   background-color: rgba(0,0,0,0.7);
