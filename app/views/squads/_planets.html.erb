@@ -59,10 +59,11 @@
     <span style="color:yellow;font-size: 10px;font-weight: bold">
       <info class="tooltip">
       <tip>Income ao squad</tip>
-        <%= SetIncome.new(@squad, planet).current if SetIncome.new(@squad, planet).current > 0  %>
+        <%= SetIncome.new(@squad, planet).current  %>
       </info>
     </span>
   </div>
 
 
 <% end %>
+# if SetIncome.new(@squad, planet).current > 0 

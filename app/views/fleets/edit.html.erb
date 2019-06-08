@@ -34,86 +34,8 @@
 </div>
 
 <% if @fleet.builder? %>
-  <div class="edit_fleets">
-    <div class="form-inputs">
-      <%= simple_form_for @fleet, url: url_for(action: 'build') do |f| %>
-        <table>
-          <tr>
-            <td><%= f.input :quantity, label: false %></td>
-            <td><%= f.input :unit, collection: @units, label: false %></td>
-            <td><%= f.submit 'Build' %></td>
-          </tr>
-        </table>
-      <% end %>
-    </div>
-  </div>
+  <%= render partial: 'builders' %>
 <% end %>
 
 
-<table>
-  <tr>
-    <td>
-      <div class="edit_fleets">
-        <div id="available_capacity">
-          Embarcados: (<%= @fleet.capacity - @fleet.available_capacity %> / <%= @fleet.capacity %>)
-        </div>
-        <div class="form-inputs">
-          <% if @fleet.cargo.count > 0 %>
-            <% @fleet.cargo.each do |fleet| %>
-              <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
-                <table>
-                  <tr>
-                    <td>
-                      <span style="<%= style(fleet) %>">
-                        <%= show(fleet) %>
-                      </span>
-                    </td>
-                    <%= simple_fields_for :custom do |c| %>
-                      <%= c.hidden_field :id, value: fleet.id %>
-                      <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
-                    <% end %>
-                    <td><%= f.submit '->' %></td>
-                  </tr>
-                </table>
-              <% end %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    </td>
-    <td>
-      <--<br><br>
-      -->
-    </td>
-    <td>
-      <div class="edit_fleets">
-        <div id="available_capacity">
-          Disponíveis:
-        </div>
-        <div class="form-inputs">
-          <% if @carriables.count > 0 %>
-            <% @carriables.each do |fleet| %>
-              <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
-                <table>
-                  <tr>
-                    <td>
-                      <span style="<%= style(fleet) %>">
-                        <%= show(fleet) %>
-                      </span>
-                    </td>
-                    <%= simple_fields_for :custom do |c| %>
-                      <%= c.hidden_field :id, value: fleet.id, label: false %>
-                      <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
-                    <% end %>
-                    <td><%= f.submit '<-' %></td>
-                  </tr>
-                </table>
-              <% end %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    <td>
-  </tr>
-</table>
-</div>
+<%= render partial: 'carriers', object: @fleet  %>

@@ -17,4 +17,8 @@
 <br><br>
 <%= link_to 'NEW GAME', setups_new_game_path %> - Inicia uma nova partida
 <br><br>
+Fase atual: <%= @round.phase %>
+<br><br>
+<%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path %> - Passar para próxima fase do turno
+<br><br>
 <%= link_to 'Voltar',root_path %> - Menu Principal

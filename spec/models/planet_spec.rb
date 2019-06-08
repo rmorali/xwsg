@@ -78,10 +78,10 @@ RSpec.describe Planet, type: :model do
     planet.domination = { 1 => 40, 2 => 60 }
     planet.save
     expect(planet.domination).to include { '2 => 60' }
-    first_squad_presence = planet.domination[1]
-    expect(first_squad_presence).to eq(40)
-    second_squad_presence = planet.domination[2]
-    expect(second_squad_presence).to_not eq(40)
+    first_squad_influence = planet.domination[1]
+    expect(first_squad_influence).to eq(40)
+    second_squad_influence = planet.domination[2]
+    expect(second_squad_influence).to_not eq(40)
   end
 
   it 'has an image' do
@@ -99,9 +99,9 @@ RSpec.describe Planet, type: :model do
     expect(planet.under_attack?).to_not be true
   end
 
-  it 'returns fleet presence' do
-    expect(planet.fleets_presence).to include([@squad_a, @fleet_a.credits])
-    expect(planet.fleets_presence).to include([@squad_b, @fleet_b.credits])
+  it 'returns fleet influence' do
+    expect(planet.fleets_influence).to include([@squad_a, @fleet_a.credits])
+    expect(planet.fleets_influence).to include([@squad_b, @fleet_b.credits])
   end
 
   it 'returns an empty random planet' do

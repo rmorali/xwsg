@@ -6,22 +6,21 @@ class SetIncome
   end
 
   def current
+    return unless @planet.fleets.any? { |f| f.squad == @squad }
+    influence_for_domination = @setup.minimum_fleet_for_dominate
+    total_influence = 0
+    squad_influence = 0
+    enemies_influence = 0
+    @planet.fleets_influence.each do |f|
+      total_influence += f[1]
+      squad_influence += f[1] if f[0] == @squad
+      enemies_influence += f[1] if f[0] != @squad
+    end  
+    squad_influence = influence_for_domination if squad_influence > influence_for_domination
+    enemies_influence = influence_for_domination if enemies_influence > influence_for_domination
+    squad_ratio = squad_influence.to_f / influence_for_domination
     income = 0
-    presence_for_domination = @setup.minimum_fleet_for_dominate
-    total_presence = 0
-    @planet.fleets_presence.each do |f|
-      total_presence += f[1]
-    end
-    ratio = ( total_presence.to_f / presence_for_domination.to_f )
-    @planet.fleets_presence.each do |f|
-      squad = f[0]
-      squad_presence = f[1]
-      squad_presence = presence_for_domination if squad_presence > presence_for_domination
-      if squad.id == @squad.id
-        squad_ratio = squad_presence.to_f / presence_for_domination.to_f
-        income = @planet.credits.to_f * squad_ratio.to_f * ratio.to_f
-      end
-    end
+    income = squad_ratio.to_f * @planet.income 
     income.to_i
   end
 

@@ -4,6 +4,7 @@ class SetupsController < ApplicationController
   def index
     @setup = Setup.current
     @units = ['Facility','CapitalShip','LightTransport','HeavyTransport']
+    @round = Round.current
   end
 
   def edit
@@ -19,6 +20,12 @@ class SetupsController < ApplicationController
   def new_game
     @round = Round.current
     GameLogic.new.new_game!
+  end
+
+  def finaliza_turno
+    squads = Squad.all
+    squads.each { |s| s.ready! }
+    @round = Round.current
   end
 
   private

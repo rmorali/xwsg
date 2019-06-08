@@ -30,6 +30,6 @@ class MoveFleet
   end
 
   def arrives_in
-    @round.number + Route.cost(@fleet.planet, @destination) - 1
+   1
   end
 end

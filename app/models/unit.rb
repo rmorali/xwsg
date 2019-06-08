@@ -29,7 +29,7 @@ class Unit < ApplicationRecord
     type == 'Facility'
   end
 
-  def to_s
-    "#{name} - #{credits}"
+  def to_label
+    "#{name}: #{credits} t#{producing_time}"
   end
 end

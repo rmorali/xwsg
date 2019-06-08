@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'units/index'
   get 'squads/map'
   get 'setups/new_game'
+  get 'setups/finaliza_turno'
 
   resources :setups
 

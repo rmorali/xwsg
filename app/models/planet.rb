@@ -36,12 +36,12 @@ class Planet < ApplicationRecord
     #TODO: Show enemy fleets produced before current round if squad has a radar
   end
 
-  def fleets_presence
-    presence = []
+  def fleets_influence
+    influence = []
     squads.each do |squad|
-      presence << [ squad, fleets.where(squad: squad).sum { |f| f.quantity * f.credits } ]
+      influence << [ squad, fleets.where(squad: squad).sum { |f| f.quantity * f.credits * f.influence_ratio} ]
     end
-    presence
+    influence
   end
 
   def squads
