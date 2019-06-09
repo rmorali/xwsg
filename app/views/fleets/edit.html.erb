@@ -7,30 +7,33 @@
         </div>
       </td>
       <td>
-        <div id="fleet_name" style="<%= style(@fleet) %>; font-size: 20px">
+        <div id="fleet_name" style="<%= style(@fleet) %>; font-size: 20px; text-align: center">
           <%= show(@fleet) %>
         </div>
-        <div id="planet" style="color: white; font-size: 16px">
+        <div id="planet" style="color: white; font-size: 16px; text-align: center">
           <%= @fleet.planet.name %>
         </div>
-        <div id="destination" style="color: white; font-size: 14px">
-          <%= "--> #{@fleet.destination.name}" if @fleet.destination %>
-        </div>
-          <br>
-          <div class="form-inputs">
-            <% if @fleet.movable? %>
-              <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
-                <table>
-                  <tr>
-                    <td><%= f.input :quantity, collection: 0..@fleet.quantity, label: false %></td>
-                    <td><%= f.input :destination, collection: @destinations, label: false %></td>
-                    <td><%= f.submit 'Mover' %></td>
-                  </tr>
-                </table>
-              <% end %>
+        <br>
+        <div class="form-inputs">
+          <% if @fleet.movable? %>
+            <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
+              <table>
+                <tr>
+                  <td><%= f.input :quantity, collection: 0..@fleet.quantity, label: false %></td>
+                  <td><%= f.input :destination, collection: @destinations, label: false %></td>
+                  <td><%= f.submit 'Mover' %></td>
+                </tr>
+              </table>
             <% end %>
-          </div>
+          <% end %>
         </div>
+        <br>
+        <% if @fleet.destination %>
+          <div class="img_container">
+            <%= image_tag ("fleets/hyperspace.gif") %>
+            <div class="centered"> <%= "--> #{@fleet.destination.name}" %> </div>
+          </div>
+        <% end %>
       </td>
     </tr>
   </table>
