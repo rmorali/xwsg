@@ -34,6 +34,6 @@ class Unit < ApplicationRecord
   end
 
   def to_label
-    "#{name}: #{credits} t#{producing_time}"
+    "#{name}: #{credits}, #{producing_time} t"
   end
 end

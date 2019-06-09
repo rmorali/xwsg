@@ -4,7 +4,7 @@
     <%= simple_form_for @fleet, url: url_for(action: 'build') do |f| %>
       <table>
         <tr>
-          <td><%= f.input :quantity, label: false %></td>
+          <td><%= f.input :quantity, label: false, input_html: { maxlength: 3, size: 1 } %></td>
           <td><%= f.input :unit, collection: @units, label: false %></td>
           <td><%= f.submit 'Build' %></td>
         </tr>

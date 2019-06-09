@@ -10,6 +10,9 @@
         <div id="fleet_name" style="<%= style(@fleet) %>; font-size: 20px">
           <%= show(@fleet) %>
         </div>
+        <div id="planet" style="color: white; font-size: 16px">
+          <%= @fleet.planet.name %>
+        </div>
         <div id="destination" style="color: white; font-size: 14px">
           <%= "--> #{@fleet.destination.name}" if @fleet.destination %>
         </div>
