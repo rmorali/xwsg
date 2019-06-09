@@ -133,7 +133,7 @@ all = %w[Empire Rebel Mercenary Pirate]
 type = 'Facility'
 terrain = 'Space'
 ir = 10
-Unit.create(name: 'Ind.Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
+Unit.create(name: 'Ind Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
   hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = emp_reb
 Unit.create(name: 'Platforms', credits: 1800, terrain: terrain, type: type, influence_ratio: ir,
   hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all

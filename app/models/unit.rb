@@ -21,7 +21,7 @@ class Unit < ApplicationRecord
   end
 
   def image
-    img_file = "units/#{ name.remove('*').downcase }.png"
+    img_file = "units/#{ name.remove('*','.').downcase }.png"
     if (File.exist?("#{Rails.root}/app/assets/images/#{ img_file }"))
       img_file
     else
