@@ -1,0 +1,37 @@
+<% @rounds.sort_by{|a| a.number}.reverse.each do |round| %>
+  <h1>Round: <%= round.number %></h1>
+  <% round.results.group_by(&:planet).each do |planet, fleet| %>
+    <table>
+      <tr>
+        <td>
+          <h2><%= planet.name %></h2>
+        </td>
+      </tr>
+      <%= form_tag "results" do %>
+        <% fleet.each do |unit| %>
+          <tr>
+            <%= simple_fields_for "results[]", unit do |f| %>
+              <td>
+                <span style="<%= style(unit) %>">
+                  <info class="tooltip">
+                  <tip><%= raw tip(unit) %></tip>
+                    <%= show(unit) %>                    
+                  </info>
+                </span>
+              </td>
+              <td><%= f.input :blasted, label: false %></td>
+              <td><%= f.input :fled, label: false %></td> 
+              <td><%= f.input :captured, label: false %></td>
+              <td><%= f.input :captor, collection: @enemies, label: false %></td>
+            <% end %>
+          </tr>
+        <% end %>
+        <tr>
+          <td>
+            <%= submit_tag 'Salvar' %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+<% end %>

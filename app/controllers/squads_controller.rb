@@ -10,7 +10,7 @@ class SquadsController < ApplicationController
 
   def create
     @squad = Squad.create(squad_params)
-    current_user.squad = @squad
+    current_squad = @squad
     current_user.save
     redirect_to(root_path)
   end
@@ -18,7 +18,7 @@ class SquadsController < ApplicationController
   def edit; end
 
   def update
-    current_user.squad.ready!
+    current_squad.ready!
     redirect_to squads_map_path
   end
 
@@ -26,7 +26,7 @@ class SquadsController < ApplicationController
     @map_ratio = 1
     @map_x_adjust = 40
     @map_y_adjust = 10
-    @squad = current_user.squad
+    @squad = current_squad
     @squad_credits = @squad.credits
     @squad_income = SetIncome.new(@squad, Planet.first).total
     @planets = Planet.all

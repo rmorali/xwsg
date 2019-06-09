@@ -2,7 +2,7 @@ class FleetsController < ApplicationController
   respond_to :html, :js
 
   def edit
-    @squad = current_user.squad
+    @squad = current_squad
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
     @carriables = @fleet.carriables
@@ -34,7 +34,7 @@ class FleetsController < ApplicationController
   end
 
   def build
-    @squad = current_user.squad
+    @squad = current_squad
     @carrier = Fleet.find(params[:id])
     @facility = nil
     @facility = @carrier if @carrier.type == 'Facility'

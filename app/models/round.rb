@@ -4,6 +4,8 @@ class Round < ApplicationRecord
   has_many :fleets
   has_many :results
 
+  scope :results_for, ->(squad) { joins(:results).where(results: {squad: squad}).group("id") }
+
   def self.current
     Round.create if Round.count.zero?
     Round.last

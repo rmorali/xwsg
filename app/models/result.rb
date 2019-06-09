@@ -8,7 +8,10 @@ class Result < ApplicationRecord
   belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
 
-  delegate :name, :credits, :type, :influence_ratio, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
+  delegate :name, :credits, :type, :influence_ratio, :facility?, :image,
+           :hyperdrive, :groupable, :carriable, :producing_time, to: :unit
+
+  delegate :used_capacity, :capacity, to: :fleet
 
   def cargo
     Result.where(carrier: self)
