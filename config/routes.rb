@@ -8,9 +8,11 @@ Rails.application.routes.draw do
   get 'setups/new_game'
   get 'setups/finaliza_turno'
 
-  resources :setups
-
   resources :planets
+
+  resources :results
+
+  resources :setups
 
   resources :squads
 

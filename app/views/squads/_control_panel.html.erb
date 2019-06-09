@@ -40,13 +40,18 @@
   </tr>
   <tr>
     <td colspan="2" style="text-align:center">
-      <%= image_tag ('squads/units.png'), style: "width: 50px; align: left" %>
+      <info class="tooltip">
+      <tip>Unidades do XWA</tip>
+        <%= link_to (image_tag ('squads/units.png'), style: "width: 50px; align: left"), units_index_path %>
+      </info>
     </td>
-
   </tr>
   <tr>
     <td colspan="2" style="text-align:center">
-      <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %>
+      <info class="tooltip">
+      <tip>Combates</tip>
+        <%= link_to (image_tag ('squads/combats.png'), style: "width: 50px; align: left"), results_path %>
+      </info>
     </td>
   </tr>
   <tr>
@@ -54,6 +59,14 @@
       <%= simple_form_for @squad do |f| %>
         <%= f.submit 'Pronto!' %>
       <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="text-align:center">
+      <br>
+      <span style="font-size: 12px; font-weight: bold; text-decoration: blink">
+        <%= raw @status %>
+      </span>
     </td>
   </tr>
 </table>
