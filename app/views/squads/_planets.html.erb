@@ -34,11 +34,14 @@
   <div id="fleets" class="fleets" style="position:absolute; left:<%= pos_x + 48 %>px; top:<%= pos_y %>px">
     <% planet.fleets_seen_by(@squad).reject { |f| !f.carrier.nil? }.each do |fleet| %>
       <!-- <span style="<%= style(fleet) %>" onclick=showDiv('edit_box','15%','10%')> -->
-      <a href = "" onclick="window.open('/fleets/<%= fleet.id %>/edit','<%= fleet.name %> - <%= fleet.planet %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=600')">
-        <span style="<%= style(fleet) %>">
-          <%= show(fleet) %>
-        </span>
-      </a>
+      <info class="tooltip">
+      <tip><%= raw tip(fleet) %></tip>
+        <a href = "" onclick="window.open('/fleets/<%= fleet.id %>/edit','<%= fleet.name %> - <%= fleet.planet %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=600')">
+          <span style="<%= style(fleet) %>">
+            <%= show(fleet) %>
+          </span>
+        </a>
+      </info>
       <!--  <%= link_to show(fleet), edit_fleet_path(fleet), remote: true, style: style(fleet) %> -->
 
       <% fleet.cargo.each do |cargo| %>
@@ -51,12 +54,12 @@
     <% end %>
 
      <% planet.fog_seen_by(@squad).each do |fleet| %>
-       <span style="<%= style_fog(fleet) %>">
+       <span style="<%= style(fleet) %>; opacity: 0.3">
          <%= show(fleet) %>
        </span>
        <% fleet.cargo.each do |cargo| %>
          <br>
-         <span style="<%= style_fog(cargo) %>">
+         <span style="<%= style(cargo) %>; opacity: 0.3">
            &nbsp &nbsp <%= show(cargo) %>
          </span>
        <% end %>

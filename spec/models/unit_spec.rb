@@ -25,7 +25,7 @@ RSpec.describe Unit, type: :model do
   end
 
   it 'has an image' do
-    #expect(unit.image).to eq("units/#{unit.name.downcase}.png")
+    unit.update(name: 'Tie Qualquer Coisa')
     expect(unit.image).to eq("units/all_ships.jpg")
   end
 

@@ -10,7 +10,8 @@ class Fleet < ApplicationRecord
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
   has_many :results
 
-  delegate :name, :credits, :type, :influence_ratio, :facility?, :image, :hyperdrive, :groupable, :carriable, to: :unit
+  delegate :name, :credits, :type, :influence_ratio, :facility?, :image,
+           :hyperdrive, :groupable, :carriable, :producing_time, to: :unit
 
   after_save :destroy_if_empty
 
@@ -47,6 +48,10 @@ class Fleet < ApplicationRecord
     loaded = 0
     cargo.each { |cargo| loaded += cargo.weight }
     capacity - loaded
+  end
+
+  def used_capacity
+    capacity - available_capacity
   end
 
   def weight

@@ -2,11 +2,11 @@ module ApplicationHelper
   def show(fleet)
 	case fleet.type
 	when 'CapitalShip'
-		fleet.name
+	  fleet.name
 	when 'Facility'
-		fleet.name
+	  fleet.name
 	else
-		"#{fleet.quantity} #{fleet.name}"
+	  "#{fleet.quantity} #{fleet.name}"
 	end
   end
 
@@ -14,21 +14,25 @@ module ApplicationHelper
 	params = "color: #{fleet.squad.color}; "
 	case fleet.type
 	when 'CapitalShip'
-		params << "font-weight: bold; font-size: 12px"
+	  params << "font-weight: bold; font-size: 12px"
 	when 'Facility'
-		params << "font-weight: bold; font-size: 14px; border-radius: 0%; border: solid 1px; padding: 0px; background-color: #111111"
+	  params << "font-weight: bold; font-size: 14px; border-radius: 0%; border: solid 1px; padding: 0px; background-color: #111111"
 	end
 	params
   end
 
-  def style_fog(fleet)
-	params = "color: #{fleet.squad.color}; opacity: 0.3;"
+  def tip(fleet)
+	info = "<b>#{fleet.name}</b>"
+	info << " (Custo: #{fleet.credits}, #{fleet.producing_time} turnos)"
 	case fleet.type
 	when 'CapitalShip'
-		params << "font-weight: bold; font-size: 12px"
+	  info << "<br>- Carga: #{fleet.used_capacity} / #{fleet.capacity} tons"
+      info << "<br>- Abordagem / Captura de Fabricas"
+      info << "<br>- Armamento de Unidades"
 	when 'Facility'
-		params << "font-weight: bold; font-size: 14px"
+      info << "<br>- Producao / Treinamento de Unidades"
 	end
-	params
+	info
   end
+
 end
