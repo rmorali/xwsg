@@ -8,7 +8,11 @@ class ResultsController < ApplicationController
   end
 
   def create
-  	raise result_params.inspect
+    @results = result_params
+    saved_results = @results.each do |id, attributes|
+      result = Result.find(id.to_i)
+      result.update(attributes)
+    end
     redirect_back(fallback_location: root_path)
   end
 
