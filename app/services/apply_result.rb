@@ -17,9 +17,16 @@ class ApplyResult
 
   def flee!
     @result.update(final_quantity: @fleet.quantity - @result.fled)
-    random_planet = Route.in_range_for(@fleet)[rand(Route.in_range_for(@fleet).count)]
+    if @result.hyperdrive.to_i > 0
+      destination_planet = Route.in_range_for(@fleet)[rand(Route.in_range_for(@fleet).count)]
+      routes = Route.in_range_for(@fleet)
+      best_routes = routes.select { |planet| planet.fleets.any? { |fleet| fleet.squad == @fleet.squad } && !planet.under_attack? }
+      destination_planet = best_routes[rand(best_routes.count)] if best_routes.count > 0
+    else
+      destination_planet = @result.planet
+    end
     fleeing_fleet = @fleet.dup
-    fleeing_fleet.update(quantity: @result.fled, planet: random_planet)
+    fleeing_fleet.update(quantity: @result.fled, planet: destination_planet)
     @fleet.update(quantity: @fleet.quantity - @result.fled)
   end
 

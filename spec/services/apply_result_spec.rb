@@ -42,6 +42,16 @@ RSpec.describe ApplyResult, type: :service do
       expect(Fleet.last.quantity).to eq(1)
       expect(Fleet.last.planet).to eq(@destination)
     end
+    it 'best route allied planets' do
+     @allied_destination = create(:planet)
+     @route = create(:route, vector_a: planet, vector_b: @allied_destination)
+     @fleet_c = create(:fleet, quantity:10, squad: @squad_b, planet: @allied_destination)
+     @result.update(fled: 10)
+     ApplyResult.new(@result).flee!
+     expect(Fleet.last.quantity).to eq(10)
+     expect(Fleet.last.squad).to eq(@squad_b)
+     expect(Fleet.last.planet).to eq(@allied_destination)
+    end
   end
   context 'captured units' do
     it 'all of them' do
