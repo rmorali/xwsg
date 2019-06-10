@@ -15,7 +15,7 @@
         </div>
         <br>
         <div class="form-inputs">
-          <% if @fleet.movable? %>
+          <% if @fleet.movable? && @round.strategy? %>
             <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
               <table>
                 <tr>
@@ -39,7 +39,7 @@
   </table>
 </div>
 
-<% if @fleet.builder? %>
+<% if @fleet.builder? && @round.strategy? %>
   <%= render partial: 'builders' %>
 <% end %>
 

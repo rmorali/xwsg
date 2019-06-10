@@ -18,9 +18,9 @@
                     </td>
                     <%= simple_fields_for :custom do |c| %>
                       <%= c.hidden_field :id, value: fleet.id %>
-                      <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false %></td>
+                      <td><%= c.input :quantity, collection: 1..fleet.quantity, label: false if @round.strategy? %></td>
                     <% end %>
-                    <td><%= f.submit '->' %></td>
+                    <td><%= f.submit '->' if @round.strategy? %></td>
                   </tr>
                 </table>
               <% end %>
@@ -39,7 +39,7 @@
           Disponíveis:
         </div>
         <div class="form-inputs">
-          <% if @carriables.count > 0 %>
+          <% if @carriables.count > 0 && @round.strategy?%>
             <% @carriables.each do |fleet| %>
               <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
                 <table>

@@ -58,12 +58,12 @@
 
      <% planet.fog_seen_by(@squad).each do |fleet| %>
        <span style="<%= style(fleet) %>; opacity: 0.3">
-         <%= show(fleet) %>
+         <%= show_fog(fleet) %>
        </span>
        <% fleet.cargo.each do |cargo| %>
          <br>
          <span style="<%= style(cargo) %>; opacity: 0.3">
-           &nbsp &nbsp <%= show(cargo) %>
+           &nbsp &nbsp <%= show_fog(cargo) %>
          </span>
        <% end %>
        <br>

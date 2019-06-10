@@ -3,6 +3,7 @@ class FleetsController < ApplicationController
 
   def edit
     @squad = current_squad
+    @round = Round.current
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
     @carriables = @fleet.carriables
