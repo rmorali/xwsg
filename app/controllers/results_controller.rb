@@ -11,7 +11,7 @@ class ResultsController < ApplicationController
     @results = result_params
     saved_results = @results.each do |id, attributes|
       result = Result.find(id.to_i)
-      result.update(attributes)
+      result.update_attributes(attributes)
     end
     redirect_back(fallback_location: root_path)
   end

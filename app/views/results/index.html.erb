@@ -22,7 +22,7 @@
               <td><%= f.input :blasted, label: false %></td>
               <td><%= f.input :fled, label: false %></td> 
               <td><%= f.input :captured, label: false %></td>
-              <td><%= f.input :captor, collection: @enemies, label: false %></td>
+              <td><%= f.association :captor, collection: @enemies, label: false %></td>
             <% end %>
           </tr>
         <% end %>
