@@ -15,6 +15,8 @@ RSpec.describe Planet, type: :model do
     expect(planet.population).to be_an(Integer)
     expect(planet.credits).to be_an(Integer)
     expect(planet.domination).to be_a(Hash)
+    expect(planet.x).to be_an(Integer)
+    expect(planet.y).to be_an(Integer)
   end
 
   before do
