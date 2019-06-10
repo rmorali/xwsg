@@ -4,6 +4,12 @@ class ApplyResult
     @fleet = @result.fleet
   end
 
+  def apply!
+    blast! if @result.blasted.to_i > 0
+    flee! if @result.fled.to_i > 0
+    capture! if @result.captured.to_i > 0 && @result.captor
+  end
+
   def blast!
     @fleet.update(quantity: @fleet.quantity - @result.blasted)
     @result.update(final_quantity: @fleet.quantity - @result.blasted)

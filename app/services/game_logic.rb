@@ -29,7 +29,7 @@ class GameLogic
 
   def strategy!; end
 
-  def space_combat! 
+  def space_combat!
     UpdateFleet.new.move!
     CreateResult.new.create!
   end
@@ -37,6 +37,10 @@ class GameLogic
   def ground_combat!; end
 
   def finished!;
+    results = Result.where(round: @round)
+    results.each do |result|
+      ApplyResult.new(result).apply!
+    end
     UpdateFleet.new.build!
   end
 

@@ -2,7 +2,7 @@ class ResultsController < ApplicationController
 
   def index
     @squad = current_squad
-    @enemies = Squad.all.reject { |s| s == current_squad}
+    @enemies = Squad.all
     @round = Round.current
     @rounds = Round.results_for(@squad)
   end

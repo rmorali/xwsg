@@ -1,4 +1,6 @@
 <% @rounds.sort_by{|a| a.number}.reverse.each do |round| %>
+  <% current_round = false %>
+  <% current_round = true if round == @round && @round.space_combat? %>
   <h1>Round: <%= round.number %></h1>
   <% round.results.group_by(&:planet).each do |planet, fleet| %>
     <table>
@@ -15,20 +17,22 @@
                 <span style="<%= style(unit) %>">
                   <info class="tooltip">
                   <tip><%= raw tip(unit) %></tip>
-                    <%= show(unit) %>                    
+                    <%= show(unit) %>
                   </info>
                 </span>
               </td>
-              <td><%= f.input :blasted, label: false, input_html: { maxlength: 3, size: 1 } %></td>
-              <td><%= f.input :fled, label: false, input_html: { maxlength: 3, size: 1 }  %></td> 
-              <td><%= f.input :captured, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
-              <td><%= f.association :captor, collection: @enemies, label: false %></td>
+              <% if current_round %>
+                <td><%= f.input :blasted, label: false, input_html: { maxlength: 3, size: 1 } %></td>
+                <td><%= f.input :fled, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
+                <td><%= f.input :captured, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
+                <td><%= f.association :captor, collection: @enemies, label: false %></td>
+              <% end %>
             <% end %>
           </tr>
         <% end %>
         <tr>
           <td>
-            <%= submit_tag 'Salvar' %>
+            <%= submit_tag 'Salvar' if current_round %>
           </td>
         </tr>
       <% end %>
