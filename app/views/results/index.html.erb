@@ -7,6 +7,7 @@
       <tr>
         <td>
           <h2><%= planet.name %></h2>
+          <%= raw fleet.first.description %>
         </td>
       </tr>
       <%= form_tag "results" do %>
@@ -25,7 +26,7 @@
                 <td><%= f.input :blasted, label: false, input_html: { maxlength: 3, size: 1 } %></td>
                 <td><%= f.input :fled, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
                 <td><%= f.input :captured, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
-                <td><%= f.association :captor, collection: @enemies, label: false %></td>
+                <td><%= f.association :captor, collection: @enemies.reject { |squad| squad == unit.squad }, label: false %></td>
               <% end %>
             <% end %>
           </tr>
