@@ -83,10 +83,16 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.loadable?).to be true
       expect(@xwing.loadable?).to_not be true
     end
-    it 'calculates its total weight' do
+    it 'returns its total weight' do
       expect(@capital_ship.weight).to eq(@capital_ship.quantity * @capital_ship.unit.weight)
     end
-    it 'calculates its available capacity' do
+    it 'return its total capacity' do
+      expect(@capital_ship.capacity).to eq(@capital_ship.quantity * @capital_ship.unit.capacity)
+    end
+    it 'returns its used capacity' do
+      expect(@capital_ship.used_capacity).to eq(@capital_ship.capacity - @capital_ship.available_capacity)
+    end
+    it 'returns its available capacity' do
       @capital_ship.unit.update(capacity: 20)
       @capital_ship.update(quantity: 2)
       expect(@capital_ship.available_capacity).to eq(40)
