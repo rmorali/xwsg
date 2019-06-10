@@ -11,11 +11,13 @@ class ApplyResult
   end
 
   def blast!
+    unload_carrier if @result.blasted == @fleet.quantity
     @result.update(final_quantity: @fleet.quantity - @result.blasted)
     @fleet.update(quantity: @fleet.quantity - @result.blasted)
   end
 
   def flee!
+    unload_carrier
     @result.update(final_quantity: @fleet.quantity - @result.fled)
     if @result.hyperdrive.to_i > 0
       destination_planet = Route.in_range_for(@fleet)[rand(Route.in_range_for(@fleet).count)]
@@ -31,9 +33,17 @@ class ApplyResult
   end
 
   def capture!
+    unload_carrier
     #@result.update(final_quantity: @fleet.quantity - @result.captured)
     captured_fleet = @fleet.dup
     captured_fleet.update(quantity: @result.captured, squad: @result.captor)
     @fleet.update(quantity: @fleet.quantity - @result.captured)
+  end
+
+  def unload_carrier
+    cargo = @fleet.cargo
+    cargo.each do |c|
+      ShipFleet.new(c.quantity, c, @fleet).disembark!
+    end
   end
 end

@@ -69,4 +69,24 @@ RSpec.describe ApplyResult, type: :service do
       expect(Fleet.last.squad).to eq(@squad_b)
     end
   end
+  context 'unload carrier' do
+    before(:each) do
+      @cargo = create(:fleet, quantity:10, squad: @squad_b, carrier: @fleet_b, planet: planet)
+    end
+    it 'when totally destroyed' do
+      @result.update(blasted: 10)
+      ApplyResult.new(@result).blast!
+      expect(@cargo.reload.carrier).to_not eq(@fleet_b)
+    end
+    it 'when fled' do
+      @result.update(fled: 1)
+      ApplyResult.new(@result).flee!
+      expect(@cargo.reload.carrier).to_not eq(@fleet_b)
+    end
+    it 'when captured' do
+      @result.update(captured: 1)
+      ApplyResult.new(@result).capture!
+      expect(@cargo.reload.carrier).to_not eq(@fleet_b)
+    end
+  end
 end
