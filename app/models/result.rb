@@ -1,11 +1,12 @@
 class Result < ApplicationRecord
+  default_scope { order(squad_id: :ASC, updated_at: :ASC) }
   belongs_to :round
   belongs_to :unit
   belongs_to :fleet
   belongs_to :squad
   belongs_to :planet
   belongs_to :captor, class_name: 'Squad', foreign_key: 'captor_id', optional: true
-  belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
+  belongs_to :carrier, class_name: 'Result', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
 
   delegate :name, :credits, :type, :influence_ratio, :facility?, :image,
@@ -14,6 +15,14 @@ class Result < ApplicationRecord
   validates_numericality_of :blasted, :fled, :captured, allow_nil: true
   validate :captor_if_captured
   validate :posted_results
+
+  def moving?
+    true if destination
+  end
+
+  def in_production?
+    ready_in.to_i > 0
+  end
 
   def cargo
     Result.where(carrier: self)
@@ -31,6 +40,10 @@ class Result < ApplicationRecord
 
   def used_capacity
     capacity - available_capacity
+  end
+
+  def weight
+    quantity * unit.weight
   end
 
   def captor_if_captured

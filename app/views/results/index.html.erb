@@ -17,7 +17,7 @@
                 <span style="<%= style(unit) %>">
                   <info class="tooltip">
                   <tip><%= raw tip(unit) %></tip>
-                    <%= show(unit) %>
+                    <%= raw "&nbsp &nbsp" if unit.carrier %> <%= show(unit) %>
                   </info>
                 </span>
               </td>

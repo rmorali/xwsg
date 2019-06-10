@@ -38,10 +38,10 @@ module ApplicationHelper
   	case fleet.type
   	when 'CapitalShip'
   	  info << "<br>- Carga: #{fleet.used_capacity} / #{fleet.capacity} tons"
-        info << "<br>- Abordagem / Captura de Fabricas"
-        info << "<br>- Armamento de Unidades"
+      info << "<br>- Abordagem / Captura de Fabricas"
+      info << "<br>- Armamento de Unidades"
   	when 'Facility'
-        info << "<br>- Producao / Treinamento de Unidades"
+      info << "<br>- Producao / Treinamento de Unidades"
   	end
   	info
   end
