@@ -21,7 +21,11 @@ class Fleet < ApplicationRecord
 
   def builder?
     @setup = Setup.current
-    true if type == 'Facility' || ( type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build )
+    ability = nil
+    ability = true if type == 'Facility'
+    ability = true if type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build
+    ability = false if moving? || in_production?
+    ability
   end
 
   def moving?
@@ -29,7 +33,7 @@ class Fleet < ApplicationRecord
   end
 
   def movable?
-    true if hyperdrive.to_i > 0
+    true unless hyperdrive.to_i < 1 || in_production?
   end
 
   def in_production?

@@ -15,12 +15,6 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :destination }
   it { is_expected.to have_many :results }
 
-  it 'returns fleet influence' do
-    @fleet = fleet
-    fleet_influence = @fleet.quantity * @fleet.credits * @fleet.influence_ratio
-    expect(@fleet.influence).to eq(fleet_influence)
-  end
-
   it 'delete fleet if empty' do
     @fleet = fleet
     expect(Fleet.all).to_not be_empty
@@ -51,18 +45,25 @@ RSpec.describe Fleet, type: :model do
   context 'fleet abilities and states' do
     before do
       @setup = setup
-      @strike_cruiser = create(:unit, capacity: 20)
+      @strike_cruiser = create(:unit, capacity: 20, hyperdrive: 0)
       @shipyard = create(:unit, type: 'Facility', carriable: false)
       @capital_ship = create(:fleet, unit: @strike_cruiser, squad: squad, planet: planet)
-      @facility = create(:fleet, unit: @shipyard, squad: squad, planet: planet)
+      @facility = create(:fleet, unit: @shipyard, squad: squad, planet: planet, ready_in: 1)
       @xwing = create(:fleet, quantity: 10, squad: squad, planet: planet)
       @ywing = create(:fleet, quantity: 10, squad: squad, planet: planet)
       @bwing = create(:fleet, quantity: 1, squad: squad, planet: planet)
     end
     it 'is movable?' do
-      expect(@capital_ship.movable?).to be true
-      @capital_ship.unit.update(hyperdrive: nil)
       expect(@capital_ship.movable?).to_not be true
+      @capital_ship.unit.update(hyperdrive: 1)
+      expect(@capital_ship.movable?).to be true
+      expect(@facility.movable?).to_not be true
+      @facility.update(ready_in: 0)
+      expect(@facility.movable?).to be true
+
+    end
+    it 'is in production?' do
+      expect(@capital_ship.in_production?).to_not be true
     end
     it 'is moving?' do
       expect(@capital_ship.moving?).to_not be true
@@ -75,16 +76,17 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.builder?).to_not be true
       @setup.update(minimum_fleet_for_build: 1)
       expect(@capital_ship.builder?).to be true
+      @facility.update(ready_in: 0)
       expect(@facility.builder?).to be true
     end
     it 'is loadable?' do
       expect(@capital_ship.loadable?).to be true
       expect(@xwing.loadable?).to_not be true
     end
-    it 'calculate its total weight' do
+    it 'calculates its total weight' do
       expect(@capital_ship.weight).to eq(@capital_ship.quantity * @capital_ship.unit.weight)
     end
-    it 'calculate its available capacity' do
+    it 'calculates its available capacity' do
       @capital_ship.unit.update(capacity: 20)
       @capital_ship.update(quantity: 2)
       expect(@capital_ship.available_capacity).to eq(40)
@@ -99,6 +101,11 @@ RSpec.describe Fleet, type: :model do
       expect(@capital_ship.carriables).to_not include(@bwing)
       @ywing.unit.update(carriable: false)
       expect(@capital_ship.carriables).to_not include(@ywing)
+    end
+    it 'returns fleet influence' do
+      @fleet = fleet
+      fleet_influence = @fleet.quantity * @fleet.credits * @fleet.influence_ratio
+      expect(@fleet.influence).to eq(fleet_influence)
     end
   end
 end
