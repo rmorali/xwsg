@@ -7,6 +7,7 @@ class GameLogic
 
   def new_game!
     Planet.update_all(credits: 100)
+    SetWormhole.new.create!
     Squad.all.each do |squad|
       set_initial(squad)
       warp_fleets_for(squad)

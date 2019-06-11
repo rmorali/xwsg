@@ -34,6 +34,7 @@ img {
 info.tooltip{
   position:relative;
   cursor:help;
+  white-space: nowrap;
 }
 
 info.tooltip:hover{
@@ -63,7 +64,8 @@ info.tooltip:hover tip{
 }
 
 a:link {
-    cursor:pointer;
+    z-index: 0;
+    cursor: pointer;
     text-decoration: none;
 }
 a:visited {

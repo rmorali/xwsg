@@ -35,7 +35,7 @@ RSpec.describe Route, type: :model do
 
   it 'returns all planets in range' do
     nearby_destinations = Route.in_range_for(@fleet)
-    expect(nearby_destinations).to include(@planet_b)  
+    expect(nearby_destinations).to include(@planet_b)
   end
 
   context 'related to paths' do

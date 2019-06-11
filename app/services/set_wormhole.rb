@@ -4,10 +4,11 @@ class SetWormhole
   end
 
   def create!
+    Route.where(wormhole: true).destroy_all
   	@setup.initial_wormholes.times do
   	  vector_a = Planet.random
-  	  vector_b = Planet.random	
-  	  Route.create(vector_a: vector_a, vector_b: vector_b, distance: 2, wormhole: true)	
+  	  vector_b = Planet.random
+  	  Route.create(vector_a: vector_a, vector_b: vector_b, distance: 2, wormhole: true)
   	end
   end
 

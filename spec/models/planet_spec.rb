@@ -19,6 +19,21 @@ RSpec.describe Planet, type: :model do
     expect(planet.y).to be_an(Integer)
   end
 
+  it 'returns all its routes' do
+    planet_b = create(:planet)
+    route = create(:route, vector_a: planet, vector_b: planet_b, distance: 1)
+    expect(planet.routes).to include(route)
+  end
+  
+  it 'has a wormhole?' do
+    3.times { create(:planet) }
+    setup.update(initial_wormholes: 2)
+    SetWormhole.new.create!
+    expect(Route.where(wormhole: true).count).to eq(2)
+    planet = Route.last.vector_a
+    expect(planet.wormhole?).to be true
+  end
+
   before do
     @squad_a = create(:squad)
     @squad_b = create(:squad)

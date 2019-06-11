@@ -2,19 +2,13 @@ require 'rails_helper'
 
 RSpec.describe SetWormhole, type: :service do
   before do
-
+    @setup = create(:setup, initial_wormholes: 2)
+    5.times { create(:planet) }
   end
 
   it 'creates wormholes' do
-
-  end
-
-  it 'returns planet wormhole only for present planets' do
-
-  end
-
-  it 'shows a image and a line conecting them' do
-
+    SetWormhole.new.create!
+    expect(Route.count).to eq(2)
   end
 
 end

@@ -58,5 +58,24 @@ class Planet < ApplicationRecord
     planet = planets[rand(planets.count)]
     planet
   end
+
+  def wormhole?
+    true if routes.any? { |route| route.wormhole? }
+  end
+
+  def wormhole_to
+    params = "Wormhole para: "
+    wormhole = routes.last
+    if wormhole.vector_a == self
+      params << wormhole.vector_b.name
+    else
+      params << wormhole.vector_a.name
+    end
+    params
+  end
+
+  def routes
+    Route.where('vector_a == ? OR vector_b == ?', self, self).uniq
+  end
   # TODO: Verify if a squad can build facilities, produce units etc
 end
