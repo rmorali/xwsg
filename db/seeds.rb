@@ -6,8 +6,8 @@ Faction.create([
 ])
 
 Squad.create([
-  { name: 'Empire', credits: 1000, color: 'green', faction: Faction.first },
-  { name: 'Rebel', credits: 1000, color: 'red', faction: Faction.second },
+  { name: 'Empire', credits: 1000, color: '#00FFFF', faction: Faction.first },
+  { name: 'Rebel', credits: 1000, color: '#FF0000', faction: Faction.second },
 ])
 
 User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
