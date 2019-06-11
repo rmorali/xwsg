@@ -19,19 +19,23 @@ class CreateResult
   end
 
   def attack_order
-    params = "Iniciativa de ataque:<br><br>"
+    params = "Iniciativa de ataque:<br>"
     order = Squad.all.sample(Squad.count)
+    i = 1
     order.each do |o|
-      params << "<span style=color: #{o.color}>"
-      params << "#{ o.id }.o #{o.name}<br>"
+      params << "<span style='color: #{o.color}; font-weight: bold'>"
+      params << "#{ i }.º #{o.name}<br>"
       params << "</span>"
+      i += 1
     end
     params
   end
 
   def attack_distance
     distance = rand(3..7)
-    "Distancia de ataque: #{distance}km<br><br>"
+    params = "Distancia de ataque:<br>"
+    params << "<span style='font-weight: bold; font-size: 12px'> #{distance}km </span><br><br>"
+    params
   end
 
 end

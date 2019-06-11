@@ -3,40 +3,43 @@
   <% current_round = true if round == @round && @round.space_combat? %>
   <h1>Round: <%= round.number %></h1>
   <% round.results.group_by(&:planet).each do |planet, fleet| %>
-    <table>
-      <tr>
-        <td>
-          <h2><%= planet.name %></h2>
-          <%= raw fleet.first.description %>
-        </td>
-      </tr>
-      <%= form_tag "results" do %>
-        <% fleet.each do |unit| %>
-          <tr>
-            <%= simple_fields_for "results[]", unit do |f| %>
-              <td>
-                <span style="<%= style(unit) %>">
-                  <info class="tooltip">
-                  <tip><%= raw tip(unit) %></tip>
-                    <%= raw "&nbsp &nbsp" if unit.carrier %> <%= show(unit) %>
-                  </info>
-                </span>
-              </td>
-              <% if current_round %>
-                <td><%= f.input :blasted, label: false, input_html: { maxlength: 3, size: 1 } %></td>
-                <td><%= f.input :fled, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
-                <td><%= f.input :captured, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
-                <td><%= f.association :captor, collection: @enemies.reject { |squad| squad == unit.squad }, label: false %></td>
-              <% end %>
-            <% end %>
-          </tr>
-        <% end %>
+    <div class="results">
+      <table>
         <tr>
-          <td>
-            <%= submit_tag 'Salvar' if current_round %>
+          <td rowspan="<%= fleet.count + 1 %>" align="center" valign="center">
+            <h2><%= planet.name %></h2>
+            <%= image_tag (planet.image), style: "width: 70px" %><br><br>
+            <%= raw fleet.first.description %>
           </td>
         </tr>
-      <% end %>
-    </table>
+        <%= form_tag "results" do %>
+          <% fleet.each do |unit| %>
+            <tr valign="top" height="10">
+              <%= simple_fields_for "results[]", unit do |f| %>
+                <td>
+                  <span style="<%= style(unit) %>">
+                    <info class="tooltip">
+                    <tip><%= raw tip(unit) %></tip>
+                      <%= raw "&nbsp &nbsp" if unit.carrier %> <%= show(unit) %>
+                    </info>
+                  </span>
+                </td>
+                <% if current_round %>
+                  <td><%= f.input :blasted, label: false, input_html: { maxlength: 3, size: 1 } %></td>
+                  <td><%= f.input :fled, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
+                  <td><%= f.input :captured, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
+                  <td><%= f.association :captor, collection: @enemies.reject { |squad| squad == unit.squad }, label: false %></td>
+                <% end %>
+              <% end %>
+            </tr>
+          <% end %>
+          <tr>
+            <td align="center">
+              <%= submit_tag 'Salvar' if current_round %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
   <% end %>
 <% end %>
