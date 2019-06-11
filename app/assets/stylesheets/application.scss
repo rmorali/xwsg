@@ -16,9 +16,8 @@
  */
 
 body {
-
     color: white;
-    font-size: 10px;
+    font-size: 11px;
     background-color: black;
     background-image: url('starfield.jpg');
 }
@@ -29,6 +28,7 @@ div {
 
 img {
   vertical-align: middle;
+  z-index: 100;
 }
 
 info.tooltip{
@@ -63,84 +63,57 @@ info.tooltip:hover tip{
   text-shadow: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 a:link {
     z-index: 0;
     cursor: pointer;
     text-decoration: none;
 }
 a:visited {
-
+    text-decoration: none;
 }
 a:hover {
     filter: brightness(1.65);
 }
-
-.simple_form {
-  div.input {
-    margin-bottom: 5px;
-    width: 10px;
-    clear: both;
-    /* Required for Webkit, but not for Gecko */
-  }
-  label {
-    float: left;
-    width: auto;
-    text-align: right;
-    margin: 2px 5px;
-  }
+.select{
+  width:auto;
+  height:25px;
+  padding:0px;
+  border:0px solid #999;
+  background-color: black;
+  color:white;
+  text-shadow: none;
 }
-
-div.boolean, .simple_form input[type='submit'] {
-  margin-left: 5px;
+input[type=text]{
+  border:1px solid #999;
+  padding:2px;
+  background-color: black;
+  text-align: center;
+  color:white;
 }
-
-div.boolean label {
-  float: none;
-  margin: 0;
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
-
-label.collection_radio_buttons {
-  float: none;
-  margin: 0;
-  margin-right: 10px;
-  vertical-align: -2px;
-  margin-left: 2px;
+input[type=number]{
+  height: 20px;
+  width: 35px;
+  border:1px solid #999;
+  padding:2px;
+  background-color: black;
+  text-align: center;
+  color:white;
+  font-weight: bold;
+  -moz-appearance:textfield;
 }
-
-.field_with_errors {
-  background-color: #ff3333;
-}
-
-.simple_form {
-  .error {
-    clear: left;
-    color: black;
-    display: block;
-    margin-left: 120px;
-  }
-  .hint {
-    clear: left;
-    margin-left: 120px;
-    color: #555;
-    display: block;
-    font-style: italic;
-  }
-}
-
-input {
-  &.radio {
-    margin-right: 5px;
-    vertical-align: -3px;
-  }
-  &.check_boxes {
-    margin-left: 3px;
-    vertical-align: -3px;
-  }
-}
-
-label.collection_check_boxes {
-  float: none;
-  margin: 0;
-  vertical-align: -2px;
-  margin-left: 2px;
+input[type=url]{
+  border:1px solid #999;
+  padding:2px;
+  background-color: black;
+  text-align: left;
+  color:white;
 }

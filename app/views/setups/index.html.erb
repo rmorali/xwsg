@@ -1,24 +1,26 @@
 <h1>Setup do XWSG</h1>
-<br>
-<%= simple_form_for @setup do |f| %>
-  <%= f.input :initial_credits, label: 'Creditos: ', collection: (6000..12000).step(1000) %>
-  <%= f.input :initial_planets, label: 'Planetas:', collection: (1..3) %>
-  <%= f.input :initial_wormholes, label: 'Wormholes:', collection: (1..3) %>
-  <%= f.input :planet_income_ratio, label: 'Income rate:', collection: (10..100).step(10) %>
-  <%= f.input :minimum_fleet_for_dominate, label: 'Frota para dominar:', collection: (5000..30000).step(1000) %>
-  <%= f.input :builder_unit, label: 'Unidade construtora:', collection: @units %>
-  <%= f.input :minimum_fleet_for_build, label: 'Minimo para construir:', collection: (1..100) %>
-  <%= f.input :ai, label: ' AI Squad:', as: :boolean %>
-  <%= f.input :ai_level, collection: 1..6, label: 'AI Level:' %> 
-  <%= f.submit 'Aplicar Alterações' %>
-<% end %>
-<br>
+<div class="setups">
+  <%= simple_form_for @setup do |f| %>
+    <%= f.input :initial_credits, label: 'Creditos: ', collection: (6000..12000).step(1000) %>
+    <%= f.input :initial_planets, label: 'Planetas:', collection: (1..3) %>
+    <%= f.input :initial_wormholes, label: 'Wormholes:', collection: (1..3) %>
+    <%= f.input :planet_income_ratio, label: 'Income rate:', collection: (10..100).step(10) %>
+    <%= f.input :minimum_fleet_for_dominate, label: 'Frota para dominar:', collection: (5000..30000).step(1000) %>
+    <%= f.input :builder_unit, label: 'Unidade construtora:', collection: @units %>
+    <%= f.input :minimum_fleet_for_build, label: 'Minimo para construir:', collection: (1..100) %>
+    <%= f.input :ai, label: ' AI Squad:', as: :boolean %>
+    <%= f.input :ai_level, collection: 1..6, label: 'AI Level:' %>
+    <br>
+    <%= f.submit 'Salvar Alterações' %>
+  <% end %>
+</div>
 <h1>Ferramentas para Reset e Inicio de Partida</h1>
-<br><br>
-<%= link_to 'NEW GAME', setups_new_game_path %> - Inicia uma nova partida
-<br><br>
-Fase atual: <%= @round.phase %>
-<br><br>
-<%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path %> - Passar para próxima fase do turno
-<br><br>
-<%= link_to 'Voltar',root_path %> - Menu Principal
+<div class="setups">
+  <%= link_to 'NEW GAME', setups_new_game_path %> - Inicia uma nova partida
+  <br><br>
+  Fase atual: <%= @round.phase %>
+  <br><br>
+  <%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path %> - Passar para próxima fase do turno
+  <br><br>
+  <%= link_to 'Voltar',root_path %> - Menu Principal
+</div>

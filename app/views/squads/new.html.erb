@@ -1,23 +1,25 @@
-<h2>New Squad</h2>
+<h2>Novo Esquadrão</h2>
 
-<%= simple_form_for @squad do |f| %>
-  <div class="field">
-    <%= f.input :name, error: 'Please name it' %><br />
-  </div>
+<div class="panels">
+  <%= simple_form_for @squad do |f| %>
+    <div class="field">
+      <%= f.input :name, error: 'Please name it' %><br />
+    </div>
 
-  <div class="field">
-    <%= f.input :color, collection: @colors %><br />
-  </div>
+    <div class="field">
+      <%= f.input :color, collection: @colors, style: 'background:red' %><br />
+    </div>
 
-  <div class="field">
-    <%= f.input :faction_id, collection: @factions %><br />
-  </div>
+    <div class="field">
+      <%= f.input :faction_id, collection: @factions %><br />
+    </div>
 
-  <div class="field">
-    <%= f.input :url, placeholder: 'http://' %><br />
-  </div>
+    <div class="field">
+      <%= f.input :url, placeholder: 'http://' %><br />
+    </div>
 
-  <div class="actions">
-    <%= f.submit 'Create Squad' %><br />
-  </div>
-<% end %>
+    <div class="actions">
+      <%= f.submit 'Create Squad' %><br />
+    </div>
+  <% end %>
+</div>

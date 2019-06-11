@@ -5,13 +5,22 @@ class SquadsController < ApplicationController
   def new
     @squad = Squad.new
     @factions = Faction.all
-    @colors = %w[Red Green Yellow White Purple]
+    @colors = %w[Vermelho Amarelo Verde Roxo Cyano]
   end
 
   def create
     @squad = Squad.create(squad_params)
-    current_squad = @squad
+    color = case squad_params[:color]
+      when 'Vermelho' then '#FF0000'
+      when 'Amarelo' then '#FFFF00'
+      when 'Verde' then '#00FFFF'
+      when 'Roxo' then '#A600F9'
+      when 'Cyano' then '#00EEE3'
+    end
+    @squad.update(color: color, credits: 1000)
+    current_user.squad = @squad
     current_user.save
+    current_squad = current_user.squad
     redirect_to(root_path)
   end
 
