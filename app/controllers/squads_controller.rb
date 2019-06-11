@@ -20,7 +20,6 @@ class SquadsController < ApplicationController
     @squad.update(color: color, credits: 1000)
     current_user.squad = @squad
     current_user.save
-    current_squad = current_user.squad
     redirect_to(root_path)
   end
 
