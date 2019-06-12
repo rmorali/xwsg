@@ -186,6 +186,8 @@ Unit.create(name: 'Mod Strike Cruiser', credits: 1150, terrain: terrain, type: t
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = mand_merc
 Unit.create(name: 'MC80A ChatNoir Cruiser', credits: 1250, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = mand_merc
+Unit.create(name: 'Lucrehulk Cruiser', credits: 5000, terrain: terrain, type: type, influence_ratio: ir,
+ description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 2, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = mand_merc
 Unit.create(name: 'MC80 ReefHome Cruiser', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = reb
 Unit.create(name: 'MC85A HomeOne Cruiser', credits: 6000, terrain: terrain, type: type, influence_ratio: ir,
