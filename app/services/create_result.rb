@@ -13,7 +13,7 @@ class CreateResult
         f.update(level: f.level += 1)
         carrier = Result.where(fleet: f.carrier).last
         Result.create(round: round, unit: f.unit, fleet: f, squad: f.squad, planet: f.planet,
-                      quantity: f.quantity, carrier: carrier, destination: f.destination,
+                      quantity: f.quantity, carrier: carrier, destination: f.destination, level: f.level,
                       arrives_in: f.arrives_in, ready_in: f.ready_in, description: description)
       end
     end

@@ -17,6 +17,8 @@ class CreateResults < ActiveRecord::Migration[5.1]
       t.integer :destination_id
       t.integer :arrives_in
       t.integer :ready_in
+      t.integer :armament_id
+      t.integer :level
       t.string :description
 
       t.timestamps

@@ -6,7 +6,10 @@
           Nivel Atual: <%= @fleet.level %> &nbsp &nbsp
         </td>
         <%= simple_form_for @fleet, url: url_for(action: 'upgrade') do |f| %>
-          <td>Upgrade para nível 3 - Radar: &nbsp &nbsp </td>
+          <%= simple_fields_for :custom do |c| %>
+            <%= c.hidden_field :id, value: @fleet.id %>
+          <% end %>
+          <td>Custo: $<%= @setup.upgrade_cost %> para nível 3 - Radar: &nbsp &nbsp </td>
           <td><%= f.submit 'Upgrade!' %></td>
         <% end %>
       </tr>

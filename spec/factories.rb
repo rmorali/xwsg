@@ -72,6 +72,7 @@ FactoryGirl.define do
     minimum_fleet_for_dominate 10000
     minimum_fleet_for_build 10
     builder_unit 'Trooper'
+    upgrade_cost 100
     ai true
     ai_level 1
   end

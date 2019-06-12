@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "destination_id"
     t.integer "arrives_in"
     t.integer "ready_in"
+    t.integer "armament_id"
+    t.integer "level"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -121,6 +123,7 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "minimum_fleet_for_dominate"
     t.integer "minimum_fleet_for_build"
     t.string "builder_unit"
+    t.integer "upgrade_cost"
     t.boolean "ai"
     t.integer "ai_level"
   end

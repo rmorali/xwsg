@@ -53,6 +53,8 @@ RSpec.describe Fleet, type: :model do
       @xwing = create(:fleet, quantity: 10, squad: squad, planet: planet)
       @ywing = create(:fleet, quantity: 10, squad: squad, planet: planet)
       @bwing = create(:fleet, quantity: 1, squad: squad, planet: planet)
+      @planet_b = create(:planet)
+      Route.create(vector_a: planet, vector_b: @planet_b, distance: 1)
     end
     it 'is movable?' do
       expect(@capital_ship.movable?).to_not be true

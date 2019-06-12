@@ -54,7 +54,7 @@ class Fleet < ApplicationRecord
   end
 
   def movable?
-    true unless hyperdrive.to_i < 1 || in_production?
+    true unless hyperdrive.to_i < 1 || in_production? || Route.in_range_for(self).empty?
   end
 
   def in_production?

@@ -8,6 +8,7 @@ class Result < ApplicationRecord
   belongs_to :captor, class_name: 'Squad', foreign_key: 'captor_id', optional: true
   belongs_to :carrier, class_name: 'Result', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
+  belongs_to :armament, class_name: 'Unit', foreign_key: 'armament_id', optional: true
 
   delegate :name, :credits, :type, :influence_ratio, :facility?, :image,
            :hyperdrive, :groupable, :carriable, :armable, :armory, :producing_time, to: :unit
@@ -15,6 +16,10 @@ class Result < ApplicationRecord
   validates_numericality_of :blasted, :fled, :captured, allow_nil: true
   validate :captor_if_captured
   validate :posted_results
+
+  def movable?
+    true unless hyperdrive.to_i < 1 || in_production? || Route.in_range_for(fleet).empty?
+  end
 
   def moving?
     true if destination

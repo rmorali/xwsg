@@ -42,7 +42,7 @@ module ApplicationHelper
   def tip(fleet)
     setups = Setup.current
   	info = "<b>#{fleet.name}</b>"
-  	info << " (Custo: #{fleet.credits}, #{fleet.producing_time} turnos)"
+  	info << " (Custo: #{fleet.credits}, Turnos: #{fleet.producing_time}) "
   	case fleet.type
   	when 'CapitalShip'
   	  info << "<br>- Carga: #{fleet.used_capacity} / #{fleet.capacity} tons"
@@ -51,15 +51,19 @@ module ApplicationHelper
   	when 'Facility'
       info << "<br>- Producao / Treinamento de Unidades"
     when 'LightTransport'
+      info << "<br>- Carga: #{fleet.used_capacity} / #{fleet.capacity} tons"
       info << "<br>- Abordagem / Captura de Fabricas"
     when 'HeavyTransport'
+      info << "<br>- Carga: #{fleet.used_capacity} / #{fleet.capacity} tons"
       info << "<br>- Abordagem / Captura de Fabricas"
+    when 'Fighter'
+      info << "<br>- Peso: #{fleet.weight} tons"
   	end
     info << "<br>- Armamento: #{fleet.armament.name}" if fleet.armament
     info << "<br>- (Armorial) Armamento de Unidades" if fleet.armory?
     info << "<br>- Em Construção... ( #{ fleet.production_status }% construido)" if fleet.in_production?
-    info << "<br>- Unidade Construtora ( Min: #{setups.minimum_fleet_for_build} )" if fleet.builder? && fleet.type != 'Facility'
-    info << "<br>- Unidade Construtora ( Min: #{setups.minimum_fleet_for_build} )" if fleet.builder? && fleet.type == 'Facility'
+    info << "<br>- Unidade Construtora ( Mínimo: #{setups.minimum_fleet_for_build} )" if fleet.builder? && fleet.type != 'Facility'
+    info << "<br>- Unidade Construtora ( Mínimo: #{setups.minimum_fleet_for_build} )" if fleet.type == setups.builder_unit && fleet.type == 'Facility'
 
   	info
   end

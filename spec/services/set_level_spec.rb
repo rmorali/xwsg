@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe SetLevel, type: :service do
   let(:planet) { build(:planet) }
+  let(:setup) { create(:setup) }
   before(:each) do
+    @setup = setup
     @squad_a = build(:squad)
     @squad_b = build(:squad)
     @fleet_a = create(:fleet, quantity: 10, squad: @squad_a, planet: planet)

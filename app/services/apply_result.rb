@@ -20,7 +20,7 @@ class ApplyResult
   def flee!
     unload_carrier
     @result.update(final_quantity: @fleet.quantity - @result.fled)
-    if @result.hyperdrive.to_i > 0
+    if @result.movable?
       destination_planet = Route.in_range_for(@fleet)[rand(Route.in_range_for(@fleet).count)]
       routes = Route.in_range_for(@fleet)
       best_routes = routes.select { |planet| planet.fleets.any? { |fleet| fleet.squad == @fleet.squad } && !planet.under_attack? }

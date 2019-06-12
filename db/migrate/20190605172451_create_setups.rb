@@ -8,6 +8,7 @@ class CreateSetups < ActiveRecord::Migration[5.1]
       t.integer :minimum_fleet_for_dominate
       t.integer :minimum_fleet_for_build
       t.string :builder_unit
+      t.integer :upgrade_cost
       t.boolean :ai
       t.integer :ai_level
     end

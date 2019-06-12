@@ -50,6 +50,7 @@ class Route < ApplicationRecord
       planets << route.vector_b
     end
     planets.reject! { |planet| planet == fleet.planet }
+    planets.reject! { |planet| !planet.fleets.any? { |f| f.squad == fleet.squad} } if fleet.type == 'Fighter'
     planets.uniq
   end
 end

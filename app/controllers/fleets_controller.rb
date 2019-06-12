@@ -52,15 +52,17 @@ class FleetsController < ApplicationController
   end
 
   def arm
-    @unit = Fleet.find(arm_params[:id])
+    @fleet = Fleet.find(arm_params[:id])
     @quantity = arm_params[:quantity].to_i
     @armament = Unit.find(arm_params[:armament])
-    ArmFleet.new(@unit, @quantity, @armament).arm!
+    ArmFleet.new(@fleet, @quantity, @armament).arm!
     redirect_back(fallback_location: root_path)
   end
 
   def upgrade
-
+    @fleet = Fleet.find(upgrade_params[:id])
+    SetLevel.new(@fleet).upgrade!
+    redirect_back(fallback_location: root_path)
   end
 
   private
@@ -70,7 +72,7 @@ class FleetsController < ApplicationController
   end
 
   def upgrade_params
-    params.require(:fleet).permit!
+    params.require(:custom).permit!
   end
 
   def fleet_params

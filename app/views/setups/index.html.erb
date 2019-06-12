@@ -8,6 +8,7 @@
     <%= f.input :minimum_fleet_for_dominate, label: 'Frota para dominar:', collection: (5000..30000).step(1000) %>
     <%= f.input :builder_unit, label: 'Unidade construtora:', collection: @units %>
     <%= f.input :minimum_fleet_for_build, label: 'Minimo para construir:', collection: (1..100) %>
+    <%= f.input :upgrade_cost, label: 'Custo de upgrade:', collection: (500..2000).step(500) %>
     <%= f.input :ai, label: ' AI Squad:', as: :boolean %>
     <%= f.input :ai_level, collection: 1..6, label: 'AI Level:' %>
     <br>
