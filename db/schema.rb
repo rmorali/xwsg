@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "ready_in"
     t.integer "destination_id"
     t.integer "armament_id"
+    t.integer "level"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

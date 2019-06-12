@@ -16,6 +16,7 @@ FactoryGirl.define do
     association :squad, factory: :squad
     association :planet, factory: :planet
     association :round, factory: :round
+    level 0
   end
   factory :squad do
     name 'DarkSide Squadron'

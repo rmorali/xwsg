@@ -10,6 +10,7 @@ class CreateResult
       description = attack_distance
       description << attack_order
       p.fleets.each do |f|
+        f.update(level: f.level += 1)
         carrier = Result.where(fleet: f.carrier).last
         Result.create(round: round, unit: f.unit, fleet: f, squad: f.squad, planet: f.planet,
                       quantity: f.quantity, carrier: carrier, destination: f.destination,
