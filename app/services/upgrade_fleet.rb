@@ -1,7 +1,6 @@
 class UpgradeFleet
-  def initialize(fleet, weapon = nil)
+  def initialize(fleet)
     @fleet = fleet
-    @weapon = weapon unless weapon.nil?
   end
 
   def arm!

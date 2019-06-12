@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190611131630) do
+ActiveRecord::Schema.define(version: 20190607011929) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -49,14 +49,16 @@ ActiveRecord::Schema.define(version: 20190611131630) do
     t.integer "unit_id"
     t.integer "squad_id"
     t.integer "planet_id"
+    t.integer "round_id"
+    t.integer "carrier_id"
+    t.integer "arrives_in"
+    t.integer "ready_in"
+    t.integer "destination_id"
+    t.boolean "armable"
+    t.integer "armament_id"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "round_id"
-    t.integer "carrier_id"
-    t.integer "destination_id"
-    t.integer "arrives_in"
-    t.integer "ready_in"
     t.index ["planet_id"], name: "index_fleets_on_planet_id"
     t.index ["squad_id"], name: "index_fleets_on_squad_id"
     t.index ["unit_id"], name: "index_fleets_on_unit_id"
@@ -106,9 +108,9 @@ ActiveRecord::Schema.define(version: 20190611131630) do
     t.integer "vector_a"
     t.integer "vector_b"
     t.integer "distance"
+    t.boolean "wormhole"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "wormhole"
   end
 
   create_table "setups", force: :cascade do |t|
@@ -128,12 +130,12 @@ ActiveRecord::Schema.define(version: 20190611131630) do
     t.integer "credits"
     t.integer "metals"
     t.integer "rare_elements"
+    t.integer "faction_id"
+    t.string "color"
     t.string "url"
     t.boolean "ready"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "faction_id"
-    t.string "color"
   end
 
   create_table "units", force: :cascade do |t|

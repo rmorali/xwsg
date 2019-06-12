@@ -1,6 +1,7 @@
 class ArmFleet
-  def initialize(fleet, weapon = nil)
+  def initialize(fleet, quantity, weapon = nil)
     @fleet = fleet
+    @quantity = quantity
     @weapon = weapon unless weapon.nil?
   end
 

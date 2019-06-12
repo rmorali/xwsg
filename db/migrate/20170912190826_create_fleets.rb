@@ -5,6 +5,13 @@ class CreateFleets < ActiveRecord::Migration[5.1]
       t.references :unit, foreign_key: true
       t.references :squad, foreign_key: true
       t.references :planet, foreign_key: true
+      t.integer :round_id
+      t.integer :carrier_id
+      t.integer :arrives_in
+      t.integer :ready_in
+      t.integer :destination_id
+      t.boolean :armable
+      t.integer :armament_id 
       t.string :description
       t.timestamps
     end
