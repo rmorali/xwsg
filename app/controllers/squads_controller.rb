@@ -13,9 +13,9 @@ class SquadsController < ApplicationController
     color = case squad_params[:color]
       when 'Vermelho' then '#FF0000'
       when 'Amarelo' then '#FFFF00'
-      when 'Verde' then '#00FFFF'
-      when 'Roxo' then '#A600F9'
-      when 'Cyano' then '#00EEE3'
+      when 'Verde' then '#00FF00'
+      when 'Roxo' then '#AA55FF'
+      when 'Cyano' then '#00FFFF'
     end
     @squad.update(color: color, credits: 1000)
     current_user.squad = @squad

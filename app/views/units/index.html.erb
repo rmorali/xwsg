@@ -1,27 +1,20 @@
-<h1>Units</h1>
-
+<h1>Unidades do Jogo:</h1>
 <table>
-  <thead>
+  <% @units.group_by(&:type).each do |type, unit| %>
     <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Terrain</th>
-      <th>Hyperdrive</th>
-      <th>Faction</th>
+      <td colspan="5">
+        <span style="font-size: 16px">
+          <%= type.pluralize %>:
+        </span>
+      </td>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @units.each do |unit| %>
+    <% unit.each do |u| %>
       <tr>
-        <td><%= image_tag("#{unit.image}", size: "35") %></td>
-        <td><%= unit.name %></td>
-        <td><%= unit.type %></td>
-        <td><%= unit.terrain %></td>
-        <td><%= unit.hyperdrive %></td>
-        <td><%= unit.factions %>( mask: <%= unit.faction_mask %>)</td>
-      </tr>
+          <td><%= image_tag("#{u.image}", size: "35") %></td>
+          <td><%= u.name %></td>
+          <td><%= u.factions.to_s.delete("[]") %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

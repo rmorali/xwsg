@@ -92,6 +92,24 @@ a:visited {
 a:hover {
     filter: brightness(1.65);
 }
+.input{
+  width:auto;
+  height:auto;
+  font-size: 14px;
+  border:0px solid #999;
+  background-color: black;
+  color:white;
+  text-shadow: none;
+}
+textarea{
+  border:1px solid #999;
+  padding:2px;
+  background-color: black;
+  text-align: left;
+  color:white;
+  width: auto;
+  height: 50px;
+}
 .select{
   width:auto;
   height:25px;

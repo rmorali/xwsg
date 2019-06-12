@@ -17,6 +17,10 @@ class Result < ApplicationRecord
   validate :captor_if_captured
   validate :posted_results
 
+  def armory?
+    armory
+  end
+
   def movable?
     true unless hyperdrive.to_i < 1 || in_production? || Route.in_range_for(fleet).empty?
   end
@@ -31,6 +35,19 @@ class Result < ApplicationRecord
 
   def production_status
     100.to_f / (ready_in + 1).to_f
+  end
+
+  def builder?
+    @setup = Setup.current
+    ability = nil
+    ability = true if type == 'Facility'
+    ability = true if type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build
+    ability = false if moving? || in_production?
+    ability
+  end
+
+  def radar?
+    level >= 3 && type == 'CapitalShip'
   end
 
   def cargo

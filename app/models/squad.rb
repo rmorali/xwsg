@@ -2,6 +2,7 @@ class Squad < ApplicationRecord
   has_many :fleets
   belongs_to :faction
   has_many :users
+  has_many :messages
 
   def debit_credits(value)
     update(credits: credits - value) if value <= credits

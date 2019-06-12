@@ -6,13 +6,15 @@
     <div class="results">
       <table>
         <tr>
-          <td rowspan="<%= fleet.count + 1 %>" align="center" valign="top">
+          <td rowspan="<%= fleet.count + 10 %>" align="center" valign="top">
             <h2><%= planet.name %></h2>
             <%= image_tag (planet.image), style: "width: 70px" %><br><br>
             <%= raw fleet.first.description %>
           </td>
         </tr>
+        <td></td><td>Dest:</td><td>Fugiu:</td><td>Capt:</td><td>Capturador:</td>
         <%= form_tag "results" do %>
+
           <% fleet.each do |unit| %>
             <tr valign="center">
               <%= simple_fields_for "results[]", unit do |f| %>

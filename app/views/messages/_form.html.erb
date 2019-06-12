@@ -1,0 +1,15 @@
+<%= simple_form_for(@message) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="inputs">
+    <br>
+    <%= f.hidden_field :sender_id, :value => @current_squad.id %>
+
+    <%= f.input :body, :label => false %><br>
+    <%= f.association :receiver, :collection => @squads, :include_blank => "Todos", :label => 'Para:' %>
+  </div>
+
+  <div class="actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
