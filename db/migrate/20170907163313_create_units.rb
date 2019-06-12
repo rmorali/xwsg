@@ -14,6 +14,8 @@ class CreateUnits < ActiveRecord::Migration[5.1]
       t.integer :capacity
       t.boolean :groupable
       t.boolean :carriable
+      t.boolean :armable
+      t.boolean :armory
       t.string :description
 
       t.timestamps

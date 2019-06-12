@@ -10,7 +10,6 @@ class CreateFleets < ActiveRecord::Migration[5.1]
       t.integer :arrives_in
       t.integer :ready_in
       t.integer :destination_id
-      t.boolean :armable
       t.integer :armament_id 
       t.string :description
       t.timestamps

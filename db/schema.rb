@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "arrives_in"
     t.integer "ready_in"
     t.integer "destination_id"
-    t.boolean "armable"
     t.integer "armament_id"
     t.string "description"
     t.datetime "created_at", null: false
@@ -152,6 +151,8 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.integer "capacity"
     t.boolean "groupable"
     t.boolean "carriable"
+    t.boolean "armable"
+    t.boolean "armory"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -8,10 +8,11 @@ class Fleet < ApplicationRecord
   belongs_to :round
   belongs_to :carrier, class_name: 'Fleet', foreign_key: 'carrier_id', optional: true
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
+  belongs_to :armament, class_name: 'Unit', foreign_key: 'armament_id', optional: true
   has_many :results
 
   delegate :name, :credits, :type, :influence_ratio, :facility?, :image,
-           :hyperdrive, :groupable, :carriable, :producing_time, to: :unit
+           :hyperdrive, :groupable, :carriable, :armable, :armory, :producing_time, to: :unit
 
   after_save :destroy_if_empty
 
