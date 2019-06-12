@@ -1,0 +1,25 @@
+<div class="edit_fleets">
+  <table>
+    <tr align="center">
+      <td>Unidade:</td><td>Qtde:</td><td>Armamento:</td>
+    </tr>
+    <% @armables.each do |armable| %>
+      <tr align="center">
+        <td>
+          <span style="<%= style(armable) %>">
+            <%= show(armable) %>
+          </span>
+        </td>
+        <%= simple_form_for armable, url: url_for(action: 'arm') do |f| %>
+          <%= simple_fields_for :custom do |c| %>
+            <%= c.hidden_field :id, value: armable.id %>
+            <td><%= c.input :quantity, collection: (1..armable.quantity), label: false %></td>
+            <td><%= c.input :armament, collection: @armaments, label: false %></td>
+          <% end %>
+          <td><%= f.submit 'Armar' %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+</div>

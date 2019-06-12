@@ -46,3 +46,11 @@
 <% if @fleet.loadable? %>
   <%= render partial: 'carriers', object: @fleet  %>
 <% end %>
+
+<% if @fleet.upgradable? %>
+  <%= render partial: 'upgrade', object: @fleet  %>
+<% end %>
+
+<% if @fleet.armory? %>
+  <%= render partial: 'armory', object: @fleet  %>
+<% end %>

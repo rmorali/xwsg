@@ -6,12 +6,14 @@ class FleetsController < ApplicationController
     @squad = current_squad
     @round = Round.current
     @fleet = Fleet.find(params[:id])
+    @planet = @fleet.planet
     @destinations = Route.in_range_for(@fleet)
     @carriables = @fleet.carriables
     @units = Unit.allowed_for(@squad.faction.name)
     @units = @units.where.not(type: 'Facility') if @fleet.type == 'Facility'
     @units = @units.where(type: 'Facility') if @fleet.type == @setup.builder_unit
-
+    @armables = @planet.fleets.select { |fleet| fleet.armable? && fleet.squad == @squad }
+    @armaments = Unit.allowed_for(@squad.faction.name).where(type: 'Armament')
   end
 
   def move
@@ -49,7 +51,27 @@ class FleetsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def arm
+    @unit = Fleet.find(arm_params[:id])
+    @quantity = arm_params[:quantity].to_i
+    @armament = Unit.find(arm_params[:armament])
+    ArmFleet.new(@unit, @quantity, @armament).arm!
+    redirect_back(fallback_location: root_path)
+  end
+
+  def upgrade
+
+  end
+
   private
+
+  def arm_params
+    params.require(:custom).permit!
+  end
+
+  def upgrade_params
+    params.require(:fleet).permit!
+  end
 
   def fleet_params
     params.require(:fleet).permit(:destination, :quantity)

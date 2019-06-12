@@ -8,7 +8,9 @@ module ApplicationHelper
   	else
   	  params = "#{fleet.quantity} #{fleet.name}"
   	end
-    params = fleet.name + "(#{ fleet.production_status }%)" if fleet.in_production?
+    params << "(#{ fleet.production_status }%)" if fleet.in_production?
+    params << " + #{ fleet.armament.acronym }" if fleet.armament
+    params << " + Rad" if fleet.radar?
     params
   end
 
@@ -53,9 +55,12 @@ module ApplicationHelper
     when 'HeavyTransport'
       info << "<br>- Abordagem / Captura de Fabricas"
   	end
-    info << "<br>- Armamento de Unidades (Armorial)"
-    info << "<br>- Em construção... ( #{ fleet.production_status }% construido)" if fleet.in_production?
-    info << "<br>- Unidade Construtora ( Min: #{setups.minimum_fleet_for_build} )" if fleet.builder?
+    info << "<br>- Armamento: #{fleet.armament.name}" if fleet.armament
+    info << "<br>- (Armorial) Armamento de Unidades" if fleet.armory?
+    info << "<br>- Em Construção... ( #{ fleet.production_status }% construido)" if fleet.in_production?
+    info << "<br>- Unidade Construtora ( Min: #{setups.minimum_fleet_for_build} )" if fleet.builder? && fleet.type != 'Facility'
+    info << "<br>- Unidade Construtora ( Min: #{setups.minimum_fleet_for_build} )" if fleet.builder? && fleet.type == 'Facility'
+
   	info
   end
 

@@ -16,6 +16,18 @@ class Fleet < ApplicationRecord
 
   after_save :destroy_if_empty
 
+  def armory?
+    armory
+  end
+
+  def armable?
+    armable == true && armament.nil?
+  end
+
+  def upgradable?
+   level < 3 && type == 'CapitalShip'
+  end
+
   def radar?
     level >= 3 && type == 'CapitalShip'
   end

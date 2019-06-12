@@ -22,6 +22,8 @@ Rails.application.routes.draw do
       patch :embark
       patch :disembark
       patch :build
+      patch :arm
+      patch :upgrade
     end
   end
 

@@ -10,7 +10,7 @@ class Result < ApplicationRecord
   belongs_to :destination, class_name: 'Planet', foreign_key: 'destination_id', optional: true
 
   delegate :name, :credits, :type, :influence_ratio, :facility?, :image,
-           :hyperdrive, :groupable, :carriable, :producing_time, to: :unit
+           :hyperdrive, :groupable, :carriable, :armable, :armory, :producing_time, to: :unit
 
   validates_numericality_of :blasted, :fled, :captured, allow_nil: true
   validate :captor_if_captured

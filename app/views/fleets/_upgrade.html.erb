@@ -1,0 +1,15 @@
+<div class="edit_fleets">
+  <div class="form-inputs">
+    <table>
+      <tr>
+        <td>
+          Nivel Atual: <%= @fleet.level %> &nbsp &nbsp
+        </td>
+        <%= simple_form_for @fleet, url: url_for(action: 'upgrade') do |f| %>
+          <td>Upgrade para nível 3 - Radar: &nbsp &nbsp </td>
+          <td><%= f.submit 'Upgrade!' %></td>
+        <% end %>
+      </tr>
+    </table>
+  </div>
+</div>

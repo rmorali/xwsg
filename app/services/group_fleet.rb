@@ -31,7 +31,8 @@ class GroupFleet
       fleet.destination,
       fleet.arrives_in,
       fleet.carrier,
-      fleet.ready_in
+      fleet.ready_in,
+      fleet.armament
     ]
   end
 end
