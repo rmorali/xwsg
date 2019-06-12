@@ -37,6 +37,18 @@ class Planet < ApplicationRecord
     #TODO: Show enemy fleets produced before current round if squad has a radar
   end
 
+  def fleets_seen_by_radar(squad)
+    round = Round.current
+    seen_fleets = []
+    Route.in_range_for(self).each do |route|
+      if route.fleets.any? { |u| u.radar? && u.squad == squad }
+        seen_fleets = fleets.sort_by { |a| [a.squad.name, a.unit.id, a.quantity] }
+        seen_fleets.reject! { |fleet| fleet.squad == squad || !fleet.visible_by_radar? }
+      end
+    end
+    seen_fleets
+  end
+
   def fleets_influence
     influence = []
     squads.each do |squad|

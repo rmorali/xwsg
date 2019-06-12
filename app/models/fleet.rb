@@ -16,6 +16,14 @@ class Fleet < ApplicationRecord
 
   after_save :destroy_if_empty
 
+  def radar?
+    level >= 3 && type == 'CapitalShip'
+  end
+
+  def visible_by_radar?
+    true if type == 'Facility' || type == 'CapitalShip' || type == 'Trooper'
+  end
+
   def loadable?
     true if capacity.to_i > 0
   end
@@ -42,7 +50,7 @@ class Fleet < ApplicationRecord
   end
 
   def production_status
-    100.to_f / (ready_in + 1).to_f
+    100 / (ready_in + 1)
   end
 
   def cargo

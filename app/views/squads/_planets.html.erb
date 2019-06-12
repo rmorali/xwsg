@@ -66,18 +66,28 @@
       <br>
     <% end %>
 
-     <% planet.fog_seen_by(@squad).each do |fleet| %>
-       <span style="<%= style(fleet) %>; opacity: 0.3">
-         <%= show_fog(fleet) %>
-       </span>
-       <% fleet.cargo.each do |cargo| %>
-         <br>
-         <span style="<%= style(cargo) %>; opacity: 0.3">
-           &nbsp &nbsp <%= show_fog(cargo) %>
-         </span>
-       <% end %>
-       <br>
-     <% end %>
+    <% planet.fleets_seen_by_radar(@squad).each do |fleet| %>
+      <info class="tooltip">
+      <tip>- Detectado por radar</tip>
+        <span style="<%= style(fleet) %>; opacity: 0.9">
+          <%= show(fleet) %>
+        </span>
+      </info>
+      <br>
+    <% end %>
+
+    <% planet.fog_seen_by(@squad).each do |fleet| %>
+      <span style="<%= style(fleet) %>; opacity: 0.3">
+        <%= show_fog(fleet) %>
+      </span>
+      <% fleet.cargo.each do |cargo| %>
+        <br>
+        <span style="<%= style(cargo) %>; opacity: 0.3">
+          &nbsp &nbsp <%= show_fog(cargo) %>
+        </span>
+      <% end %>
+      <br>
+   <% end %>
   </div>
 
 <% end %>

@@ -38,17 +38,24 @@ module ApplicationHelper
   end
 
   def tip(fleet)
+    setups = Setup.current
   	info = "<b>#{fleet.name}</b>"
   	info << " (Custo: #{fleet.credits}, #{fleet.producing_time} turnos)"
   	case fleet.type
   	when 'CapitalShip'
   	  info << "<br>- Carga: #{fleet.used_capacity} / #{fleet.capacity} tons"
+      info << "<br>- Nivel: #{fleet.level}"
       info << "<br>- Abordagem / Captura de Fabricas"
-      info << "<br>- Armamento de Unidades"
   	when 'Facility'
       info << "<br>- Producao / Treinamento de Unidades"
+    when 'LightTransport'
+      info << "<br>- Abordagem / Captura de Fabricas"
+    when 'HeavyTransport'
+      info << "<br>- Abordagem / Captura de Fabricas"
   	end
-    info << "<br>- Construindo... (#{ fleet.production_status }%)" if fleet.in_production?
+    info << "<br>- Armamento de Unidades (Armorial)"
+    info << "<br>- Em construção... ( #{ fleet.production_status }% construido)" if fleet.in_production?
+    info << "<br>- Unidade Construtora ( Min: #{setups.minimum_fleet_for_build} )" if fleet.builder?
   	info
   end
 

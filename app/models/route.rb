@@ -19,8 +19,17 @@ class Route < ApplicationRecord
     Dijkstra.new(origin, destination, edges).cost
   end
 
-  def self.in_range_for(fleet)
-
+  def self.in_range_for(fleet = nil)
+    if fleet.class.name == 'Planet'
+      planets = []
+      routes = Route.where("vector_a = ? or vector_b = ?", fleet, fleet)
+      routes.each do |route|
+        planets << route.vector_a
+        planets << route.vector_b
+      end
+      planets.reject! { |planet| planet == fleet }
+      return planets.uniq
+    end
 =begin    hyperdrive = fleet.unit.hyperdrive
     origin = fleet.planet
     edges = Route.edges
@@ -40,7 +49,7 @@ class Route < ApplicationRecord
       planets << route.vector_a
       planets << route.vector_b
     end
-    planets.reject! {|planet| planet == fleet.planet}
+    planets.reject! { |planet| planet == fleet.planet }
     planets.uniq
   end
 end
