@@ -5,6 +5,7 @@ class ApplyResult
   end
 
   def apply!
+    @result.update(final_quantity: @result.quantity)
     blast! if @result.blasted.to_i > 0
     flee! if @result.fled.to_i > 0
     capture! if @result.captured.to_i > 0 && @result.captor

@@ -2,12 +2,16 @@ class FleetsController < ApplicationController
   respond_to :html, :js
 
   def edit
+    @setup = Setup.current
     @squad = current_squad
     @round = Round.current
     @fleet = Fleet.find(params[:id])
     @destinations = Route.in_range_for(@fleet)
     @carriables = @fleet.carriables
     @units = Unit.allowed_for(@squad.faction.name)
+    @units = @units.where.not(type: 'Facility') if @fleet.type == 'Facility'
+    @units = @units.where(type: 'Facility') if @fleet.type == @setup.builder_unit
+
   end
 
   def move

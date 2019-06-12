@@ -40,6 +40,10 @@ class Fleet < ApplicationRecord
     ready_in.to_i > 0
   end
 
+  def production_status
+    100.to_f / (ready_in + 1).to_f
+  end
+
   def cargo
     Fleet.where(carrier: self)
   end

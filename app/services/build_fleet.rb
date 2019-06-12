@@ -4,7 +4,10 @@ class BuildFleet
     @unit = unit
     @planet = planet
     @squad = squad
-    @facility = facility unless facility.nil?
+    @facility = nil
+    if unit.producing_time > 0
+      @facility = facility unless facility.nil?
+    end
     @round = Round.current
   end
 
