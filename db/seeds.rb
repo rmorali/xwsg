@@ -133,18 +133,25 @@ all = %w[Empire Rebel Mercenary Pirate]
 type = 'Facility'
 terrain = 'Space'
 ir = 10
+armory = true
 Unit.create(name: 'Ind Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = emp_reb
-Unit.create(name: 'Platforms', credits: 1800, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
-Unit.create(name: 'Asteroid Hangar', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
-Unit.create(name: 'Rebel Platform', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = reb
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp_reb
+Unit.create(name: 'Space Colony', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
+Unit.create(name: 'Platforms', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+Unit.create(name: 'Asteroid Hangar', credits: 1800, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+Unit.create(name: 'Rebel Platform', credits: 2100, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = reb
+Unit.create(name: 'Research Ship', credits: 2100, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp
 Unit.create(name: 'Golan I', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
-Unit.create(name: 'Shipyard', credits: 3600, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false).factions = all
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+Unit.create(name: 'Pirate Shipyard', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
+Unit.create(name: 'Shipyard', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 
 type = 'CapitalShip'
 Unit.create(name: 'Corellian Gunship', credits: 300, terrain: terrain, type: type, influence_ratio: ir,
@@ -177,10 +184,12 @@ Unit.create(name: 'Assault Frigate', credits: 1150, terrain: terrain, type: type
  description: 'Bonus +2 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 400, groupable: false, carriable: false ).factions = reb
 Unit.create(name: 'Mod Strike Cruiser', credits: 1150, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = mand_merc
-Unit.create(name: 'MC80A Chatnoir Cruiser', credits: 1250, terrain: terrain, type: type, influence_ratio: ir,
+Unit.create(name: 'MC80A ChatNoir Cruiser', credits: 1250, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = mand_merc
-Unit.create(name: 'MC80 Reefhome Cruiser', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
+Unit.create(name: 'MC80 ReefHome Cruiser', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = reb
+Unit.create(name: 'MC85A HomeOne Cruiser', credits: 6000, terrain: terrain, type: type, influence_ratio: ir,
+ description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 2, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = reb
 Unit.create(name: 'Victory SD', credits: 1250, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = emp
 Unit.create(name: 'MC80 Liberty Cruiser', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
@@ -193,25 +202,28 @@ Unit.create(name: 'Imperial SD', credits: 1800, terrain: terrain, type: type, in
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = emp
 Unit.create(name: 'Imperial SD II', credits: 2000, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = emp
+Unit.create(name: 'Super StarDestroyer', credits: 7000, terrain: terrain, type: type, influence_ratio: ir,
+ description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 2, weight: 100, capacity: 600, groupable: false, carriable: false ).factions = emp
 
 ir = 1
 type = 'LightTransport'
+armable = true
 Unit.create(name: 'YT-1300', credits: 100, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = merc
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = merc
 Unit.create(name: 'YT-2000', credits: 200, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = merc
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = merc
 Unit.create(name: 'YT-2400', credits: 150, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = mand
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = mand
 Unit.create(name: 'Millenium Falcon', credits: 180, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = merc_reb
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = merc_reb
 Unit.create(name: 'Assault Transport', credits: 125, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = all
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = all
 Unit.create(name: 'Escort Transport', credits: 125, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = reb
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = reb
 Unit.create(name: 'Assault Shuttle', credits: 125, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = emp
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = emp
 Unit.create(name: 'System Pat Craft', credits: 180, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false ).factions = emp
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: false, armable: armable ).factions = emp
 
 type = 'HeavyTransport'
 Unit.create(name: 'Container Transport', credits: 100, terrain: terrain, type: type, influence_ratio: ir,
@@ -227,51 +239,51 @@ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carr
 
 type = 'Fighter'
 Unit.create(name: 'Z-95', credits: 35, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = merc_reb
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = merc_reb
 Unit.create(name: 'Y-Wing', credits: 70, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = reb
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = reb
 Unit.create(name: 'X-Wing', credits: 80, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = reb
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = reb
 Unit.create(name: 'A-Wing', credits: 120, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = reb
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = reb
 Unit.create(name: 'B-Wing', credits: 145, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = reb
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = reb
 Unit.create(name: 'Pinook Fighter', credits: 35, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = merc
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = merc
 Unit.create(name: 'Clockshape Fighter', credits: 55, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = merc
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = merc
 Unit.create(name: 'Planetary Fighter', credits: 55, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = merc
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = merc
 Unit.create(name: 'R-41 Starchaser', credits: 65, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = merc
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = merc
 Unit.create(name: 'Razor Fighter', credits: 70, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = merc
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = merc
 Unit.create(name: 'Skipray Blastboat', credits: 105, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = merc
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = merc
 Unit.create(name: 'T-Wing', credits: 35,  terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = mand
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = mand
 Unit.create(name: 'Preybird Fighter', credits: 50, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = mand
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = mand
 Unit.create(name: 'Supa Fighter', credits: 70, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = mand
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = mand
 Unit.create(name: 'Pursuer', credits: 80, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = mand
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = mand
 Unit.create(name: 'Firespray', credits: 95, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = mand
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = mand
 Unit.create(name: 'Tie Fighter*', credits: 20, terrain: terrain, type: type, influence_ratio: ir,
  hyperdrive: 0, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, description: 'Sem Hyperdrive/Warheads' ).factions = emp
 Unit.create(name: 'Tie Bomber*', credits: 25, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 0, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, description: 'Sem Hyperdrive' ).factions = emp
+ hyperdrive: 0, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, description: 'Sem Hyperdrive', armable: armable  ).factions = emp
 Unit.create(name: 'Tie Interceptor*', credits: 30, terrain: terrain, type: type, influence_ratio: ir,
  hyperdrive: 0, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, description: 'Sem Hyperdrive/Warheads' ).factions = emp
 Unit.create(name: 'Tie Avenger', credits: 110, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = emp
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = emp
 Unit.create(name: 'Assault Gunboat', credits: 120, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = emp
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = emp
 Unit.create(name: 'Missile Boat', credits: 200, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = emp
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = emp
 Unit.create(name: 'Tie Defender', credits: 300, terrain: terrain, type: type, influence_ratio: ir,
- hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true ).factions = emp
+ hyperdrive: 1, producing_time: 0, weight: 10, capacity: 0, groupable: true, carriable: true, armable: armable  ).factions = emp
 
 type = 'Armament'
 Unit.create(name: 'Missile', :acronym => 'M', credits: 5, terrain: terrain, type: type, influence_ratio: ir,
