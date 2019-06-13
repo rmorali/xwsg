@@ -30,6 +30,23 @@ img {
   vertical-align: middle;
   z-index: 100;
 }
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    z-index: 0;
+}
+
+a:link {
+}
+
+a:visited {
+}
+
+a:hover {
+    filter: brightness(1.65);
+}
+
 .panels {
   white-space: nowrap;
   text-align: left;
@@ -74,22 +91,6 @@ info.tooltip:hover tip{
   background-color: white;
   color:black;
   text-shadow: none;
-}
-
-a {
-    text-decoration: none;
-    cursor: pointer;
-    z-index: 0;
-}
-
-a:link {
-}
-
-a:visited {
-}
-
-a:hover {
-    filter: brightness(2.65);
 }
 
 .input{

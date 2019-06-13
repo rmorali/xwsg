@@ -32,8 +32,8 @@ class SquadsController < ApplicationController
 
   def map
     @map_ratio = 1
-    @map_x_adjust = 40
-    @map_y_adjust = 10
+    @map_x_adjust = 80
+    @map_y_adjust = 20
     @squad = current_squad
     @squad_credits = @squad.credits
     @squad_income = SetIncome.new(@squad, Planet.first).total

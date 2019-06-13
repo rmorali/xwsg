@@ -10,11 +10,10 @@
     </tr>
     <% unit.each do |u| %>
       <tr>
-          <td><%= image_tag("#{u.image}", size: "35") %></td>
-          <td><%= u.name %></td>
-          <td><%= u.factions.to_s.delete("[]") %></td>
-        </tr>
-      <% end %>
+        <td><%= image_tag("#{u.image}", size: "35") %></td>
+        <td><%= u.name %></td>
+        <td><%= u.factions.to_s.delete("[]") %></td>
+      </tr>
     <% end %>
-  </tbody>
+  <% end %>
 </table>
