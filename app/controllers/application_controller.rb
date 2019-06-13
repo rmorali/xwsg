@@ -4,14 +4,14 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(_resource)
     if current_user.squad
-      root_path
+      squads_map_path
     else
       new_squad_path
     end
   end
-  
+
   def current_squad
     current_user.squad if current_user
   end
-  
+
 end

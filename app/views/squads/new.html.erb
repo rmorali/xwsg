@@ -1,25 +1,20 @@
-<h2>Novo Esquadrão</h2>
+<div style="display: table; margin: auto; vertical-align: middle;">
+  <%= image_tag ('star wars.png'), style: "align: right; vertical-align: top;" %>
+  <h2>Novo Esquadrão</h2>
 
-<div class="panels">
-  <%= simple_form_for @squad do |f| %>
-    <div class="field">
-      <%= f.input :name, error: 'Please name it' %><br />
-    </div>
+  <div class="users">
+    <%= simple_form_for @squad do |f| %>
+      <%= f.error_notification %>
 
-    <div class="field">
-      <%= f.input :color, collection: @colors, style: 'background:red' %><br />
-    </div>
+      <div class="form-inputs">
+        <%= f.input :name, error: 'Please name it', label: 'Nome: ' %>
+        <%= f.input :color, collection: @colors, style: 'background:red', label: 'Cor: ' %>
+        <%= f.input :faction_id, collection: @factions, label: 'Facção: ' %>
+      </div>
 
-    <div class="field">
-      <%= f.input :faction_id, collection: @factions %><br />
-    </div>
-
-    <div class="field">
-      <%= f.input :url, placeholder: 'http://' %><br />
-    </div>
-
-    <div class="actions">
-      <%= f.submit 'Create Squad' %><br />
-    </div>
-  <% end %>
+      <div class="actions">
+        <%= f.submit 'Create Squad' %><br />
+      </div>
+    <% end %>
+  </div>
 </div>

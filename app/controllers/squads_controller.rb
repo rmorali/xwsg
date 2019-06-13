@@ -20,7 +20,7 @@ class SquadsController < ApplicationController
     @squad.update(color: color, credits: 1000)
     current_user.squad = @squad
     current_user.save
-    redirect_to(root_path)
+    redirect_to squads_map_path
   end
 
   def edit; end
