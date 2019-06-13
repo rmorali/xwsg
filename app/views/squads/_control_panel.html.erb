@@ -42,7 +42,7 @@
     <td colspan="2" style="text-align:center">
       <info class="tooltip">
       <tip>Unidades do XWA</tip>
-        <%= link_to (image_tag ('squads/units.png'), style: "width: 50px; align: left"), units_index_path %>
+        <a href = "" onclick="window.open('/units/index', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=500, height=600')"><%= image_tag ('squads/units.png'), style: "width: 50px; align: center" %></a>
       </info>
     </td>
   </tr>
@@ -67,12 +67,31 @@
   </tr>
 
   <tr>
-    <td colspan="2" style="text-align:center">
+    <td colspan="2" valign="center" align="center">
       <%= simple_form_for @squad do |f| %>
-        <%= f.submit 'Pronto!' %>
+        <%= f.submit 'Turno!' %>
       <% end %>
     </td>
   </tr>
+
+  <tr>
+    <td colspan="2" style="text-align:center">
+      <info class="tooltip">
+      <tip>Setup</tip>
+        <a href = "" onclick="window.open('/setups', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=1000, height=700')"><%= image_tag ('squads/setup.png'), style: "width: 50px; align: center" %></a>
+      </info>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2" style="text-align:center">
+      <info class="tooltip">
+      <tip>Logoff</tip>
+        <%= link_to (image_tag ('squads/logoff.png'), style: "width: 50px; align: center"), destroy_user_session_path %></a>
+      </info>
+    </td>
+  </tr>
+
   <tr>
     <td colspan="2" style="text-align:center">
       <br>
@@ -81,4 +100,5 @@
       </span>
     </td>
   </tr>
+
 </table>
