@@ -1,5 +1,9 @@
-<%= image_tag ('squads/star wars.png'), style: "width: 105px; align: center;" %>
 <table style="text-align: left">
+  <tr>
+    <td colspan="2" style="text-align:center">
+      <%= image_tag ('squads/star wars.png'), style: "width: 105px; align: center;" %>
+    </td>
+  </tr>
   <tr>
     <td colspan="2" style="text-align:center">
       <info class="tooltip">
@@ -61,7 +65,7 @@
   <tr>
     <td colspan="2" valign="center" align="center">
       <%= simple_form_for @squad do |f| %>
-        <%= f.submit 'Turno!' %>
+        <%= f.submit 'Turno!', :onclick => "return confirm('Confirma?')" %>
       <% end %>
     </td>
   </tr>

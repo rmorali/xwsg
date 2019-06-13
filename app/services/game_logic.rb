@@ -11,6 +11,7 @@ class GameLogic
     Squad.all.each do |squad|
       set_initial(squad)
       warp_fleets_for(squad)
+      AiFleet.new(squad).act!
     end
   end
 
@@ -43,6 +44,10 @@ class GameLogic
       ApplyResult.new(result).apply!
     end
     UpdateFleet.new.build!
+    ai_squads = Squad.where(ai: true)
+    ai_squads.each do |squad|
+      AiFleet.new(squad).act!
+    end
   end
 
   def warp_fleets_for(squad)
@@ -53,28 +58,25 @@ class GameLogic
       for_capital_ships = available * 0.40
       for_fighters = available * 0.30
       planet = Planet.random
-
       until for_facilities < 1200 do
         facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', for_facilities)
         facility = facilities[rand(facilities.count)] unless facilities.empty?
         BuildFleet.new(1, facility, squad, planet).build! unless facility.nil?
         for_facilities -= facility.credits
       end
-
       until for_capital_ships < 300 do
         capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', for_capital_ships)
         capital_ship = capital_ships[rand(capital_ships.count)] unless capital_ships.empty?
         BuildFleet.new(1, capital_ship, squad, planet).build! unless capital_ship.nil?
         for_capital_ships -= capital_ship.credits
       end
-
       for_fighters = for_fighters / 2
       2.times do
         fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
         fighter = fighters[rand(fighters.count)]
         BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build!
       end
-
+      GroupFleet.new(planet).group!
     end
   end
 
