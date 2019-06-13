@@ -14,6 +14,7 @@ class SetupsController < ApplicationController
   def update
     @setup = Setup.find(params[:id])
     @setup.update(setup_params)
+    Squad.update_all(ai_level: setup_params[:ai_level])
     redirect_back(fallback_location: root_path)
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190612213300) do
+ActiveRecord::Schema.define(version: 20190607011929) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -57,20 +57,12 @@ ActiveRecord::Schema.define(version: 20190612213300) do
     t.integer "armament_id"
     t.integer "level"
     t.string "description"
+    t.boolean "ai"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planet_id"], name: "index_fleets_on_planet_id"
     t.index ["squad_id"], name: "index_fleets_on_squad_id"
     t.index ["unit_id"], name: "index_fleets_on_unit_id"
-  end
-
-  create_table "messages", force: :cascade do |t|
-    t.integer "sender_id"
-    t.integer "receiver_id"
-    t.string "title"
-    t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "planets", force: :cascade do |t|
@@ -139,13 +131,15 @@ ActiveRecord::Schema.define(version: 20190612213300) do
 
   create_table "squads", force: :cascade do |t|
     t.string "name"
-    t.integer "credits"
+    t.integer "credits", default: 0
     t.integer "metals"
     t.integer "rare_elements"
     t.integer "faction_id"
     t.string "color"
     t.string "url"
     t.boolean "ready"
+    t.boolean "ai"
+    t.integer "ai_level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -156,7 +150,7 @@ ActiveRecord::Schema.define(version: 20190612213300) do
     t.string "type"
     t.string "terrain"
     t.integer "faction_mask"
-    t.integer "hyperdrive"
+    t.integer "hyperdrive", default: 0
     t.integer "credits"
     t.integer "producing_time"
     t.integer "influence_ratio"

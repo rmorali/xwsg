@@ -14,7 +14,7 @@ class BuildFleet
   def build!
     @quantity.times do
       Fleet.create(quantity: 1, unit: @unit, squad: @squad, planet: @planet, round: @round, ready_in: @unit.producing_time,
-        carrier: @facility, level: 0) if valid?
+        carrier: @facility, level: 0, ai: @squad.ai) if valid?
     end
   end
 

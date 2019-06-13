@@ -53,7 +53,7 @@ RSpec.describe GameLogic, type: :service do
     it 'sets initial credits for squads' do
       game = GameLogic.new
       game.set_initial(@empire)
-      expect(@empire.reload.credits).to eq(2400)
+      expect(@empire.reload.credits).to eq(12000)
     end
 
     it 'sets income for planets' do
@@ -63,7 +63,7 @@ RSpec.describe GameLogic, type: :service do
     end
 
     it 'populates random planets for squads' do
-      GameLogic.new.new_game!
+      GameLogic.new().new_game!
       expect(@empire.reload.fleets).to_not be_empty
     end
 

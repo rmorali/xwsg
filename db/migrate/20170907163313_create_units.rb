@@ -6,7 +6,7 @@ class CreateUnits < ActiveRecord::Migration[5.1]
       t.string :type
       t.string :terrain
       t.integer :faction_mask
-      t.integer :hyperdrive
+      t.integer :hyperdrive, default: 0
       t.integer :credits
       t.integer :producing_time
       t.integer :influence_ratio

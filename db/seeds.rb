@@ -5,13 +5,15 @@ Faction.create([
   { name: 'Pirate' }
 ])
 
-Squad.create([
-  { name: 'Empire', credits: 1000, color: '#00FFFF', faction: Faction.first },
-  { name: 'Rebel', credits: 1000, color: '#FF0000', faction: Faction.second },
-])
+#color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
+color = 'FF00'
+faction = Faction.all.reject { |faction| faction.name == 'Rebel' }[rand(Faction.all.count)]
+
+Squad.create(name: 'Bot Squadron', color: "FF#{color}", faction: faction, ai: true, ai_level: 3)
+Squad.create(name: 'Rebels', color: '#FF0000', faction: Faction.second)
 
 User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
-User.create(email: 'rebel@rebel.com', password: '123456', squad: Squad.second)
+User.create(email: 'reb@reb.com', password: '123456', squad: Squad.second)
 
 bespin = Planet.create(name: 'Bespin', sector: 1, x: 363, y: 475, credits: 0)
 bonadan = Planet.create(name: 'Bonadan', sector: 3, x: 1488, y: 475, credits: 0)
@@ -311,12 +313,12 @@ hyperdrive: 0, producing_time: 0, weight: 0, capacity: 0, groupable: true, carri
 
 Setup.create(
   planet_income_ratio: 10,
-  initial_credits: 6000,
-  initial_planets: 2,
+  initial_credits: 12000,
+  initial_planets: 3,
   initial_wormholes: 2,
   minimum_fleet_for_dominate: 10000,
-  minimum_fleet_for_build: 1,
-  builder_unit: 'CapitalShip',
+  minimum_fleet_for_build: 50,
+  builder_unit: 'Trooper',
   upgrade_cost: 1000,
   ai: true,
   ai_level: 3

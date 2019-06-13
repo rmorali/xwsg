@@ -66,7 +66,7 @@ FactoryGirl.define do
   end
   factory :setup do
     planet_income_ratio 1
-    initial_credits 2400
+    initial_credits 12000
     initial_planets 2
     initial_wormholes 2
     minimum_fleet_for_dominate 10000

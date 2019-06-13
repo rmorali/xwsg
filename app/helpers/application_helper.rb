@@ -64,6 +64,7 @@ module ApplicationHelper
     info << "<br>- Em Construção... ( #{ fleet.production_status }% construido)" if fleet.in_production?
     info << "<br>- Unidade Construtora ( Mínimo: #{setups.minimum_fleet_for_build} )" if fleet.builder? && fleet.type != 'Facility'
     info << "<br>- Unidade Construtora ( Mínimo: #{setups.minimum_fleet_for_build} )" if fleet.type == setups.builder_unit && fleet.type == 'Facility'
+    info << "<br>- #{fleet.unit.description}" if fleet.unit.description
 
   	info
   end

@@ -6,7 +6,11 @@ class ApplicationController < ActionController::Base
     if current_user.squad
       squads_map_path
     else
-      new_squad_path
+      if User.first
+        squads_map_path
+      else
+        new_squad_path
+      end
     end
   end
 

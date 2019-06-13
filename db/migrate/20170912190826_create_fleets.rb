@@ -13,6 +13,7 @@ class CreateFleets < ActiveRecord::Migration[5.1]
       t.integer :armament_id
       t.integer :level
       t.string :description
+      t.boolean :ai
       t.timestamps
     end
   end
