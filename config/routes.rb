@@ -8,12 +8,6 @@ Rails.application.routes.draw do
   get 'setups/new_game'
   get 'setups/finaliza_turno'
 
-  resources :messages do
-    member do
-     get :deleta
-    end
-  end
-
   resources :planets
 
   resources :results
