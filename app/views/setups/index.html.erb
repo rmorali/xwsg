@@ -15,7 +15,7 @@
     <%= f.submit 'Salvar Alterações' %>
   <% end %>
 </div>
-<h1>Ferramentas para Reset e Inicio de Partida</h1>
+<h1>Reset e Turnos</h1>
 <div class="setups">
   <%= link_to 'NEW GAME', setups_new_game_path %> - Inicia uma nova partida
   <br><br>
@@ -24,22 +24,4 @@
   <%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path %> - Passar para próxima fase do turno
   <br><br>
   <%= link_to 'Voltar',root_path %> - Menu Principal
-</div>
-<h1>Diversos</h1>
-<div class="setups">
-  <div class="link">
-    <%= link_to 'Units', units_index_path %>
-  </div>
-  <div class="link">
-    <%= link_to 'Planets', planets_path %>
-  </div>
-  <div class="link">
-    <%= link_to 'Map', squads_map_path %>
-  </div>
-  <div class="link">
-    <%= link_to 'Setup', setups_path %>
-  </div>
-  <div class="link">
-    <%= link_to 'Sign Out', destroy_user_session_path %>
-  </div>
 </div>
