@@ -47,18 +47,34 @@ class GameLogic
 
   def warp_fleets_for(squad)
     planets_quantity = @setup.initial_planets
-    available_credits = squad.credits / planets_quantity
+    available = squad.credits / planets_quantity
     planets_quantity.times do
+      for_facilities = available * 0.30
+      for_capital_ships = available * 0.40
+      for_fighters = available * 0.30
       planet = Planet.random
-      facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', 1200)
-      capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', 1200)
-      fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', 100)
-      facility = facilities[rand(facilities.count)]
-      capital_ship = capital_ships[rand(capital_ships.count)]
-      fighter = fighters[rand(fighters.count)]
-      BuildFleet.new(1, facility, squad, planet).build! unless facility.nil?
-      BuildFleet.new( (1200 / capital_ship.credits), capital_ship, squad, planet).build! unless capital_ship.nil?
-      BuildFleet.new( ((available_credits - 2400) / fighter.credits), fighter, squad, planet).build! unless fighter.nil?
+
+      until for_facilities < 1200 do
+        facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', for_facilities)
+        facility = facilities[rand(facilities.count)] unless facilities.empty?
+        BuildFleet.new(1, facility, squad, planet).build! unless facility.nil?
+        for_facilities -= facility.credits
+      end
+
+      until for_capital_ships < 300 do
+        capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', for_capital_ships)
+        capital_ship = capital_ships[rand(capital_ships.count)] unless capital_ships.empty?
+        BuildFleet.new(1, capital_ship, squad, planet).build! unless capital_ship.nil?
+        for_capital_ships -= capital_ship.credits
+      end
+
+      for_fighters = for_fighters / 2
+      2.times do
+        fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
+        fighter = fighters[rand(fighters.count)]
+        BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build!
+      end
+
     end
   end
 

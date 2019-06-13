@@ -3,7 +3,7 @@ class SetupsController < ApplicationController
 
   def index
     @setup = Setup.current
-    @units = ['Facility','CapitalShip','LightTransport','HeavyTransport']
+    @units = ['CapitalShip','LightTransport','HeavyTransport','Trooper']
     @round = Round.current
   end
 
