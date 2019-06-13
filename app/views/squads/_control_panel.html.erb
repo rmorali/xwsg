@@ -59,15 +59,6 @@
   </tr>
 
   <tr>
-    <td colspan="2" style="text-align:center">
-      <info class="tooltip">
-      <tip>Message Board</tip>
-        <a href = "" onclick="window.open('/messages', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=1000, height=700')"><%= image_tag ('squads/message board.png'), style: "width: 50px; align: center" %></a>
-      </info>
-    </td>
-  </tr>
-
-  <tr>
     <td colspan="2" valign="center" align="center">
       <%= simple_form_for @squad do |f| %>
         <%= f.submit 'Turno!' %>
