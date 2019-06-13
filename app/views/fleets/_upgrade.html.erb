@@ -10,7 +10,7 @@
             <%= c.hidden_field :id, value: @fleet.id %>
           <% end %>
           <td>Custo: $<%= @setup.upgrade_cost %> para nível 3 - Radar: &nbsp &nbsp </td>
-          <td><%= f.submit 'Upgrade!' %></td>
+          <td><%= f.submit 'Upgrade', :onclick => "return confirm('Custo: #{@setup.upgrade_cost}. Confirma?')" %></td>
         <% end %>
       </tr>
     </table>
