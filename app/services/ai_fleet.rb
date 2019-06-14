@@ -21,9 +21,9 @@ class AiFleet
     return unless fleet.movable?
     planet = fleet.planet
     routes = Route.in_range_for(fleet)
-    stay_defending = 6
-    stay_defending = rand(@squad.ai_level..6) if planet.fleets.any? { |f| f.squad == @squad && f.type == 'Facility' }
-    unless stay_defending != 6
+    attack = 6
+    attack = rand(@squad.ai_level..6) if planet.fleets.any? { |f| f.squad == @squad && f.type == 'Facility' }
+    if attack == 6
       destination = choose_destination(routes)
       MoveFleet.new(fleet, fleet.quantity, destination).order!
     end
