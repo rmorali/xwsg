@@ -44,17 +44,6 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-#production:
-  #<<: *default
-  #database: db/xwsg_production
-
 production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: xwsg_production
-  pool: 5
-  username: root
-  password: P@ss1234
-  variables:
-    sql_mode: TRADITIONAL
+  <<: *default
+  database: db/xwsg_production
