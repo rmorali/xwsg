@@ -38,6 +38,7 @@ class GameLogic
   def space_combat!
     UpdateFleet.new.move!
     CreateResult.new.create!
+    Squad.all.where(ai: true) { |squad| squad.ready! }
   end
 
   def ground_combat!; end
