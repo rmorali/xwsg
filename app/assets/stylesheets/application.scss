@@ -19,7 +19,7 @@ body {
     color: white;
     font-size: 11px;
     background-color: black;
-    background: url(asset_path('starfield.jpg');
+    background-image: url(<%= asset_path 'starfield.jpg' %>);
   }
 
 div {

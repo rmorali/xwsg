@@ -10,6 +10,10 @@
 
   <script type="text/javascript">
 
+   function refreshParent(id) {
+        window.opener.location.reload();
+      }
+
    function showDiv(id, pos_x, pos_y) {
      var x = document.getElementById(id);
        x.style.display = "block";
