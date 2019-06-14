@@ -19,7 +19,7 @@ body {
     color: white;
     font-size: 11px;
     background-color: black;
-    background: url('squads/starfield.jpg');
+    background-image: asset-data-url("starfield.jpg")
   }
 
 div {
