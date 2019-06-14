@@ -7,6 +7,10 @@ class AiFleet
   def act!
     return unless @squad.ai == true
     fleets = Fleet.where(ai: true, squad: @squad)
+    carriers = fleets.select { |fleet| fleet.available_capacity > 10 && fleet.type != 'Facility' }
+    carriers.each do |carrier|
+      embark!(carrier)
+    end 
     fleets.each do |fleet|
       move!(fleet)
     end
@@ -15,6 +19,13 @@ class AiFleet
 
   def produce
 
+  end
+
+  def embark!(fleet)
+    cargo = fleet.carriables
+    cargo.each do |c|
+      ShipFleet.new(c.quantity, c, fleet).embark!
+    end
   end
 
   def move!(fleet)

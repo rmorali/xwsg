@@ -66,26 +66,31 @@
       <br>
     <% end %>
 
-    <% planet.fleets_seen_by_radar(@squad).each do |fleet| %>
-      <info class="tooltip">
-      <tip>- Detectado por radar</tip>
-        <span style="<%= style(fleet) %>; opacity: 0.9">
-          <%= show(fleet) %>
-        </span>
-      </info>
-      <br>
+    <% if @round.strategy? %>
+      <% planet.fleets_seen_by_radar(@squad).each do |fleet| %>
+        <info class="tooltip">
+        <tip>- Detectado por radar</tip>
+          <span style="<%= style(fleet) %>; opacity: 0.9">
+            <%= show(fleet) %>
+          </span>
+        </info>
+        <br>
+      <% end %>
     <% end %>
 
     <% planet.fog_seen_by(@squad).each do |fleet| %>
-      <span style="<%= style(fleet) %>; opacity: 0.3">
-        <%= show_fog(fleet) %>
-      </span>
-      <% fleet.cargo.each do |cargo| %>
-        <br>
-        <span style="<%= style(cargo) %>; opacity: 0.3">
-          &nbsp &nbsp <%= show_fog(cargo) %>
+      <info class="tooltip">
+      <tip>- Enfrentado no turno: <%= fleet.round.number %></tip>
+        <span style="<%= style(fleet) %>; opacity: 0.3">
+          <%= show_fog(fleet) %>
         </span>
-      <% end %>
+        <% fleet.cargo.each do |cargo| %>
+          <br>
+          <span style="<%= style(cargo) %>; opacity: 0.3">
+            &nbsp &nbsp <%= show_fog(cargo) %>
+          </span>
+        <% end %>
+      </info>
       <br>
    <% end %>
   </div>

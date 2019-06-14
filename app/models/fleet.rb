@@ -1,4 +1,5 @@
 class Fleet < ApplicationRecord
+  default_scope { order(squad_id: :ASC, carrier_id: :ASC, unit_id: :ASC) }
   scope :terrain, ->(terrain) { joins(:unit).where('terrain = ?', terrain) }
   scope :enemy_of, ->(squad) { where('squad_id != ?', squad) }
 
@@ -54,7 +55,7 @@ class Fleet < ApplicationRecord
   end
 
   def movable?
-    true unless hyperdrive.to_i < 1 || in_production? || Route.in_range_for(self).empty?
+    true unless hyperdrive.to_i < 1 || in_production? || Route.in_range_for(self).empty? || !carrier.nil? 
   end
 
   def in_production?
@@ -74,6 +75,7 @@ class Fleet < ApplicationRecord
   end
 
   def available_capacity
+    return 0 if in_production?
     loaded = 0
     cargo.each { |cargo| loaded += cargo.weight }
     capacity - loaded

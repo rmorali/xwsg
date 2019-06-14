@@ -1,5 +1,5 @@
 class Result < ApplicationRecord
-  default_scope { order(squad_id: :ASC, updated_at: :ASC) }
+  default_scope { order(squad_id: :ASC, unit_id: :ASC) }
   belongs_to :round
   belongs_to :unit
   belongs_to :fleet

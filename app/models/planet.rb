@@ -41,7 +41,7 @@ class Planet < ApplicationRecord
     round = Round.current
     seen_fleets = []
     Route.in_range_for(self).each do |route|
-      if route.fleets.any? { |u| u.radar? && u.squad == squad }
+      if route.fleets.any? { |u| u.radar? }
         seen_fleets = fleets.sort_by { |a| [a.squad.name, a.unit.id, a.quantity] }
         seen_fleets.reject! { |fleet| fleet.squad == squad || !fleet.visible_by_radar? }
       end
