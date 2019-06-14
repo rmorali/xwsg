@@ -47,6 +47,10 @@ class GameLogic
     results.each do |result|
       ApplyResult.new(result).apply!
     end
+    Squad.all.each do |squad|
+      squad.credits += SetIncome.new(squad, Planet.first).total
+      squad.save
+    end
     UpdateFleet.new.build!
     ai_squads = Squad.where(ai: true)
     ai_squads.each do |squad|

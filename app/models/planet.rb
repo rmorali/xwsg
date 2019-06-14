@@ -52,7 +52,7 @@ class Planet < ApplicationRecord
   def fleets_influence
     influence = []
     squads.each do |squad|
-      influence << [ squad, fleets.where(squad: squad).sum { |f| f.quantity * f.credits * f.influence_ratio} ]
+      influence << [ squad, fleets.select { |f| f.squad == squad && f.destination.nil? }.sum { |f| f.quantity * f.credits * f.influence_ratio} ]
     end
     influence
   end
