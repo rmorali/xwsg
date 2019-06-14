@@ -49,7 +49,7 @@ test:
   #database: db/xwsg_production
 
 production:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: xwsg_production
