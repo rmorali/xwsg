@@ -1,5 +1,5 @@
 class Fleet < ApplicationRecord
-  default_scope { order(squad_id: :ASC, carrier_id: :ASC, unit_id: :ASC) }
+  default_scope { order(squad_id: :ASC, unit_id: :ASC) }
   scope :terrain, ->(terrain) { joins(:unit).where('terrain = ?', terrain) }
   scope :enemy_of, ->(squad) { where('squad_id != ?', squad) }
 

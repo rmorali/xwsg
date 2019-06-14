@@ -60,6 +60,7 @@ class FleetsController < ApplicationController
     @quantity = arm_params[:quantity].to_i
     @armament = Unit.find(arm_params[:armament])
     ArmFleet.new(@fleet, @quantity, @armament).arm!
+    GroupFleet.new(@fleet.planet).group!
     redirect_back(fallback_location: root_path)
   end
 
