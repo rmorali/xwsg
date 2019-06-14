@@ -6,7 +6,8 @@ Faction.create([
 ])
 
 #color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
-faction = Faction.all.reject { |faction| faction.name == 'Rebel' }[rand(Faction.all.count)]
+faction = Faction.all.reject { |faction| faction.name == 'Rebel' }
+faction = faction[rand(faction.count)]
 
 Squad.create(name: 'BOT', color: '#FFFF00', faction: faction, ai: true, ai_level: 3)
 Squad.create(name: 'Rebels', color: '#FF0000', faction: Faction.second)
