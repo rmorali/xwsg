@@ -53,4 +53,8 @@ class Route < ApplicationRecord
     planets.reject! { |planet| !planet.fleets.any? { |f| f.squad == fleet.squad} } if fleet.type == 'Fighter'
     planets.uniq
   end
+
+  def wormhole?
+    wormhole
+  end
 end
