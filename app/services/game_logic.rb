@@ -13,7 +13,7 @@ class GameLogic
       warp_fleets_for(squad)
       AiFleet.new(squad).act!
     end
-    Planet.each do |planet|
+    Planet.all.each do |planet|
       GroupFleet.new(planet).group!
     end
 
