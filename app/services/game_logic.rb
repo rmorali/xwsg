@@ -13,6 +13,10 @@ class GameLogic
       warp_fleets_for(squad)
       AiFleet.new(squad).act!
     end
+    Planet.each do |planet|
+      GroupFleet.new(planet).group!
+    end
+
   end
 
   def check_state!
@@ -48,6 +52,7 @@ class GameLogic
     ai_squads.each do |squad|
       AiFleet.new(squad).act!
     end
+    Fleet.where('ready_in < ?', 0).update_all(ready_in: 0)
   end
 
   def warp_fleets_for(squad)

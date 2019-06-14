@@ -21,6 +21,7 @@ class FleetsController < ApplicationController
     @destination = Planet.find_by(id: fleet_params[:destination].to_i)
     @quantity = fleet_params[:quantity].to_i
     MoveFleet.new(@fleet, @quantity, @destination).order!
+    GroupFleet.new(@fleet.planet).group!
     redirect_back(fallback_location: root_path)
   end
 
@@ -29,6 +30,7 @@ class FleetsController < ApplicationController
     @cargo = Fleet.find(cargo_params[:id])
     @quantity = cargo_params[:quantity].to_i
     ShipFleet.new(@quantity, @cargo, @carrier).embark!
+    GroupFleet.new(@carrier.planet).group!
     redirect_back(fallback_location: root_path)
   end
 
@@ -37,6 +39,7 @@ class FleetsController < ApplicationController
     @cargo = Fleet.find(cargo_params[:id])
     @quantity = cargo_params[:quantity].to_i
     ShipFleet.new(@quantity, @cargo, @carrier).disembark!
+    GroupFleet.new(@carrier.planet).group!
     redirect_back(fallback_location: root_path)
   end
 
@@ -48,6 +51,7 @@ class FleetsController < ApplicationController
     @unit = Unit.find(build_params[:unit])
     @quantity = build_params[:quantity].to_i
     BuildFleet.new(@quantity, @unit, @squad, @carrier.planet, @facility).build!
+    GroupFleet.new(@carrier.planet).group!
     redirect_back(fallback_location: root_path)
   end
 
