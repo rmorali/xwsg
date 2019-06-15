@@ -43,6 +43,7 @@ module ApplicationHelper
     setups = Setup.current
   	info = "<b>#{fleet.name}</b>"
   	info << " (Custo: #{fleet.credits}, Turnos: #{fleet.producing_time}) "
+    info << "<br>- Influência: #{fleet.influence}"
   	case fleet.type
   	when 'CapitalShip'
   	  info << "<br>- Carga: #{fleet.used_capacity} / #{fleet.capacity} tons"

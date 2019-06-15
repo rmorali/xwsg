@@ -23,7 +23,8 @@
   <div id="planet_income" style="position:absolute; left:<%= pos_x + 45 %>px; top:<%= pos_y - 5 %>px;z-index: 15; white-space: nowrap">
     <span style="color:gray; font-size: 10px; font-weight: bold">
       <info class="tooltip">
-      <tip>Income máximo</tip>
+      <tip>Income planetário máximo<br>
+           Influência Mínima: <%= @setup.minimum_fleet_for_dominate %></tip>
         <%= planet.income %>
       </info>
     </span>
@@ -32,7 +33,13 @@
   <div id="squad_income" style="position:absolute; left:<%= pos_x - 20 %>px; top:<%= pos_y - 5 %>px;z-index: 15; white-space: nowrap">
     <span style="color:yellow;font-size: 10px;font-weight: bold">
       <info class="tooltip">
-      <tip>Income ao squad</tip>
+      <tip>Income do squad<br>
+        Influência: 
+        <% planet.fleets_influence.each do |i| %>
+          <%= i[1] if i[0] == @squad %>
+        <% end %> 
+        / <%= @setup.minimum_fleet_for_dominate %><br>
+      </tip>
         <%= SetIncome.new(@squad, planet).current %>
       </info>
     </span>
@@ -58,9 +65,12 @@
 
       <% fleet.cargo.each do |cargo| %>
         <br>
-        <span style="<%= style(cargo) %>">
-          &nbsp &nbsp <%= show(cargo) %>
-        </span>
+        <info class="tooltip">
+        <tip><%= raw tip(cargo) %></tip>
+          <span style="<%= style(cargo) %>">
+            &nbsp &nbsp <%= show(cargo) %>
+          </span>
+        </info>
       <% end %>
       <br>
     <% end %>

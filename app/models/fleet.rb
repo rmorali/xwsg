@@ -96,7 +96,9 @@ class Fleet < ApplicationRecord
   end
 
   def influence
-    fleet_influence = quantity * credits * influence_ratio
+    fleet_influence = 0
+    fleet_influence = quantity * credits * influence_ratio unless moving? || in_production? 
+    fleet_influence
   end
 
   def destroy_if_empty

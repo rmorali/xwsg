@@ -39,6 +39,7 @@ class SquadsController < ApplicationController
     @squad_income = SetIncome.new(@squad, Planet.first).total
     @planets = Planet.all
     @round = Round.current
+    @setup = Setup.current
     @status = ""
     @squads = Squad.all
     @squads.each do |squad|
