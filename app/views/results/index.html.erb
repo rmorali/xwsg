@@ -25,7 +25,11 @@
                     <info class="tooltip">
                     <tip><%= raw tip(unit) %></tip>
                       <%= raw "&nbsp &nbsp" if unit.carrier %> <%= show(unit) %>
+                      <span style="color: white">
+                        <%= show_result(unit) %>
+                      </span>
                     </info>
+
                   </span>
                 </td>
                 <% if current_round %>
