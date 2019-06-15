@@ -71,6 +71,7 @@ module ApplicationHelper
   end
 
   def show_result(fleet)
+    round = Round.current
     info = ""
     unless fleet.results.empty?
       result = fleet.results.last
