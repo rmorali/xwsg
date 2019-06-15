@@ -56,6 +56,9 @@
           <span style="<%= style(fleet) %>">
             <%= show(fleet) %>
           </span>
+          <span style="color: white">
+            <%= show_result(fleet) %>
+          </span>
         </a>
       </info>
       <span style="color: white">
@@ -69,6 +72,9 @@
         <tip><%= raw tip(cargo) %></tip>
           <span style="<%= style(cargo) %>">
             &nbsp &nbsp <%= show(cargo) %>
+          </span>
+          <span style="color: white">
+            <%= show_result(cargo) %>
           </span>
         </info>
       <% end %>

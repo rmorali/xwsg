@@ -12,7 +12,9 @@
             <%= raw fleet.first.description %>
           </td>
         </tr>
-        <td></td><td>Dest:</td><td>Fugiu:</td><td>Capt:</td><td>Capturador:</td>
+        <% if current_round %>
+          <td></td><td>Dest:</td><td>Fugiu:</td><td>Capt:</td><td>Capturador:</td>
+        <% end %>
         <%= form_tag "results" do %>
 
           <% fleet.each do |unit| %>

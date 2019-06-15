@@ -70,4 +70,15 @@ module ApplicationHelper
   	info
   end
 
+  def show_result(fleet)
+    info = ""
+    unless fleet.results.empty?
+      result = fleet.results.last
+      info << "#{result.blasted}d " if result.blasted.to_i > 0 && result.round == @round
+      info << "#{result.fled}f " if result.fled.to_i > 0 && result.round == @round
+      info << "#{result.captured}c " if result.captured.to_i > 0 && result.round == @round  
+    end
+    info
+  end
+
 end

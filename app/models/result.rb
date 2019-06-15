@@ -72,6 +72,12 @@ class Result < ApplicationRecord
     quantity * unit.weight
   end
 
+  def influence
+    fleet_influence = 0
+    fleet_influence = quantity * credits * influence_ratio unless moving? || in_production? 
+    fleet_influence
+  end
+
   def captor_if_captured
     return errors.add :captor, :empty if captured.to_i > 0 && !captor
     true
