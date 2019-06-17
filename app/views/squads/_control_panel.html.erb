@@ -33,11 +33,18 @@
     </td>
 
     <td>
-      <span style="color: yellow; font-size: 13px">
-        <%= @squad_credits %><br>
+      <span style="color: yellow; font-size: 13px; font-weight: bold">
+        <info class="tooltip">
+        <tip>Crédito Disponível</tip>
+          <%= @squad_credits %>
+        </info>
       </span>
-      <span style="color: yellow">
-        +<%= @squad_income %>
+      <br>
+      <span style="color: yellow; font-size: 10px">
+        <info class="tooltip">
+        <tip>Income Previsto</tip>
+          +<%= @squad_income %>
+        </info>
       </span>
     </td>
 
