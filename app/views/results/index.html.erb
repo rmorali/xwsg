@@ -1,3 +1,7 @@
+<script>
+  refreshParent();
+  document.title = " Lista de Combates "
+ </script>
 <% @rounds.sort_by{|a| a.number}.reverse.each do |round| %>
   <% current_round = false %>
   <% current_round = true if round == @round && @round.space_combat? %>
