@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get 'units/index'
   get 'squads/map'
+  post 'squads/ready'
   get 'setups/new_game'
   get 'setups/finaliza_turno'
 

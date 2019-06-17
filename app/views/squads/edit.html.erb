@@ -1,0 +1,16 @@
+<script>
+  refreshParent();
+  document.title = " Setup do Squad "
+</script>
+<h1> Setup do Squad </h1>
+<div class="panels" style="width: auto">
+  <%= simple_form_for @squad do |f| %>
+  	<%= f.input :name, label: 'Nome: ', input_html: { size: 10 } %>
+  	<%= f.input :color, collection: @colors, label: 'Cor: ' %>
+  	<%= f.input :map_ratio, label: 'Tamanho do mapa (%):', collection: (70..130).step(5), selected: @squad.map_ratio %>
+  	<%= f.input :ai, label: ' Ativar modo AI?', as: :boolean %>
+  	<%= f.input :ai_level, collection: 1..6, label: 'AI Level:' %>
+  	<br>
+  	<%= f.submit 'Atualizar' %>
+  <% end %>
+</div>

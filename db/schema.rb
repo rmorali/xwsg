@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20190607011929) do
     t.boolean "ready"
     t.boolean "ai"
     t.integer "ai_level"
+    t.integer "map_ratio", default: 100
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

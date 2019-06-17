@@ -1,4 +1,4 @@
-<table style="text-align: left">
+<table style="text-align: left; border-spacing: 15px 0px">
   <tr>
     <td style="text-align:center">
       <%= image_tag ('squads/star wars.png'), style: "width: 105px; align: center;" %>
@@ -65,9 +65,10 @@
     </td>
 
     <td valign="center" align="center">
-      <%= simple_form_for @squad do |f| %>
-        <%= f.submit 'Turno!', onclick: "return confirm('Confirma?')" %>
-      <% end %>
+      <info class="tooltip">
+      <tip>Finalizar turno</tip>
+        <%= link_to (image_tag ('squads/ready.png'), style: "width: 55px; align: center"), squads_ready_path, method: :post, onclick: "return confirm('Passar Turno. Confirma?')" %>
+      </info>
     </td>
 
     <td style="text-align:center">

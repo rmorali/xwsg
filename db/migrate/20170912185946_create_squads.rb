@@ -11,6 +11,7 @@ class CreateSquads < ActiveRecord::Migration[5.1]
       t.boolean :ready
       t.boolean :ai
       t.integer :ai_level
+      t.integer :map_ratio, default: 100
 
       t.timestamps
     end
