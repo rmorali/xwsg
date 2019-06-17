@@ -14,7 +14,7 @@
     </info>
   </div>
 
-  <div id="names" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y - 25 %>px" >
+  <div id="names" style="position: absolute; left:<%= pos_x - 5 %>px; top:<%= pos_y - 20 %>px; z-index: -15" >
     <span style="color: white; font-weight: bold; font-size: 12px">
       <%= planet.name %>
     </span>
@@ -34,10 +34,10 @@
     <span style="color:yellow;font-size: 10px;font-weight: bold">
       <info class="tooltip">
       <tip>Income do squad<br>
-        Influência: 
+        Influência:
         <% planet.fleets_influence.each do |i| %>
           <%= i[1] if i[0] == @squad %>
-        <% end %> 
+        <% end %>
         / <%= @setup.minimum_fleet_for_dominate %><br>
       </tip>
         <%= SetIncome.new(@squad, planet).current %>

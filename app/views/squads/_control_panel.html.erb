@@ -1,39 +1,37 @@
 <table style="text-align: left">
   <tr>
-    <td colspan="2" style="text-align:center">
+    <td style="text-align:center">
       <%= image_tag ('squads/star wars.png'), style: "width: 105px; align: center;" %>
     </td>
-  </tr>
-  <tr>
-    <td colspan="2" style="text-align:center">
+
+    <td style="text-align:center">
       <info class="tooltip">
       <tip>Config do Sistema</tip>
         <a href = "" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Config Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=350, height=280')">
-        <%= image_tag (@squad.image), style: "width: 70px; align: center;" %></a>
+        <%= image_tag (@squad.image), style: "width: 50px; align: center;" %></a>
       </info>
     </td>
-  <tr>
-    <td colspan="2" style="text-align:center">
+
+    <td style="text-align:center">
       <span style="color:<%= @squad.color %>;font-size: 24px; font-weight: bold">
         <%= @squad.name %>
       </span>
     </td>
-  </tr>
-  <tr>
-    <td colspan="2" style="text-align:center">
+
+    <td style="text-align:center">
       <span style="font-size: 18px; font-weight: bold">
         Turno: <%= @round.number %><br>
         <%= @round.phase.upcase_first %>
       </span>
     </td>
-  </tr>
-  <tr>
+
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Creditos e Income</tip>
         <%= image_tag ('squads/credits.png'), style: "width: 50px; align: right; vertical-align: top" %>
       </info>
     </td>
+
     <td>
       <span style="color: yellow; font-size: 13px">
         <%= @squad_credits %><br>
@@ -42,17 +40,15 @@
         +<%= @squad_income %>
       </span>
     </td>
-  </tr>
-  <tr>
-    <td colspan="2" style="text-align:center">
+
+    <td style="text-align:center">
       <info class="tooltip">
       <tip>Unidades do XWA</tip>
         <a href = "" onclick="window.open('/units/index', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=500, height=600')"><%= image_tag ('squads/units.png'), style: "width: 50px; align: center" %></a>
       </info>
     </td>
-  </tr>
-  <tr>
-    <td colspan="2" style="text-align:center">
+
+    <td style="text-align:center">
       <info class="tooltip">
       <tip>Combates</tip>
       <a href = "" onclick="window.open('/results','Combates', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=600, height=800')">
@@ -60,41 +56,26 @@
       </a>
       </info>
     </td>
-  </tr>
 
-  <tr>
-    <td colspan="2" valign="center" align="center">
+    <td valign="center" align="center">
       <%= simple_form_for @squad do |f| %>
         <%= f.submit 'Turno!', :onclick => "return confirm('Confirma?')" %>
       <% end %>
     </td>
-  </tr>
 
-  <tr>
-    <td colspan="2" style="text-align:center">
+    <td style="text-align:center">
       <info class="tooltip">
       <tip>Setup</tip>
         <a href = "" onclick="window.open('/setups', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=550')"><%= image_tag ('squads/setup.png'), style: "width: 50px; align: center" %></a>
       </info>
     </td>
-  </tr>
 
-  <tr>
-    <td colspan="2" style="text-align:center">
+    <td style="text-align:center">
       <info class="tooltip">
       <tip>Logoff</tip>
         <%= link_to (image_tag ('squads/logoff.png'), style: "width: 50px; align: center"), destroy_user_session_path %></a>
       </info>
     </td>
-  </tr>
 
-  <tr>
-    <td colspan="2" style="text-align:center">
-      <br>
-      <span style="font-size: 12px; font-weight: bold; text-decoration: blink">
-        <%= raw @status %>
-      </span>
-    </td>
   </tr>
-
 </table>

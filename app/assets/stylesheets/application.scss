@@ -14,39 +14,31 @@
  *= require_self
  *= stub "active_admin"
  */
-
 body {
     color: white;
     font-size: 11px;
     background-color: black;
     background-image: asset-data-url("starfield.jpg")
   }
-
 div {
   vertical-align: middle;
 }
-
 img {
   vertical-align: middle;
   z-index: 100;
 }
-
 a {
   text-decoration: none;
   cursor: pointer;
   z-index: 0;
 }
-
 a:link {
 }
-
 a:visited {
 }
-
 a:hover {
     filter: brightness(1.65);
 }
-
 .panels {
   white-space: nowrap;
   text-align: left;
@@ -66,17 +58,14 @@ info.tooltip{
   cursor:help;
   white-space: nowrap;
 }
-
 info.tooltip:hover{
   background:transparent;
   color:white;
+}
+info.tooltip tip{
+  display: none;
   z-index:100;
 }
-
-info.tooltip tip{
-  display: none
-}
-
 info.tooltip:hover tip{
   clear:both;
   display:block;
@@ -91,8 +80,8 @@ info.tooltip:hover tip{
   background-color: white;
   color:black;
   text-shadow: none;
+  z-index:100;
 }
-
 .input{
   width:auto;
   height:auto;
