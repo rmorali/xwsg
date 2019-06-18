@@ -25,7 +25,7 @@ class AiFleet
     carriers.each do |carrier|
       embark!(carrier)
     end
-    
+
     fleets.each do |fleet|
       move!(fleet)
     end
@@ -38,7 +38,7 @@ class AiFleet
     for_fighters = available * 0.50
     planet = facility.planet
     squad = facility.squad
-    until for_capital_ships < 300 do
+    until for_capital_ships < 600 do
       capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', for_capital_ships)
       capital_ship = capital_ships[rand(capital_ships.count)] unless capital_ships.empty?
       BuildFleet.new(1, capital_ship, squad, planet).build! unless capital_ship.nil?
@@ -50,12 +50,10 @@ class AiFleet
       BuildFleet.new(1, transport, squad, planet).build! unless transport.nil?
       for_transports -= transport.credits
     end
-    for_fighters = for_fighters / 2
-    2.times do
-      fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
-      fighter = fighters[rand(fighters.count)] unless fighters.empty?
-      BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build! unless fighter.nil?
-    end
+    fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
+    fighter = fighters[rand(fighters.count)] unless fighters.empty?
+    BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build! unless fighter.nil?
+
     GroupFleet.new(planet).group!
   end
 
@@ -64,6 +62,7 @@ class AiFleet
     cargo.each do |c|
       ShipFleet.new(c.quantity, c, fleet).embark!
     end
+    GroupFleet.new(fleet.planet).group!
   end
 
   def move!(fleet)
@@ -76,6 +75,7 @@ class AiFleet
       destination = choose_destination(routes)
       MoveFleet.new(fleet, fleet.quantity, destination).order!
     end
+    GroupFleet.new(fleet.planet).group!
   end
 
   def build!
