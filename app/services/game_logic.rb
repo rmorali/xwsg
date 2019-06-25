@@ -25,6 +25,7 @@ class GameLogic
       @squads.update_all(ready: nil)
       check_phase!
     end
+    send_mail(@round)
   end
 
   def check_phase!
@@ -97,4 +98,21 @@ class GameLogic
     squad.update(credits: @setup.initial_credits)
   end
 
+  def send_mail(phase)
+    from = Email.new(email: 'rodrigo.morali@gmail.com')
+    to = Email.new(email: 'rodrigo.morali@gmail.com')
+    subject = 'XWSG News'
+    content = Content.new(type: 'text/plain', value: 'Alguem passou o turno')
+    mail = Mail.new(from, subject, to, content)
+
+    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+    response = sg.client.mail._('send').post(request_body: mail.to_json)
+    puts response.status_code
+    puts response.body
+    puts response.headers
+  end
+
 end
+
+# using SendGrid's Ruby Library
+# https://github.com/sendgrid/sendgrid-ruby
