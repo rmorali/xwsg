@@ -10,7 +10,7 @@
     <info class="tooltip">
     <tip>
       <%= planet.wormhole_to if planet.wormhole? %></tip>
-      <%= image_tag ('wormhole.gif'), style: "width: 100px" if planet.wormhole? %>
+      <%= image_tag ('wormhole.gif'), style: "width: 100px" if planet.wormhole? && ( Planet.seen_by(@squad).include?(planet) || Planet.fog_seen_by(@squad).include?(planet) ) %>
     </info>
   </div>
 
