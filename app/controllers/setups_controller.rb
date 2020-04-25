@@ -2,6 +2,7 @@ class SetupsController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @user = current_user
     @setup = Setup.current
     @units = ['CapitalShip','LightTransport','HeavyTransport','Trooper']
     @round = Round.current

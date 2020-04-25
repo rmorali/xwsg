@@ -1,4 +1,5 @@
 <h1>Setup do XWSG</h1>
+<h3>Alterações somente pelo administrador</h3>
 <div class="setups">
   <%= simple_form_for @setup do |f| %>
     <%= f.input :initial_credits, label: 'Creditos: ', collection: (6000..12000).step(1000) %>
@@ -12,15 +13,17 @@
     <%= f.input :ai, label: ' AI Squad:', as: :boolean %>
     <%= f.input :ai_level, collection: 1..6, label: 'AI Level:' %>
     <br>
-    <%= f.submit 'Salvar Alterações' %>
+    <%= f.submit 'Salvar Alterações' if @user.email == 'setup@xwsg.com' %>
   <% end %>
 </div>
-<h1>Reset e Turnos</h1>
-<div class="setups">
-  <%= link_to 'NEW GAME - Iniciar partida', setups_new_game_path if Squad.first.credits == 0  %>
-  <br><br>
-  Fase atual: <%= @round.phase %>
-  <br><br>
-  <%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path, onclick: "return confirm('Virar turno para todos! Confirma?')" %> - Virar o turno para todos
-  <br><br>
-</div>
+<% if @user.email == 'setup@xwsg.com' %>
+  <h1>Reset e Turnos</h1>
+  <div class="setups">
+    <%= link_to 'NEW GAME - Iniciar partida', setups_new_game_path if Squad.first.credits == 0  %>
+    <br><br>
+    Fase atual: <%= @round.phase %>
+    <br><br>
+    <%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path, onclick: "return confirm('Virar turno para todos! Confirma?')" %> - Virar o turno para todos
+    <br><br>
+  </div>
+<% end %>
