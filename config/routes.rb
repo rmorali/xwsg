@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   get 'setups/finaliza_turno'
 
   namespace :api do
-    resources :dash_board
-  end  
+    resources :dashboard
+  end
 
   resources :planets
 
