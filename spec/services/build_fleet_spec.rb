@@ -6,9 +6,11 @@ RSpec.describe BuildFleet, type: :service do
   let(:planet) { create(:planet) }
   let(:unit) { create(:unit) }
   let(:fleet) { create(:fleet) }
+  let(:setup) { create(:setup) }
 
   context 'building fleets' do
     before do
+      @setup = setup
       faction.save!
       @squad = create(:squad, credits: 100, faction: faction)
       shipyard = create(:unit, name: 'Shipyard', type: 'Facility', producing_time: 1)
