@@ -6,7 +6,7 @@ class ShipFleet
   end
 
   def embark!
-    if @cargo.unit.weight * @quantity > @carrier.available_capacity
+    if @cargo.weight > @carrier.available_capacity
       @quantity = (@carrier.available_capacity / @cargo.unit.weight).round
     end
     return nil if @quantity < 1 || @cargo.nil? || @carrier.nil?

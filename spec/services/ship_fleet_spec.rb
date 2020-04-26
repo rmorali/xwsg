@@ -30,7 +30,7 @@ RSpec.describe ShipFleet, type: :service do
       expect(@capital_ship.cargo).to include(@ywing)
       expect(@capital_ship.cargo.first.quantity).to eq(10)
       expect(@capital_ship.cargo.last.quantity).to eq(3)
-      expect(Fleet.last.quantity).to eq(7)
+      expect(Fleet.where(carrier: nil, unit: @ywing).last.quantity).to eq(7)
       ShipFleet.new(3, @ywing, @capital_ship).disembark!
       corvette = create(:unit, weight: 15)
       @corvette = create(:fleet, quantity: 1, unit: corvette)
@@ -48,7 +48,7 @@ RSpec.describe ShipFleet, type: :service do
       ShipFleet.new(6, @xwing, @capital_ship).embark!
       expect(@capital_ship.cargo).to include(@xwing)
       expect(@capital_ship.cargo.first.quantity).to eq(6)
-      expect(Fleet.last.quantity).to eq(4)
+      expect(Fleet.where(carrier: nil, unit: @xwing).last.quantity).to eq(4)
     end
   end
   context 'disembark fleets' do
