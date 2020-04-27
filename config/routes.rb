@@ -9,9 +9,7 @@ Rails.application.routes.draw do
   get 'setups/new_game'
   get 'setups/finaliza_turno'
 
-  namespace :api do
-    resources :dashboard
-  end
+  resources :dashboard
 
   resources :planets
 

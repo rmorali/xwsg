@@ -1,4 +1,4 @@
-class Api::DashboardController < ApplicationController
+class DashboardController < ApplicationController
 
   def index
 
