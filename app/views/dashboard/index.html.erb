@@ -1,0 +1,74 @@
+<table>
+  <% @planets.each do |planet| %>
+  <tr>
+    <td>
+      <%= image_tag (planet.image), style: "width: 100px" %>
+    </td>
+    <td>
+      <% planet.fleets_seen_by(@squad).reject { |f| !f.carrier.nil? }.each do |fleet| %>
+        <div class="fleets" style="<%= style(fleet) %>">
+          <%= show(fleet) %>
+        </div>
+
+        <span style="color: white">
+            <%= "--> #{fleet.destination.name}" if fleet.destination %>
+        </span>
+
+        <% fleet.cargo.each do |cargo| %>
+          <br>
+          <span style="<%= style(cargo) %>">
+            &nbsp &nbsp <%= show(cargo) %>
+          </span>
+        <% end %>
+        <br>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<script>
+
+function dragElement(elmnt) {
+  console.log(elmnt);
+  
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  elmnt.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    console.log('passou aqui')
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.position =  "absolute";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+
+  $('.fleets').each(function(){
+    dragElement(this);
+  })
+}
+</script>
