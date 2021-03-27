@@ -9,9 +9,9 @@ class ArmFleet
 
   def arm!
   	if valid?
-  	  arming_fleet = @fleet.dup
+  	  arming_fleet = @fleet.clone
   	  arming_fleet.update(quantity: @quantity, armament: @armament)
-      @fleet.update(quantity: @fleet.quantity - @quantity )    
+      @fleet.update(quantity: @fleet.quantity - @quantity )
     end
   end
 
