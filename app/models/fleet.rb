@@ -45,7 +45,7 @@ class Fleet < ApplicationRecord
     @setup = Setup.current
     ability = nil
     ability = true if type == 'Facility'
-    ability = true if type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build
+    ability = true if type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build && planet.fleets_influence.select { |f| f.first.id == squad.id }[0][1] >= @setup.minimum_fleet_for_dominate
     ability = false if moving? || in_production?
     ability
   end
@@ -55,7 +55,7 @@ class Fleet < ApplicationRecord
   end
 
   def movable?
-    true unless hyperdrive.to_i < 1 || in_production? || Route.in_range_for(self).empty? || !carrier.nil? 
+    true unless hyperdrive.to_i < 1 || in_production? || Route.in_range_for(self).empty? || !carrier.nil?
   end
 
   def in_production?
@@ -97,7 +97,7 @@ class Fleet < ApplicationRecord
 
   def influence
     fleet_influence = 0
-    fleet_influence = quantity * credits * influence_ratio unless moving? || in_production? 
+    fleet_influence = quantity * credits * influence_ratio unless moving? || in_production?
     fleet_influence
   end
 
