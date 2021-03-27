@@ -30,15 +30,19 @@ class SquadsController < ApplicationController
   end
 
   def update
-    color = case squad_params[:color]
-      when 'Vermelho' then '#FF0000'
-      when 'Amarelo' then '#FFFF00'
-      when 'Verde' then '#00FF00'
-      when 'Roxo' then '#AA55FF'
-      when 'Cyano' then '#00FFFF'
-      when 'Random' then "##{([*('A'..'F'),*('7'..'9')]-%w(0 1 I O)).sample(6).join}"
-    end
     @squad = current_squad
+    if squad_params[:color].empty?
+      color = @squad.color
+    else
+      color = case squad_params[:color]
+        when 'Vermelho' then '#FF0000'
+        when 'Amarelo' then '#FFFF00'
+        when 'Verde' then '#00FF00'
+        when 'Roxo' then '#AA55FF'
+        when 'Cyano' then '#00FFFF'
+        when 'Random' then "##{([*('A'..'F'),*('7'..'9')]-%w(0 1 I O)).sample(6).join}"
+      end
+    end
     @squad.update(squad_params)
     @squad.update(color: color)
     redirect_back(fallback_location: root_path)
