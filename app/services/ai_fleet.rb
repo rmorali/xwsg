@@ -21,9 +21,13 @@ class AiFleet
       produce!(facility, credits_for_producing) unless @round.number == 1
     end
 
-    carriers = fleets.select { |fleet| fleet.available_capacity > 10 && fleet.type != 'Facility' && fleet.type != 'LightTransport' }
+    carriers = fleets.select { |fleet| fleet.available_capacity > 10 && fleet.type != 'Facility' }
     carriers.each do |carrier|
       embark!(carrier)
+    end
+
+    fleets.each do |fleet|
+      arm!(fleet)
     end
 
     fleets.each do |fleet|
@@ -34,8 +38,8 @@ class AiFleet
 
   def produce!(facility, available)
     for_capital_ships = available * 0.40
-    for_transports = available * 0.10
-    for_fighters = available * 0.50
+    for_transports = available * 0.20
+    for_fighters = available * 0.40
     planet = facility.planet
     squad = facility.squad
     until for_capital_ships < 600 do
@@ -52,7 +56,8 @@ class AiFleet
     end
     fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
     fighter = fighters[rand(fighters.count)] unless fighters.empty?
-    BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build! unless fighter.nil?
+
+    BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet ).build! unless fighter.nil?
 
     GroupFleet.new(planet).group!
   end
@@ -84,6 +89,17 @@ class AiFleet
     facilities = Unit.allowed_for(@squad.faction.name).where("type = ? AND credits <= ?", 'Facility', @squad.credits)
     facility = facilities[rand(facilities.count)] unless facilities.empty?
     BuildFleet.new(1, facility, @squad, planet).build! unless facility.nil? || planet.nil?
+  end
+
+  def arm!(fleet)
+    arm = rand(1..3)
+    if arm == 1
+      armaments = Unit.allowed_for(fleet.squad.faction.name).where("type = ?", 'Armament')
+      armament = armaments[rand(armaments.count)]
+    else
+      armament = nil
+    end
+    fleet.update(armament: armament ) unless fleet.armament != nil || fleet.type != "LightTransport"
   end
 
   def choose_destination(routes)
