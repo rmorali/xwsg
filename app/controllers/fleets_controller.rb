@@ -10,6 +10,7 @@ class FleetsController < ApplicationController
     @destinations = Route.in_range_for(@fleet)
     @carriables = @fleet.carriables
     @units = Unit.allowed_for(@squad.faction.name)
+    @units = @units.where.not(type: 'Armament')
     @units = @units.where.not(type: 'Facility') if @fleet.type == 'Facility'
     @units = @units.where(type: 'Facility') if @fleet.type == @setup.builder_unit
     @armables = @planet.fleets.select { |fleet| fleet.armable? && fleet.squad == @squad }
