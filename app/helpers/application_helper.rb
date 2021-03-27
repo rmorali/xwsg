@@ -76,14 +76,14 @@ module ApplicationHelper
     if fleet.class.name == 'Result'
       info << "#{fleet.blasted}d " if fleet.blasted.to_i > 0 && fleet.round != @round
       info << "#{fleet.fled}f " if fleet.fled.to_i > 0 && fleet.round != @round
-      info << "#{fleet.captured}c " if fleet.captured.to_i > 0 && fleet.round != @round  
-      info << "by #{fleet.captor.name}" if fleet.captor && fleet.round != @round  
-    else      
+      info << "#{fleet.captured}c " if fleet.captured.to_i > 0 && fleet.round != @round
+      info << "by #{fleet.captor.name}" if fleet.captor && fleet.round != @round
+    else
       unless fleet.results.empty?
         result = fleet.results.last
         info << "#{result.blasted}d " if result.blasted.to_i > 0 && result.round == @round
         info << "#{result.fled}f " if result.fled.to_i > 0 && result.round == @round
-        info << "#{result.captured}c " if result.captured.to_i > 0 && result.round == @round  
+        info << "#{result.captured}c " if result.captured.to_i > 0 && result.round == @round
       end
     end
     info
