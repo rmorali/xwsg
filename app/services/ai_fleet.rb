@@ -21,7 +21,7 @@ class AiFleet
       produce!(facility, credits_for_producing) unless @round.number == 1
     end
 
-    carriers = fleets.select { |fleet| fleet.available_capacity > 10 && fleet.type != 'Facility' }
+    carriers = fleets.select { |fleet| fleet.available_capacity > 10 && fleet.type != 'Facility' && fleet.type != 'LightTransport' }
     carriers.each do |carrier|
       embark!(carrier)
     end
@@ -45,7 +45,7 @@ class AiFleet
       for_capital_ships -= capital_ship.credits
     end
     until for_transports < 100 do
-      transports = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'HeavyTransport', for_transports)
+      transports = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'LightTransport', for_transports)
       transport = transports[rand(transports.count)] unless transports.empty?
       BuildFleet.new(1, transport, squad, planet).build! unless transport.nil?
       for_transports -= transport.credits
