@@ -6,7 +6,7 @@ class GameLogic
   end
 
   def new_game!
-    Planet.each { |p| p.update(credits: rand(20..120)) }
+    Planet.all.each { |p| p.update(credits: rand(30..120)) }
     SetWormhole.new.create!
     Squad.all.each do |squad|
       set_initial(squad)
