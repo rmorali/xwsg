@@ -45,7 +45,8 @@ class Fleet < ApplicationRecord
     @setup = Setup.current
     ability = nil
     ability = true if type == 'Facility'
-    ability = true if type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build && planet.fleets_influence.select { |f| f.first.id == squad.id }[0][1] >= @setup.minimum_fleet_for_dominate
+    #ability = true if type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build && planet.fleets_influence.select { |f| f.first.id == squad.id }[0][1] >= @setup.minimum_fleet_for_dominate
+    ability = true if type == @setup.builder_unit && quantity >= @setup.minimum_fleet_for_build
     ability = false if moving? || in_production?
     ability
   end
