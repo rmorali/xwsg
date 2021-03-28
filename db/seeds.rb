@@ -8,8 +8,9 @@ Faction.create([
 #color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
 faction = Faction.all.reject { |faction| faction.name == 'Rebel' }
 faction = faction[rand(faction.count)]
+color = "##{([*('A'..'F'),*('7'..'9')]-%w(0 1 I O)).sample(6).join}"
 
-Squad.create(name: 'BOT', color: '#FFFF00', faction: faction, ai: true, ai_level: 5)
+Squad.create(name: 'BOT', color: color, faction: faction, ai: true, ai_level: 5)
 Squad.create(name: 'Rebels', color: '#FF0000', faction: Faction.second)
 
 User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
