@@ -48,7 +48,7 @@ class AiFleet
       BuildFleet.new(1, capital_ship, squad, planet).build! unless capital_ship.nil?
       for_capital_ships -= capital_ship.credits
     end
-    until for_transports < 200 do
+    until for_transports < 125 do
       transports = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'LightTransport', for_transports)
       transport = transports[rand(transports.count)] unless transports.empty?
       BuildFleet.new(1, transport, squad, planet).build! unless transport.nil?
