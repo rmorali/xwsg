@@ -23,7 +23,7 @@ class Planet < ApplicationRecord
     round = Round.current
     fog = []
     results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |result|
-      fog << result if result.round.number == round.number - 1 && result.squad != squad && round.strategy?
+      fog << result if result.round.number == round.number - 1 && result.squad != squad && round.strategy? && !result.captured
     end
     fog
   end
