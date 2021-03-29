@@ -71,7 +71,7 @@
     <td valign="center" align="center">
       <info class="tooltip">
       <tip>Finalizar turno</tip>
-        <%= link_to (image_tag ('squads/ready.png'), style: "width: 55px; align: center"), squads_ready_path, method: :post, onclick: "return confirm('Passar Turno. Confirma?')" %>
+        <%= link_to (image_tag ('squads/ready.png'), style: "width: 55px; align: center"), squads_ready_path, method: :post, data: {confirm: 'Passar Turno. Tem certeza?'} %>
       </info>
     </td>
 
