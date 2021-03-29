@@ -139,23 +139,23 @@ terrain = 'Space'
 ir = 10
 armory = true
 Unit.create(name: 'Ind Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp_reb
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp_reb
 Unit.create(name: 'Space Colony', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
 Unit.create(name: 'Platforms', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 Unit.create(name: 'Asteroid Hangar', credits: 1800, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 Unit.create(name: 'Rebel Platform', credits: 2100, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = reb
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = reb
 Unit.create(name: 'Research Ship', credits: 2100, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp
 Unit.create(name: 'Golan I', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 Unit.create(name: 'Pirate Shipyard', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
 Unit.create(name: 'Shipyard', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 
 type = 'CapitalShip'
 Unit.create(name: 'Corellian Gunship', credits: 300, terrain: terrain, type: type, influence_ratio: ir,
