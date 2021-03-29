@@ -23,7 +23,7 @@
     <br><br>
     Fase atual: <%= @round.phase %>
     <br><br>
-    <%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path, onclick: "return confirm('Virar turno para todos! Confirma?')" %> - Virar o turno para todos
+    <%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path, data: {confirm: 'Virar turno para todos. Confirma?'} %> - Virar o turno para todos
     <br><br>
   </div>
 <% end %>

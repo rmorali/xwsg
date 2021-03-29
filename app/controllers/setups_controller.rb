@@ -25,8 +25,8 @@ class SetupsController < ApplicationController
   end
 
   def finaliza_turno
-    squads = Squad.all
-    squads.each { |s| s.ready! }
+    Squad.all.update(ready: true)
+    GameLogic.new.check_state!
     @round = Round.current
   end
 
