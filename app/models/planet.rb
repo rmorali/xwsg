@@ -23,7 +23,7 @@ class Planet < ApplicationRecord
     round = Round.current
     fog = []
     results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |result|
-      fog << result if result.round.number == round.number - 1 && result.squad != squad && round.strategy? && !result.captured
+      fog << result if result.round.id == result.planet.results.maximum("round_id") && result.squad != squad && !result.planet.fleets.any? { |f| f.squad == squad } && round.strategy?
     end
     fog
   end
@@ -89,5 +89,8 @@ class Planet < ApplicationRecord
   def routes
     Route.where('vector_a == ? OR vector_b == ?', self, self).uniq
   end
-  # TODO: Verify if a squad can build facilities, produce units etc
+
+  def results
+    Result.where(planet: self)
+  end
 end
