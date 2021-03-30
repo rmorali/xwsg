@@ -23,7 +23,7 @@ class Planet < ApplicationRecord
     round = Round.current
     fog = []
     results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |result|
-      fog << result if result.round.id == result.planet.results.maximum("round_id") && result.squad != squad && !result.planet.fleets.any? { |f| f.squad == squad } && round.strategy?
+      fog << result if result.round.id == result.planet.results.maximum("round_id") && result.squad != squad && !result.planet.fleets.any? { |f| f.squad == squad && f.squad != squad }  && round.strategy?
     end
     fog
   end
