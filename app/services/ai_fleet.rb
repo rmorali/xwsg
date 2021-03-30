@@ -26,6 +26,8 @@ class AiFleet
       embark!(carrier)
     end
 
+    fleets = Fleet.where(ai: true, squad: @squad)
+
     fleets.each do |fleet|
       arm!(fleet)
     end
@@ -71,7 +73,7 @@ class AiFleet
   end
 
   def move!(fleet)
-    return unless fleet.movable?
+    return unless fleet.movable? || fleet.carrier
     planet = fleet.planet
     routes = Route.in_range_for(fleet)
     attack = 6
