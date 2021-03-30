@@ -73,7 +73,7 @@ class AiFleet
   end
 
   def move!(fleet)
-    return unless fleet.movable? || fleet.carrier
+    return unless fleet.movable? && fleet.carrier.nil?
     planet = fleet.planet
     routes = Route.in_range_for(fleet)
     attack = 6
