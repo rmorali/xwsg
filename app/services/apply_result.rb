@@ -43,8 +43,9 @@ class ApplyResult
 
   def unload_carrier
     cargo = @fleet.cargo
-    cargo.each do |c|
-      ShipFleet.new(c.quantity, c, @fleet).disembark!
-    end
+    #cargo.each do |c|
+      #ShipFleet.new(c.quantity, c, @fleet).disembark!
+    #end
+    cargo.update_all(carrier_id: nil)
   end
 end
