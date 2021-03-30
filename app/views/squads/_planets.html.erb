@@ -3,7 +3,17 @@
   <% pos_y = ( planet.y + @map_y_adjust ) * @map_ratio %>
 
   <div id="images" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y %>px; z-index: 5">
-    <%= image_tag (planet.image), style: "width: 50px" %>
+    <% facility = planet.fleets.select { |f| f.squad == @squad && f.type == 'Facility' }.first %>
+    <% if facility && @round.strategy? && !@squad.ready? && !facility.in_production? %>
+      <info class="tooltip" style="z-index: 150;">
+      <tip>Produzir Unidades</tip>
+      <a href = "" onclick="window.open('/fleets/<%= facility.id %>/edit','<%= facility.name %> - <%= facility.planet %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=450, height=400')">
+        <%= image_tag (planet.image), style: "width: 50px" %>
+      </a>
+      </info>
+    <% else %>
+      <%= image_tag (planet.image), style: "width: 50px" %>
+    <% end %>
   </div>
 
   <div id="wormholes" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y - 60 %>px; z-index: -10">
