@@ -1,29 +1,29 @@
 <table style="text-align: left; border-spacing: 15px 0px">
   <tr>
     <td style="text-align:center">
-      <%= image_tag ('squads/star wars.png'), style: "width: 105px; align: center;" %>
+      <%= image_tag ('squads/star wars.png'), style: "width: 85px; align: center;" %>
     </td>
 
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Setup do Squad</tip>
         <a href = "" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Setup do Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=350, height=250')">
-        <%= image_tag (@squad.image), style: "width: 50px; align: center;" %></a>
+        <%= image_tag (@squad.image), style: "width: 30px; align: center;" %></a>
       </info>
     </td>
 
     <td style="text-align:center">
-      <span style="color:<%= @squad.color %>;font-size: 24px; font-weight: bold">
+      <span style="color:<%= @squad.color %>;font-size: 18px; font-weight: bold">
         <%= @squad.name %>
       </span>
       <br>
-      <span style="color:<%= @squad.color %>;font-size: 14px; font-weight: bold">
+      <span style="color:<%= @squad.color %>;font-size: 12px; font-weight: bold">
         <%= @squad.faction.name %>
       </span>
     </td>
 
     <td style="text-align:center">
-      <span style="font-size: 18px; font-weight: bold">
+      <span style="font-size: 12px; font-weight: bold">
         Turno: <%= @round.number %><br>
         <%= @round.phase.upcase_first %>
       </span>
@@ -32,7 +32,7 @@
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Creditos e Income</tip>
-        <%= image_tag ('squads/credits.png'), style: "width: 50px; align: right; vertical-align: top" %>
+        <%= image_tag ('squads/credits.png'), style: "width: 30px; align: right; vertical-align: top" %>
       </info>
     </td>
 
@@ -55,7 +55,7 @@
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Unidades do XWA</tip>
-        <a href = "" onclick="window.open('/units/index', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=500, height=600')"><%= image_tag ('squads/units.png'), style: "width: 50px; align: center" %></a>
+        <a href = "" onclick="window.open('/units/index', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=500, height=600')"><%= image_tag ('squads/units.png'), style: "width: 30px; align: center" %></a>
       </info>
     </td>
 
@@ -63,7 +63,7 @@
       <info class="tooltip">
       <tip>Combates</tip>
       <a href = "" onclick="window.open('/results','Combates', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=600, height=800')">
-        <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %>
+        <%= image_tag ('squads/combats.png'), style: "width: 30px; align: left" %>
       </a>
       </info>
     </td>
@@ -71,21 +71,21 @@
     <td valign="center" align="center">
       <info class="tooltip">
       <tip>Finalizar turno</tip>
-        <%= link_to (image_tag ('squads/ready.png'), style: "width: 55px; align: center"), squads_ready_path, method: :post, data: {confirm: 'Passar Turno. Tem certeza?'} %>
+        <%= link_to (image_tag ('squads/ready.png'), style: "width: 35px; align: center"), squads_ready_path, method: :post, data: {confirm: 'Passar Turno. Tem certeza?'} %>
       </info>
     </td>
 
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Setup do Sistema</tip>
-        <a href = "" onclick="window.open('/setups', 'Setup do Sistema', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=550')"><%= image_tag ('squads/setup.png'), style: "width: 50px; align: center" %></a>
+        <a href = "" onclick="window.open('/setups', 'Setup do Sistema', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=550')"><%= image_tag ('squads/setup.png'), style: "width: 30px; align: center" %></a>
       </info>
     </td>
 
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Logoff</tip>
-        <%= link_to (image_tag ('squads/logoff.png'), style: "width: 50px; align: center"), destroy_user_session_path %></a>
+        <%= link_to (image_tag ('squads/logoff.png'), style: "width: 30px; align: center"), destroy_user_session_path %></a>
       </info>
     </td>
 
