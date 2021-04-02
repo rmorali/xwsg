@@ -23,9 +23,13 @@ class Planet < ApplicationRecord
     round = Round.current
     fog = []
     results.sort_by { |a| [a.round.number, a.squad.name, a.unit.id, a.quantity] }.each do |result|
-      fog << result if result.round.id == result.planet.results.maximum("round_id") && result.squad != squad && !result.planet.fleets.any? { |f| f.squad == squad && f.squad != squad } && round.strategy?
-      fog.reject! { |fleet| fleet.planet.results.none? { |f| f.squad == squad && f.round.id == f.planet.results.maximum("round_id") } }
+      last_seen_round = result.planet.results.maximum("round_id")
+      fog << result if result.round.id == last_seen_round && result.squad != squad && round.strategy?
+      #fog.reject! { |fleet| fleet.planet.results.none? { |f| f.squad == squad && f.round.id == last_seen_round } }
+      #fog << result if result.round.id == result.planet.results.maximum("round_id") && result.squad != squad && !result.planet.fleets.any? { |f| f.squad == squad && f.squad != squad } && round.strategy?
+      #fog.reject! { |fleet| fleet.planet.results.none? { |f| f.squad == squad && f.round.id == f.planet.results.maximum("round_id") } }
     end
+    fog.reject! { |result| result.planet.results.none? { |f| f.squad == squad } }
     fog
   end
 
