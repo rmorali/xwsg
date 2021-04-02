@@ -54,6 +54,16 @@ class Planet < ApplicationRecord
     seen_fleets
   end
 
+  def wormholes_seen_by_radar(squad)
+    seen_wormholes = nil
+    Route.in_range_for(self).each do |route|
+      if route.fleets.any? { |u| u.radar? && u.squad == squad}
+        seen_wormholes = true
+      end
+    end
+    seen_wormholes
+  end
+
   def fleets_influence
     influence = []
     squads.each do |squad|
