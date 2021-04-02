@@ -67,6 +67,7 @@ class SquadsController < ApplicationController
     @squads = Squad.all
     @squads.each do |squad|
       @status << "<span style=color:#{squad.color}>" + squad.name + " pronto!</span><br>" if squad.ready?
+      @status << "<span style=color:#{squad.color}>" + squad.name + " eliminado!</span><br>" if Fleet.none? { |f| f.squad == squad && ( f.type == 'CapitalShip' || f.type == 'Facility' ) }
     end
   end
 
