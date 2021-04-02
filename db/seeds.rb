@@ -5,18 +5,18 @@ Faction.create([
   { name: 'Pirate' }
 ])
 
-color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
-faction = Faction.all.reject { |faction| faction.name == 'Rebel' }
-faction = faction[rand(faction.count)]
+#color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
+#faction = Faction.all.reject { |faction| faction.name == 'Rebel' }
+#faction = faction[rand(faction.count)]
 faction = Faction.second
-@colors = %w[#FFFF00 #00FF00 #AA55FF #00FFFF]
-color = @colors[rand(4)]
+#@colors = %w[#FFFF00 #00FF00 #AA55FF #00FFFF]
+#color = @colors[rand(4)]
 
 Squad.create(name: 'BOT', color: '#00FF00', faction: faction, ai: true, ai_level: 5)
-#Squad.create(name: 'Rebels', color: '#FF0000', faction: Faction.second)
+Squad.create(name: 'Empire', color: '#FF0000', faction: Faction.second)
 
 User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
-#User.create(email: 'reb@reb.com', password: '123456', squad: Squad.second)
+User.create(email: 'emp@emp.com', password: '123456', squad: Squad.second)
 
 bespin = Planet.create(name: 'Bespin', sector: 1, x: 363, y: 475, credits: 0)
 bonadan = Planet.create(name: 'Bonadan', sector: 3, x: 1488, y: 475, credits: 0)
@@ -140,23 +140,23 @@ terrain = 'Space'
 ir = 10
 armory = true
 Unit.create(name: 'Ind Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp_reb
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp_reb
 Unit.create(name: 'Space Colony', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
 Unit.create(name: 'Platforms', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 Unit.create(name: 'Asteroid Hangar', credits: 1800, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 Unit.create(name: 'Rebel Platform', credits: 2100, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = reb
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = reb
 Unit.create(name: 'Research Ship', credits: 2100, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp
 Unit.create(name: 'Golan I', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 Unit.create(name: 'Pirate Shipyard', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
 Unit.create(name: 'Shipyard', credits: 2400, terrain: terrain, type: type, influence_ratio: ir,
-  hyperdrive: 0, producing_time: 2, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = all
 
 type = 'CapitalShip'
 Unit.create(name: 'Corellian Gunship', credits: 300, terrain: terrain, type: type, influence_ratio: ir,
@@ -188,7 +188,7 @@ Unit.create(name: 'Bulk Cruiser', credits: 750, terrain: terrain, type: type, in
 Unit.create(name: 'Assault Frigate', credits: 1150, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +2 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 400, groupable: false, carriable: false, armory: armory ).factions = reb
 Unit.create(name: 'Mod Strike Cruiser', credits: 1150, terrain: terrain, type: type, influence_ratio: ir,
- description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false, armory: armory ).factions = mand_merc
+ description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false, armory: armory ).factions = merc_reb
 Unit.create(name: 'MC80A ChatNoir Cruiser', credits: 1250, terrain: terrain, type: type, influence_ratio: ir,
  description: 'Bonus +3 naves simultaneas no XWA', hyperdrive: 1, producing_time: 0, weight: 100, capacity: 600, groupable: false, carriable: false, armory: armory ).factions = mand_merc
 Unit.create(name: 'Lucrehulk Cruiser', credits: 5000, terrain: terrain, type: type, influence_ratio: ir,
@@ -324,10 +324,10 @@ Setup.create(
   initial_planets: 3,
   initial_wormholes: 2,
   minimum_fleet_for_dominate: 10000,
-  minimum_fleet_for_build: 50,
-  builder_unit: 'Trooper',
+  minimum_fleet_for_build: 1,
+  builder_unit: 'CapitalShip',
   upgrade_cost: 1000,
   ai: true,
-  ai_level: 3
+  ai_level: 5
 )
 AdminUser.create!(email: 'setup@xwsg.com', password: '123456', password_confirmation: '123456') if Rails.env.development?

@@ -8,9 +8,9 @@ class GameLogic
   def new_game!
     Planet.all.each { |p| p.update(credits: rand(20..100)) }
     SetWormhole.new.create!
-    faction = Faction.all.reject { |faction| faction == Squad.last.faction }
-    faction = faction[rand(faction.count)]
-    Squad.first.update(faction: faction)
+    #faction = Faction.all.reject { |faction| faction == Squad.last.faction }
+    #faction = faction[rand(faction.count)]
+    #Squad.first.update(faction: faction)
     Squad.all.each do |squad|
       set_initial(squad)
       warp_fleets_for(squad)
