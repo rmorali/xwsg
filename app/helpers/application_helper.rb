@@ -24,6 +24,8 @@ module ApplicationHelper
       params = "#{fleet.final_quantity} #{fleet.name}"
     end
     params = fleet.name + "(#{ fleet.production_status }%)" if fleet.in_production?
+    params << " + #{ fleet.armament.acronym }" if fleet.armament
+    params << " + Rad" if fleet.radar?
     params
   end
 
