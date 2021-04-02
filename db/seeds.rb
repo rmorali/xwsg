@@ -5,17 +5,18 @@ Faction.create([
   { name: 'Pirate' }
 ])
 
-#color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
+color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
 faction = Faction.all.reject { |faction| faction.name == 'Rebel' }
 faction = faction[rand(faction.count)]
+faction = Faction.second
 @colors = %w[#FFFF00 #00FF00 #AA55FF #00FFFF]
 color = @colors[rand(4)]
 
-Squad.create(name: 'BOT', color: color, faction: faction, ai: true, ai_level: 5)
-Squad.create(name: 'Rebels', color: '#FF0000', faction: Faction.second)
+Squad.create(name: 'BOT', color: '#00FF00', faction: faction, ai: true, ai_level: 5)
+#Squad.create(name: 'Rebels', color: '#FF0000', faction: Faction.second)
 
 User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
-User.create(email: 'reb@reb.com', password: '123456', squad: Squad.second)
+#User.create(email: 'reb@reb.com', password: '123456', squad: Squad.second)
 
 bespin = Planet.create(name: 'Bespin', sector: 1, x: 363, y: 475, credits: 0)
 bonadan = Planet.create(name: 'Bonadan', sector: 3, x: 1488, y: 475, credits: 0)
@@ -217,9 +218,9 @@ armable = true
 Unit.create(name: 'YT-1300', credits: 100, terrain: terrain, type: type, influence_ratio: ir,
 hyperdrive: 1, producing_time: 0, weight: 10, capacity: 40, groupable: true, carriable: false, armable: armable ).factions = merc
 Unit.create(name: 'YT-2000', credits: 200, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 40, groupable: true, carriable: false, armable: armable ).factions = merc
-Unit.create(name: 'YT-2400', credits: 150, terrain: terrain, type: type, influence_ratio: ir,
-hyperdrive: 1, producing_time: 0, weight: 10, capacity: 40, groupable: true, carriable: false, armable: armable ).factions = mand
+hyperdrive: 1, producing_time: 0, weight: 10, capacity: 40, groupable: true, carriable: false, armable: armable ).factions = mand_merc
+#Unit.create(name: 'YT-2400', credits: 150, terrain: terrain, type: type, influence_ratio: ir,
+#hyperdrive: 1, producing_time: 0, weight: 10, capacity: 40, groupable: true, carriable: false, armable: armable ).factions = mand
 Unit.create(name: 'Millenium Falcon', credits: 180, terrain: terrain, type: type, influence_ratio: ir,
 hyperdrive: 1, producing_time: 0, weight: 10, capacity: 40, groupable: true, carriable: false, armable: armable ).factions = merc_reb
 Unit.create(name: 'Assault Transport', credits: 125, terrain: terrain, type: type, influence_ratio: ir,
