@@ -12,8 +12,8 @@ faction = Faction.second
 #@colors = %w[#FFFF00 #00FF00 #AA55FF #00FFFF]
 #color = @colors[rand(4)]
 
-Squad.create(name: 'BOT', color: '#00FF00', faction: faction, ai: true, ai_level: 5)
-Squad.create(name: 'Empire', color: '#FF0000', faction: Faction.second)
+Squad.create(name: 'BOT', color: '#FF0000', faction: faction, ai: true, ai_level: 5)
+Squad.create(name: 'Empire', color: '#00FF00', faction: Faction.first)
 
 User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
 User.create(email: 'emp@emp.com', password: '123456', squad: Squad.second)
