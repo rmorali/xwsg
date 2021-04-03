@@ -86,7 +86,8 @@ class AiFleet
   end
 
   def build!
-    planets = Planet.seen_by(@squad).reject { |p| p.fleets.any? { |f| f.type == 'Facility' } }
+    planets = Planet.seen_by(@squad).reject { |p| p.fleets.any? { |f| f.type == 'Facility' } || p.fleets.none? { |f| f.type == 'CapitalShip' } }
+    return if planets.nil?
     planet = planets[rand(planets.count)] unless planets.empty?
     facilities = Unit.allowed_for(@squad.faction.name).where("type = ? AND credits <= ?", 'Facility', @squad.credits)
     facility = facilities[rand(facilities.count)] unless facilities.empty?
