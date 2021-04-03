@@ -25,7 +25,7 @@ div {
 }
 img {
   vertical-align: middle;
-  z-index: 100;
+  z-index: 90;
 }
 a {
   text-decoration: none;
@@ -138,4 +138,7 @@ input[type=url]{
   background-color: black;
   text-align: left;
   color:white;
+}
+svg {
+  z-index: -100;
 }
