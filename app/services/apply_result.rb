@@ -37,7 +37,7 @@ class ApplyResult
     unload_carrier
     #@result.update(final_quantity: @fleet.quantity - @result.captured)
     captured_fleet = @fleet.dup
-    captured_fleet.update(quantity: @result.captured, squad: @result.captor)
+    captured_fleet.update(quantity: @result.captured, squad: @result.captor, ready_in: 2)
     @fleet.update(quantity: @fleet.quantity - @result.captured)
   end
 

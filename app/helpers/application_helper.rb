@@ -10,7 +10,7 @@ module ApplicationHelper
   	end
     params << "(#{ fleet.production_status }%)" if fleet.in_production?
     params << " + #{ fleet.armament.acronym }" if fleet.armament
-    params << " + Rad" if fleet.radar?
+    params << " Radar" if fleet.radar?
     params
   end
 
@@ -64,7 +64,7 @@ module ApplicationHelper
   	end
     info << "<br>- Armamento: #{fleet.armament.name}" if fleet.armament
     info << "<br>- (Armorial) Armamento de Unidades" if fleet.armory?
-    info << "<br>- Em Construção... ( #{ fleet.production_status }% construido)" if fleet.in_production?
+    info << "<br>- Em Construção / Reparo ... ( #{ fleet.production_status }% pronto)" if fleet.in_production?
     info << "<br>- Unidade Construtora ( Mínimo: #{setups.minimum_fleet_for_build} )" if fleet.builder? && fleet.type != 'Facility'
     info << "<br>- Unidade Construtora ( Mínimo: #{setups.minimum_fleet_for_build} )" if fleet.type == setups.builder_unit && fleet.type == 'Facility'
     info << "<br>- #{fleet.unit.description}" if fleet.unit.description
