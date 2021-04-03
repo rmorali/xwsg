@@ -1,0 +1,19 @@
+<svg width="<%= (@map_x_adjust + 1700) * @map_ratio %>" height="<%= 1300 * @map_ratio %>">
+  <polyline points="
+     <%= (@map_x_adjust + 10) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>
+     <%= (@map_x_adjust + 1700) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>"
+     style="fill:none;stroke:white;stroke-width:1;stroke-dasharray:1,2" />
+  <polyline points="
+     <%= (@map_x_adjust + 1010) * @map_ratio %>,<%= (@map_y_adjust + 10) * @map_ratio %>
+     <%= (@map_x_adjust + 680) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>"
+     style="fill:none;stroke:white;stroke-width:1;stroke-dasharray:1,2" />
+  <polyline points="
+     <%= (@map_x_adjust + 640) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>
+     <%= (@map_x_adjust + 960) * @map_ratio %>,<%= (@map_y_adjust + 1300) * @map_ratio %>"
+     style="fill:none;stroke:white;stroke-width:1;stroke-dasharray:1,2" />
+     
+     <text x="<%= (@map_x_adjust + 645) %>" y="<%= (@map_y_adjust + 645) %>" fill="gray">Alpha</text>
+     <text x="<%= (@map_x_adjust + 690) %>" y="<%= (@map_y_adjust + 645) %>" fill="gray">Beta</text>
+     <text x="<%= (@map_x_adjust + 610) %>" y="<%= (@map_y_adjust + 662) %>" fill="gray">Delta</text>
+     <text x="<%= (@map_x_adjust + 650) %>" y="<%= (@map_y_adjust + 662) %>" fill="gray">Gamma</text>
+<svg>
