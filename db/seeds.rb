@@ -8,15 +8,15 @@ Faction.create([
 #color = ([*('A'..'F'),*('0'..'9')]-%w(0 1 I O)).sample(4).join
 #faction = Faction.all.reject { |faction| faction.name == 'Rebel' }
 #faction = faction[rand(faction.count)]
-faction = Faction.second
+faction = Faction.third
 #@colors = %w[#FFFF00 #00FF00 #AA55FF #00FFFF]
 #color = @colors[rand(4)]
 
-Squad.create(name: 'BOT', color: '#FF0000', faction: faction, ai: true, ai_level: 5)
-Squad.create(name: 'Empire', color: '#00FF00', faction: Faction.first)
+Squad.create(name: 'BOT', color: '#0066FF', faction: faction, ai: true, ai_level: 4)
+#Squad.create(name: 'Empire', color: '#00FF00', faction: Faction.first)
 
 User.create(email: 'setup@xwsg.com', password: '123456', squad: Squad.first)
-User.create(email: 'emp@emp.com', password: '123456', squad: Squad.second)
+#User.create(email: 'emp@emp.com', password: '123456', squad: Squad.second)
 
 bespin = Planet.create(name: 'Bespin', sector: 1, x: 363, y: 475, credits: 0)
 bonadan = Planet.create(name: 'Bonadan', sector: 2, x: 1488, y: 475, credits: 0)
@@ -322,12 +322,12 @@ Setup.create(
   planet_income_ratio: 10,
   initial_credits: 12000,
   initial_planets: 3,
-  initial_wormholes: 2,
+  initial_wormholes: 3,
   minimum_fleet_for_dominate: 10000,
   minimum_fleet_for_build: 1,
   builder_unit: 'CapitalShip',
   upgrade_cost: 1000,
   ai: true,
-  ai_level: 5
+  ai_level: 4
 )
 AdminUser.create!(email: 'setup@xwsg.com', password: '123456', password_confirmation: '123456') if Rails.env.development?
