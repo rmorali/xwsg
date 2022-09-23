@@ -54,6 +54,8 @@ FactoryGirl.define do
     description 'Descricao'
     all = %w[Empire Rebel Mercenary Pirate]
     factions all
+    shield 1000
+    hull 500
   end
   factory :result do
     association :round, factory: :round

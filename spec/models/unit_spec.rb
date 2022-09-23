@@ -22,6 +22,8 @@ RSpec.describe Unit, type: :model do
     expect(unit.groupable).to be_truthy
     expect(unit.carriable).to be_truthy
     expect(unit.description).to be_a(String)
+    expect(unit.shield).to be_a(Integer)
+    expect(unit.hull).to be_a(Integer)
   end
 
   it 'has an image' do
