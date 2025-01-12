@@ -94,7 +94,7 @@
     <% if @round.strategy? %>
       <% planet.fleets_seen_by_radar(@squad).each do |fleet| %>
         <info class="tooltip">
-        <tip>- Detectado por radar</tip>
+        <tip>- Detectado pelo radar</tip>
           <span style="<%= style(fleet) %>; opacity: 0.9">
             <%= show(fleet) %>
           </span>
@@ -110,10 +110,12 @@
           <%= show_fog(fleet) %>
         </span>
         <% fleet.cargo.each do |cargo| %>
+          <% unless cargo.final_quantity <= 0 %>
           <br>
           <span style="<%= style(cargo) %>; opacity: 0.3">
             &nbsp &nbsp <%= show_fog(cargo) %>
           </span>
+          <% end %>
         <% end %>
       </info>
       <br>
