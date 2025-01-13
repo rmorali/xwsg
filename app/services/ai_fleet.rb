@@ -10,8 +10,8 @@ class AiFleet
     fleets = Fleet.where(ai: true, squad: @squad)
 
     if @squad.credits > 1200
-      chance_of_build = rand(@squad.ai_level..6)
-      build! if chance_of_build == 6
+      chance_of_build = rand(@squad.ai_level..7)
+      build! if chance_of_build == 7
     end
 
     facilities = fleets.select { |fleet| fleet.type == 'Facility'}

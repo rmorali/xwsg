@@ -71,8 +71,8 @@ class GameLogic
     available = squad.credits / planets_quantity
     planets_quantity.times do
       for_facilities = 2000 #available * 0.30
-      for_capital_ships = available * 0.40
-      for_fighters = available * 0.60
+      for_capital_ships = available * 0.30
+      for_fighters = available * 0.70
       planet = Planet.random
       # Facilities
       facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', for_facilities)
