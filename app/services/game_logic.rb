@@ -70,27 +70,27 @@ class GameLogic
     planets_quantity = @setup.initial_planets
     available = squad.credits / planets_quantity
     planets_quantity.times do
-      for_facilities = available * 0.30
+      for_facilities = 2000 #available * 0.30
       for_capital_ships = available * 0.40
-      for_fighters = available * 0.30
+      for_fighters = available * 0.60
       planet = Planet.random
-      until for_facilities < 1200 do
-        facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', for_facilities)
-        facility = facilities[rand(facilities.count)] unless facilities.empty?
-        BuildFleet.new(1, facility, squad, planet).build! unless facility.nil?
-        for_facilities -= facility.credits
-      end
+      # Facilities
+      facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', for_facilities)
+      facility = facilities[rand(facilities.count)] unless facilities.empty?
+      BuildFleet.new(1, facility, squad, planet).build! unless facility.nil?
+      # Capital Ships 
       until for_capital_ships < 300 do
         capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', for_capital_ships)
         capital_ship = capital_ships[rand(capital_ships.count)] unless capital_ships.empty?
         BuildFleet.new(1, capital_ship, squad, planet).build! unless capital_ship.nil?
         for_capital_ships -= capital_ship.credits
       end
+      # Fighters
       for_fighters = for_fighters / 2
       2.times do
         fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
         fighter = fighters[rand(fighters.count)]
-        BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build!
+        BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build! unless fighter.nil?
       end
       GroupFleet.new(planet).group!
     end

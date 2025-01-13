@@ -65,6 +65,9 @@ RSpec.describe GameLogic, type: :service do
     it 'populates random planets for squads' do
       GameLogic.new().new_game!
       expect(@empire.reload.fleets).to_not be_empty
+      expect(@empire.reload.fleets.any? { |fleet| fleet.type == 'Facility' }).to be true
+      expect(@empire.reload.fleets.any? { |fleet| fleet.type == 'CapitalShip' }).to be true
+      expect(@empire.reload.fleets.any? { |fleet| fleet.type == 'Fighter' }).to be true
     end
 
     it 'debits squads credits to populate planets' do

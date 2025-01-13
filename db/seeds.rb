@@ -140,8 +140,8 @@ type = 'Facility'
 terrain = 'Space'
 ir = 10
 armory = true
-#Unit.create(name: 'Ind Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
-  #hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp_reb
+Unit.create(name: 'Ind Complex', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
+  hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = emp_reb
 #Unit.create(name: 'Space Colony', credits: 1200, terrain: terrain, type: type, influence_ratio: ir,
   #hyperdrive: 0, producing_time: 1, weight: 100, capacity: 100, groupable: false, carriable: false, armory: armory).factions = mand_merc
 Unit.create(name: 'Platforms', credits: 1500, terrain: terrain, type: type, influence_ratio: ir,
@@ -321,10 +321,10 @@ hyperdrive: 0, producing_time: 0, weight: 0, capacity: 0, groupable: true, carri
 
 Setup.create(
   planet_income_ratio: 10,
-  initial_credits: 12000,
-  initial_planets: 3,
+  initial_credits: 10000,
+  initial_planets: 2,
   initial_wormholes: 3,
-  minimum_fleet_for_dominate: 10000,
+  minimum_fleet_for_dominate: 12000,
   minimum_fleet_for_build: 1,
   builder_unit: 'CapitalShip',
   upgrade_cost: 1000,
