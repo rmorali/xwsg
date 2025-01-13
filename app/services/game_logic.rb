@@ -70,9 +70,9 @@ class GameLogic
     planets_quantity = @setup.initial_planets
     available = squad.credits / planets_quantity
     planets_quantity.times do
-      for_facilities = 2000 #available * 0.30
-      for_capital_ships = available * 0.30
-      for_fighters = available * 0.70
+      for_facilities = available * 0.40
+      for_capital_ships = available * 0.20
+      for_fighters = available * 0.40
       planet = Planet.random
       # Facilities
       facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', for_facilities)
@@ -82,8 +82,12 @@ class GameLogic
       until for_capital_ships < 300 do
         capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', for_capital_ships)
         capital_ship = capital_ships[rand(capital_ships.count)] unless capital_ships.empty?
-        BuildFleet.new(1, capital_ship, squad, planet).build! unless capital_ship.nil?
-        for_capital_ships -= capital_ship.credits
+        unless capital_ship.nil?
+          BuildFleet.new(1, capital_ship, squad, planet).build!
+          for_capital_ships -= capital_ship.credits
+        else
+          break
+        end
       end
       # Fighters
       for_fighters = for_fighters / 2

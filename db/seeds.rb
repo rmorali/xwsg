@@ -321,7 +321,7 @@ hyperdrive: 0, producing_time: 0, weight: 0, capacity: 0, groupable: true, carri
 
 Setup.create(
   planet_income_ratio: 10,
-  initial_credits: 10000,
+  initial_credits: 12000,
   initial_planets: 2,
   initial_wormholes: 3,
   minimum_fleet_for_dominate: 12000,
