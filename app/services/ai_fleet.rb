@@ -103,7 +103,7 @@ class AiFleet
   end
 
   def arm!(fleet)
-    arm = rand(1..3)
+    arm = rand(1..4)
     if arm == 1
       armaments = Unit.allowed_for(fleet.squad.faction.name).where("type = ?", 'Armament')
       armament = armaments[rand(armaments.count)]
