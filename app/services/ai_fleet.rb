@@ -44,17 +44,25 @@ class AiFleet
     for_fighters = available * 0.40
     planet = facility.planet
     squad = facility.squad
-    until for_capital_ships < 600 do
+    until for_capital_ships <= 0 do
       capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', for_capital_ships)
       capital_ship = capital_ships[rand(capital_ships.count)] unless capital_ships.empty?
-      BuildFleet.new(1, capital_ship, squad, planet).build! unless capital_ship.nil?
-      for_capital_ships -= capital_ship.credits
+      unless capital_ship.nil?
+        BuildFleet.new(1, capital_ship, squad, planet).build!
+        for_capital_ships -= capital_ship.credits
+      else
+        break
+      end
     end
-    until for_transports < 125 do
+    until for_transports <= 0 do
       transports = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'LightTransport', for_transports)
       transport = transports[rand(transports.count)] unless transports.empty?
-      BuildFleet.new(1, transport, squad, planet).build! unless transport.nil?
-      for_transports -= transport.credits
+      unless transport.nil?
+        BuildFleet.new(1, transport, squad, planet).build!
+        for_transports -= transport.credits
+      else
+        break
+      end
     end
     fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
     fighter = fighters[rand(fighters.count)] unless fighters.empty?
