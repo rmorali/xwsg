@@ -27,7 +27,7 @@ class Planet < ApplicationRecord
       fog << result if result.round.id == last_seen_round && result.squad != squad && round.strategy? && !result.captor
       fog << result if result.round.id == last_seen_round && result.squad == squad && round.strategy? && result.captor
     end
-    fog.reject! { |result| result.planet.results.none? { |f| f.squad == squad } || result.round_id < round.id - 2 }
+    fog.reject! { |result| result.planet.results.none? { |f| f.squad == squad } }
     fog
   end
 

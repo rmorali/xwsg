@@ -36,7 +36,7 @@ RSpec.describe Planet, type: :model do
 
   before do
     @squad_a = create(:squad)
-    @squad_b = create(:squad)
+    @squad_b = create(:squad, name: 'Enemy Squad')
     @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
     @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
   end

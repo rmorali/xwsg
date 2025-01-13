@@ -103,23 +103,25 @@
       <% end %>
     <% end %>
 
-    <% planet.fog_seen_by(@squad).reject { |f| !f.carrier.nil? || f.final_quantity <= 0 }.each do |fleet| %>
-      <info class="tooltip">
-      <tip>- Enfrentado no turno: <%= fleet.round.number %></tip>
-        <span style="<%= style(fleet) %>; opacity: 0.3">
-          <%= show_fog(fleet) %>
-        </span>
-        <% fleet.cargo.each do |cargo| %>
-          <% unless cargo.final_quantity <= 0 %>
-          <br>
-          <span style="<%= style(cargo) %>; opacity: 0.3">
-            &nbsp &nbsp <%= show_fog(cargo) %>
-          </span>
-          <% end %>
-        <% end %>
-      </info>
-      <br>
-   <% end %>
+    <% unless planet.fleets.any? { |f| f.squad == @squad }
+	    <% planet.fog_seen_by(@squad).reject { |f| !f.carrier.nil? || f.final_quantity <= 0 }.each do |fleet| %>
+	      <info class="tooltip">
+	      <tip>- Enfrentado no turno: <%= fleet.round.number %></tip>
+		<span style="<%= style(fleet) %>; opacity: 0.3">
+		  <%= show_fog(fleet) %>
+		</span>
+		<% fleet.cargo.each do |cargo| %>
+		  <% unless cargo.final_quantity <= 0 %>
+		  <br>
+		  <span style="<%= style(cargo) %>; opacity: 0.3">
+		    &nbsp &nbsp <%= show_fog(cargo) %>
+		  </span>
+		  <% end %>
+		<% end %>
+	      </info>
+	      <br>
+	    <% end %>
+    <% end %>
   </div>
 
 <% end %>
