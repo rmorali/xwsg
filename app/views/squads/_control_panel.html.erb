@@ -55,39 +55,38 @@
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Unidades do XWA</tip>
-        <a href = "" onclick="window.open('/units/index', 'Message Board', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=500, height=600')">
-          <%= image_tag ('squads/units.png'), style: "width: 50px; align: center" %></a>
+        <a href = "" onclick="window.open('/units/index', 'Unidades', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=500, height=600')">
+          <%= image_tag ('squads/units.png'), style: "width: 50px; align: center" %></a><br><b>Unidades</b>
       </info>
     </td>
 
-    <td style="text-align:center">
+    <td style="text-align:center; vertical-align:bottom">
       <info class="tooltip">
       <tip>Combates</tip>
       <a href = "" onclick="window.open('/results','Combates', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=600, height=800')">
-        <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %>
-      </a>
+        <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %></a><br><b>Combates</b>
       </info>
     </td>
 
     <td valign="center" align="center">
       <info class="tooltip">
       <tip>Finalizar turno</tip>
-        <%= link_to (image_tag ('squads/ready.png'), style: "width: 50px; align: center"), squads_ready_path, method: :post, data: {confirm: 'Passar Turno. Tem certeza?'} %>
+        <%= link_to (image_tag ('squads/ready.png'), style: "width: 50px; align: center"), squads_ready_path, method: :post, data: {confirm: 'Passar Turno. Tem certeza?'} %><br><b>Turnar</b>
       </info>
     </td>
 
-    <td style="text-align:center">
+    <td style="text-align:center; vertical-align:bottom">
       <info class="tooltip">
       <tip>Setup do Sistema</tip>
         <a href = "" onclick="window.open('/setups', 'Setup do Sistema', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=550')">
-          <%= image_tag ('squads/setup.png'), style: "width: 40px; align: center" %></a>
+          <%= image_tag ('squads/setup.png'), style: "width: 40px; align: center" %></a><br><b>Setup</b>
       </info>
     </td>
 
     <td style="text-align:center">
       <info class="tooltip">
       <tip>Logoff</tip>
-        <%= link_to (image_tag ('squads/logoff.png'), style: "width: 50px; align: center"), destroy_user_session_path %></a>
+        <%= link_to (image_tag ('squads/logoff.png'), style: "width: 50px; align: center"), destroy_user_session_path %></a><br><b>Logoff</b>
       </info>
     </td>
 
