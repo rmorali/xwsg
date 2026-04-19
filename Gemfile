@@ -19,7 +19,7 @@ gem 'puma', '~> 3.11' # ATUALIZADO: Melhor estabilidade para 5.2
 gem 'bootsnap' # ATUALIZADO: Adicionado para melhorar o tempo de boot (veja config/boot.rb)
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.8' # ATUALIZADO: Próxima versão menor (minor version)
+gem 'rails', '~> 6.0.6' # ATUALIZADO: Próxima versão menor (minor version)
 
 gem 'react-rails'
 
@@ -29,8 +29,8 @@ gem 'sass-rails', '~> 5.0'
 # Simple Form Rails
 gem 'simple_form'
 
-# SQLite3 para Rails 5.2 geralmente exige versão < 1.4 se você usar Ruby mais antigo
-gem 'sqlite3', '~> 1.3.6' # ATUALIZADO: Fixado para evitar incompatibilidade inicial
+# SQLite3 para Rails 6.0.6 geralmente exige versão 1.4 ou superior, mas 1.4.2 é a mais estável.
+gem 'sqlite3', '~> 1.5.0' # ATUALIZADO: Fixado para evitar incompatibilidade inicial
 
 # ATUALIZADO: therubyracer está obsoleto. mini_racer é o substituto moderno.
 gem 'mini_racer', platforms: :ruby 
