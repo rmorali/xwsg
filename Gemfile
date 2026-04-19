@@ -16,6 +16,8 @@ gem 'jquery-rails'
 # Use Puma as the app server
 gem 'puma', '~> 3.11' # ATUALIZADO: Melhor estabilidade para 5.2
 
+gem 'bootsnap' # ATUALIZADO: Adicionado para melhorar o tempo de boot (veja config/boot.rb)
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.8' # ATUALIZADO: Próxima versão menor (minor version)
 
@@ -60,7 +62,7 @@ end
 
 group :development do
   gem 'listen'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  #gem 'spring'
+  #gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
 end
