@@ -21,7 +21,7 @@ FactoryBot.define do
     name { 'DarkSide Squadron' }
     association :faction, factory: :faction
     credits { 1000 }
-    url { Faker::Internet.url('squad.com') }
+    url { Faker::Internet.url(host: 'squad.com') }
     ready { false }
   end
   factory :route do
@@ -30,7 +30,7 @@ FactoryBot.define do
     distance { 1 }
   end
   factory :planet do
-    name { Faker::StarWars.planet }
+    name { Faker::Movies::StarWars.planet }
     sector { 1 }
     population { 1000 }
     credits { 1000 }
@@ -38,7 +38,7 @@ FactoryBot.define do
     y { 1 }
   end
   factory :unit, aliases: %i[ship facility] do
-    name { Faker::StarWars.vehicle }
+    name { Faker::Movies::StarWars.vehicle }
     acronym { 'CS' }
     type { 'CapitalShip' }
     terrain { 'Space' }

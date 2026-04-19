@@ -19,7 +19,7 @@ gem 'puma', '~> 3.11' # ATUALIZADO: Melhor estabilidade para 5.2
 gem 'bootsnap' # ATUALIZADO: Adicionado para melhorar o tempo de boot (veja config/boot.rb)
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.6' # ATUALIZADO: Próxima versão menor (minor version)
+gem 'rails', '~> 6.1.7' # ATUALIZADO: Próxima versão menor (minor version)
 
 gem 'react-rails'
 
@@ -53,7 +53,7 @@ group :development, :test do
   # ATUALIZADO: factory_girl mudou de nome para factory_bot
   gem 'factory_bot_rails' 
   
-  gem 'faker', '1.8.4'
+  gem 'faker'
   gem 'rspec-rails'
   gem 'rubocop', '~> 0.49.1', require: false
   gem 'selenium-webdriver'
