@@ -11,7 +11,7 @@ gem 'erubis'
 
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7' # ATUALIZADO: Versão mais adequada para Rails 7.0
+gem 'jbuilder'
 gem 'jquery-rails'
 
 # Use Puma as the app server
@@ -30,18 +30,18 @@ gem 'sass-rails', '~> 6.0'
 # Simple Form Rails
 gem 'simple_form'
 
-# SQLite3 para Rails 8 wxige versão 2.1 ou superior
+# SQLite3 para Rails 8 exige versão 2.1 ou superior
 gem 'sqlite3', '>= 2.1'
 
 # ATUALIZADO: therubyracer está obsoleto. mini_racer é o substituto moderno.
 gem 'mini_racer', platforms: :ruby 
 
 # Turbolinks makes navigating your web application faster.
-gem 'turbolinks', '~> 5'
+gem 'turbolinks'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 
 gem 'activeadmin'
 
@@ -65,5 +65,5 @@ group :development do
   gem 'listen'
   #gem 'spring'
   #gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console'
 end
