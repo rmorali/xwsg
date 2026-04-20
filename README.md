@@ -6,5 +6,5 @@ Manage your faction, create your fleets, train your heroes and rule the galaxy!
 
 The project is totally free and non-profit. It's being developed only for fun.
 
-* Ruby 2.7.8
-* Rails 6.0.6
+* Ruby 3.4.9
+* Rails 8.1.3
