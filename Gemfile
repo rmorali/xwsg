@@ -15,7 +15,7 @@ gem 'jbuilder', '~> 2.7' # ATUALIZADO: Versão mais adequada para Rails 7.0
 gem 'jquery-rails'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.11' # ATUALIZADO: Melhor estabilidade para 7.00, embora 5.x seja recomendado para Rails 7.0.0+ (ver nota abaixo)
+gem 'puma', '>= 5.0'
 
 gem 'bootsnap' # ATUALIZADO: Adicionado para melhorar o tempo de boot (veja config/boot.rb)
 
@@ -25,7 +25,7 @@ gem 'rails', '~> 8.1.0' # ATUALIZADO: Próxima versão menor (minor version)
 gem 'react-rails'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 6.0'
 
 # Simple Form Rails
 gem 'simple_form'
@@ -56,7 +56,7 @@ group :development, :test do
   
   gem 'faker'
   gem 'rspec-rails'
-  gem 'rubocop', '~> 0.49.1', require: false
+  gem 'rubocop', require: false
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end
