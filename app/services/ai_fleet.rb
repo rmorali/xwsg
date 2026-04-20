@@ -11,32 +11,72 @@ class AiFleet
   def act!
     return unless @squad.ai == true
     
-    fleets = Fleet.where(squad: @squad)
+    organize_planets!
 
+    # 1. Construção e Produção
     if @squad.credits > 1200
       chance_of_build = rand(@squad.ai_level..7)
       build! if chance_of_build == 7
     end
 
-    facilities = fleets.select { |fleet| fleet.unit.type == 'Facility'}
-    credits_for_producing = @squad.credits
-    credits_for_producing = @squad.credits / facilities.count unless facilities.empty?
+    facilities = Fleet.joins(:unit).where(squad: @squad, units: { type: 'Facility' })
+    credits_for_producing = facilities.any? ? @squad.credits / facilities.count : @squad.credits
     
     facilities.each do |facility|
       produce!(facility, credits_for_producing) unless @round.number == 1
     end
 
-    carriers = fleets.select { |fleet| fleet.available_capacity > 10 && fleet.unit.type != 'Facility' }
-    carriers.each do |carrier|
-      embark!(carrier)
-    end
+    organize_planets!
 
-    fleets.each { |fleet| arm!(fleet) }
+    # 2. Embarque e Armamento
+    carriers = Fleet.joins(:unit).where(squad: @squad).where.not(units: { type: 'Facility' }).select { |f| f.available_capacity > 10 }
+    carriers.each { |carrier| embark!(carrier) }
 
-    planets_with_fleets = fleets.map(&:planet).uniq
-    planets_with_fleets.each do |planet|
-      planet_fleets = fleets.select { |f| f.planet == planet && f.movable? && f.carrier.nil? }
-      dispatch_task_force!(planet, planet_fleets) unless planet_fleets.empty?
+    organize_planets!
+    Fleet.where(squad: @squad).each { |fleet| arm!(fleet) }
+
+    # 3. DOUTRINA DE MOVIMENTAÇÃO AGRESSIVA
+    Planet.joins(:fleets).where(fleets: { squad: @squad }).distinct.each do |planet|
+      movable_fleets = Fleet.where(squad: @squad, planet: planet, carrier_id: nil).select(&:movable?)
+      next if movable_fleets.empty?
+
+      # Se a agressividade for >= 4, o planeta TEM que mover algo (quase 100% de chance)
+      next unless rand(1..10) <= (@aggressiveness + 5)
+
+      # DETERMINAÇÃO DA GUARNIÇÃO
+      # Só deixa guarnição se tiver 3 ou mais frotas diferentes, senão vai todo mundo!
+      if movable_fleets.count >= 3
+        guarrison = movable_fleets.min_by(&:quantity)
+        traveling_pool = movable_fleets - [guarrison]
+      else
+        traveling_pool = movable_fleets
+      end
+
+      next if traveling_pool.empty?
+
+      # ESCOLHA DE DESTINOS
+      reachable_planets = Route.in_range_for(planet).to_a
+      next if reachable_planets.empty?
+
+      # Dividimos as naves em até 2 Task Forces para espalhar no mapa
+      # Grupos de naves que viajarão juntas
+      groups = traveling_pool.each_slice((traveling_pool.size / 2.0).ceil).to_a
+
+      groups.each do |group|
+        destination = choose_destination(reachable_planets)
+        next unless destination
+
+        group.each do |fleet|
+          # Regra de Escolta relaxada para permitir exploração rápida
+          if fleet.unit.type == 'CapitalShip' && @smartness >= 3
+            # Só cancela se a agressividade for muito baixa
+            has_escort = group.any? { |f| f.unit.type == 'Fighter' }
+            next if !has_escort && @aggressiveness < 4
+          end
+
+          MoveFleet.new(fleet, fleet.quantity, destination).order!
+        end
+      end
     end
 
     @squad.ready!
@@ -44,61 +84,10 @@ class AiFleet
 
   private
 
-  def dispatch_task_force!(planet, planet_fleets)
-    attack_threshold = 7 - @aggressiveness
-    will_attack = rand(1..6) >= attack_threshold || planet_in_danger?(planet)
-    
-    return unless will_attack
-
-    reachable_planets = Route.in_range_for(planet_fleets.first)
-    return if reachable_planets.empty?
-
-    destination = choose_destination(reachable_planets, planet_fleets)
-    return if destination.nil?
-
-    capital_ships = planet_fleets.select { |f| f.unit.type == 'CapitalShip' }
-    fighters = planet_fleets.select { |f| f.unit.type == 'Fighter' }
-    transports = planet_fleets.select { |f| f.unit.type == 'LightTransport' }
-
-    # RULE 1 CORRIGIDA: Deixar a MENOR guarnição possível de Fighters OU Transports
-    has_facility = planet.fleets.joins(:unit).where(squad: @squad, units: { type: 'Facility' }).any?
-    
-    if has_facility
-      # Une Fighters e Transports como candidatos a defensores
-      garrison_candidates = fighters + transports
-      
-      if garrison_candidates.any?
-        # A IA inteligente deixa apenas a menor frota para trás, liberando o esquadrão principal
-        defender = garrison_candidates.min_by(&:quantity)
-        planet_fleets -= [defender]
-        fighters -= [defender] if defender.unit.type == 'Fighter'
-        transports -= [defender] if defender.unit.type == 'LightTransport'
-      end
+  def organize_planets!
+    Planet.joins(:fleets).where(fleets: { squad: @squad }).distinct.each do |planet|
+      GroupFleet.new(planet).group!
     end
-
-    # RULE 3 CORRIGIDA: Evita enviar naves capitais sem escolta (Contando caças embarcados!)
-    if capital_ships.any? && @smartness >= 3
-      travelling_fighters = fighters.sum(&:quantity)
-      
-      # Caças que estão dentro dos transportes também contam como escolta!
-      embarked_fighters = transports.any? ? Fleet.joins(:unit).where(carrier: transports, units: { type: 'Fighter' }).sum(:quantity) : 0
-      
-      total_escorts = travelling_fighters + embarked_fighters
-      total_capitals = capital_ships.sum(&:quantity)
-      
-      if total_escorts < (total_capitals * 2)
-        planet_fleets -= capital_ships 
-      end
-    end
-
-    # Se todas as naves ficaram na defesa ou abortaram, cancela o movimento
-    return if planet_fleets.empty?
-
-    planet_fleets.each do |fleet|
-      MoveFleet.new(fleet, fleet.quantity, destination).order!
-    end
-
-    GroupFleet.new(planet).group!
   end
 
   def produce!(facility, available)
@@ -126,8 +115,6 @@ class AiFleet
 
     budget = buy_capital_ships(budget, squad, planet) if budget > 500
     buy_fighters(budget, squad, planet) if budget > 0
-    
-    GroupFleet.new(planet).group!
   end
 
   def buy_fighters(budget, squad, planet)
@@ -174,7 +161,6 @@ class AiFleet
     cargo.each do |c|
       ShipFleet.new(c.quantity, c, fleet).embark!
     end
-    GroupFleet.new(fleet.planet).group!
   end
 
   def build!
@@ -200,27 +186,33 @@ class AiFleet
     fleet.update(armament: armament)
   end
 
-  def choose_destination(reachable_planets, task_force = nil)
+  def choose_destination(reachable_planets)
+    # Tenta espalhar evitando repetir alvos que já escolhemos neste act!
     options = reachable_planets.reject { |p| @targeted_planets.include?(p) }
     options = reachable_planets if options.empty? 
 
     enemy_planets = options.select { |planet| planet.fleets.any? { |fleet| fleet.squad != @squad } }
-    unexplored = options.reject { |p| p.fleets.joins(:unit).where(squad: @squad, units: { type: 'Facility' }).any? }
+    unexplored = options.reject { |p| p.fleets.any? { |f| f.squad == @squad } }
     
     target = if @aggressiveness < 4
                unexplored.any? ? unexplored.sample : enemy_planets.sample
              elsif @aggressiveness > 4
-               if enemy_planets.any?
+               if enemy_planets.any? && unexplored.any? && rand(1..10) <= 3
+                 unexplored.sample
+               elsif enemy_planets.any?
                  @smartness >= 5 ? enemy_planets.min_by { |p| p.fleets.where.not(squad: @squad).sum(:quantity) } : enemy_planets.sample
                else
                  unexplored.sample
                end
              else
-               (enemy_planets + unexplored).sample
+               if enemy_planets.any? && unexplored.any?
+                  rand(1..10) <= 7 ? unexplored.sample : enemy_planets.sample
+               else
+                  (enemy_planets + unexplored).sample
+               end
              end
 
     target ||= options.sample
-    
     @targeted_planets << target if target
     target
   end
