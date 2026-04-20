@@ -1,5 +1,5 @@
 class Round < ApplicationRecord
-  enum phase: { strategy: 0, space_combat: 1, finished: 2 }
+  enum :phase, { strategy: 0, space_combat: 1, finished: 2 }
 
   has_many :fleets
   has_many :results

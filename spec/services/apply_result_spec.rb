@@ -37,10 +37,22 @@ RSpec.describe ApplyResult, type: :service do
     end
     it 'only one' do
       @result.update(fled: 1)
-      ApplyResult.new(@result).flee!
-      expect(@result.reload.fleet.quantity).to eq(9)
-      expect(Fleet.last.quantity).to eq(1)
-      expect(Fleet.last.planet).to eq(@destination)
+      
+      # Vamos garantir que estamos comparando com a frota certa
+      original_fleet = @result.fleet
+      
+      # Verificamos que uma nova frota será criada
+      expect {
+        ApplyResult.new(@result).flee!
+      }.to change(Fleet, :count).by(1)
+
+      expect(original_fleet.reload.quantity).to eq(9)
+      
+      # Em vez de Fleet.last, pegamos a frota que acabou de ser criada para o destino
+      new_fleet = Fleet.where(planet: @destination).last
+      
+      expect(new_fleet.quantity).to eq(1)
+      expect(new_fleet.planet).to eq(@destination)
     end
     it 'best route allied planets' do
      @allied_destination = create(:planet)
