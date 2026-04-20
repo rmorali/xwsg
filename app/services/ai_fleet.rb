@@ -13,10 +13,10 @@ class AiFleet
     
     organize_planets!
 
-    # 1. Construção e Produção
+    # 1. CONSTRUÇÃO DE FACILITIES (Regra de 80%)
+    # Agora com threshold menor (30% de reserva) para incentivar a expansão
     if @squad.credits > 1200
-      chance_of_build = rand(@squad.ai_level..7)
-      build! if chance_of_build == 7
+      build! if @squad.credits >= (@setup.initial_credits * 0.3)
     end
 
     facilities = Fleet.joins(:unit).where(squad: @squad, units: { type: 'Facility' })
@@ -28,23 +28,21 @@ class AiFleet
 
     organize_planets!
 
-    # 2. Embarque e Armamento
+    # 2. EMBARQUE (Crucial para a nova regra de movimento das Capital Ships)
     carriers = Fleet.joins(:unit).where(squad: @squad).where.not(units: { type: 'Facility' }).select { |f| f.available_capacity > 10 }
     carriers.each { |carrier| embark!(carrier) }
 
     organize_planets!
     Fleet.where(squad: @squad).each { |fleet| arm!(fleet) }
 
-    # 3. DOUTRINA DE MOVIMENTAÇÃO AGRESSIVA
+    # 3. MOVIMENTAÇÃO
     Planet.joins(:fleets).where(fleets: { squad: @squad }).distinct.each do |planet|
       movable_fleets = Fleet.where(squad: @squad, planet: planet, carrier_id: nil).select(&:movable?)
       next if movable_fleets.empty?
 
-      # Se a agressividade for >= 4, o planeta TEM que mover algo (quase 100% de chance)
       next unless rand(1..10) <= (@aggressiveness + 5)
 
-      # DETERMINAÇÃO DA GUARNIÇÃO
-      # Só deixa guarnição se tiver 3 ou mais frotas diferentes, senão vai todo mundo!
+      # Definição de guarnição mínima
       if movable_fleets.count >= 3
         guarrison = movable_fleets.min_by(&:quantity)
         traveling_pool = movable_fleets - [guarrison]
@@ -54,12 +52,9 @@ class AiFleet
 
       next if traveling_pool.empty?
 
-      # ESCOLHA DE DESTINOS
       reachable_planets = Route.in_range_for(planet).to_a
       next if reachable_planets.empty?
 
-      # Dividimos as naves em até 2 Task Forces para espalhar no mapa
-      # Grupos de naves que viajarão juntas
       groups = traveling_pool.each_slice((traveling_pool.size / 2.0).ceil).to_a
 
       groups.each do |group|
@@ -67,11 +62,16 @@ class AiFleet
         next unless destination
 
         group.each do |fleet|
-          # Regra de Escolta relaxada para permitir exploração rápida
-          if fleet.unit.type == 'CapitalShip' && @smartness >= 3
-            # Só cancela se a agressividade for muito baixa
-            has_escort = group.any? { |f| f.unit.type == 'Fighter' }
-            next if !has_escort && @aggressiveness < 4
+          # REGRA DAS CAPITAL SHIPS (Solo só com Fighter de carga)
+          if fleet.unit.type == 'CapitalShip'
+            # Verifica se há caças no grupo de viagem
+            has_fighter_escort = group.any? { |f| f.unit.type == 'Fighter' }
+            
+            # Verifica se há caças DENTRO da nave capital (Carga)
+            has_fighter_cargo = Fleet.joins(:unit).where(carrier: fleet, units: { type: 'Fighter' }).any?
+
+            # Se não tiver escolta nem carga, a Capital Ship cancela a viagem individual
+            next if !has_fighter_escort && !has_fighter_cargo
           end
 
           MoveFleet.new(fleet, fleet.quantity, destination).order!
@@ -90,6 +90,44 @@ class AiFleet
     end
   end
 
+  def build!
+    # Busca Facilities que custem até 80% do saldo atual do Squad
+    max_budget = @squad.credits * 0.8
+    available_units = Unit.allowed_for(@squad.faction.name)
+                          .where(type: 'Facility')
+                          .where("credits <= ?", max_budget)
+    
+    facility = @smartness >= 4 ? available_units.order(credits: :desc).first : available_units.sample
+    return if facility.nil?
+
+    planet = best_planet_for_facility
+    return if planet.nil?
+
+    # O BuildFleet debita de @squad.credits automaticamente
+    BuildFleet.new(1, facility, @squad, planet).build!
+    GroupFleet.new(planet).group!
+  end
+
+  def best_planet_for_facility
+    # Planetas seguros (sem inimigos) e sem bases atuais
+    candidates = Planet.seen_by(@squad).reject do |p|
+      p.fleets.joins(:unit).where(units: { type: 'Facility' }).any? || 
+      p.fleets.where.not(squad: @squad).any?
+    end
+
+    return nil if candidates.empty?
+
+    # Score baseado em renda e segurança
+    candidates.sort_by! do |p|
+      score = p.credits
+      allied_strength = p.fleets.where(squad: @squad).sum(:quantity)
+      score += (allied_strength * 2) 
+      score
+    end
+
+    candidates.last
+  end
+
   def produce!(facility, available)
     planet = facility.planet
     squad = facility.squad
@@ -99,6 +137,12 @@ class AiFleet
     current_transports = planet.fleets.joins(:unit).where(squad: squad, units: { type: 'LightTransport' }).sum(:quantity)
     
     budget = available
+
+    # Prioridade 1: Garantir que Capital Ships tenham caças para poderem viajar
+    if current_fighters < 2
+      fighter_budget = budget * 0.5
+      budget -= (fighter_budget - buy_fighters(fighter_budget, squad, planet))
+    end
 
     if current_capitals == 0 && budget >= 600
       capital_budget = budget * 0.6
@@ -110,49 +154,33 @@ class AiFleet
       budget -= (transport_budget - buy_transports(transport_budget, squad, planet))
     end
 
-    fighter_budget = budget * 0.8
-    budget -= (fighter_budget - buy_fighters(fighter_budget, squad, planet))
-
-    budget = buy_capital_ships(budget, squad, planet) if budget > 500
     buy_fighters(budget, squad, planet) if budget > 0
   end
 
   def buy_fighters(budget, squad, planet)
-    existing_fighter_types = planet.fleets.joins(:unit).where(squad: squad, units: { type: 'Fighter' }).map(&:unit).uniq
     available_units = Unit.allowed_for(squad.faction.name).where(type: 'Fighter').where("credits <= ?", budget)
-    
-    if existing_fighter_types.count >= 2 && @smartness >= 3
-      available_units = available_units.where(id: existing_fighter_types.map(&:id))
-    end
-    
     return budget if available_units.empty?
-
     best_fighter = @smartness >= 4 ? available_units.order(credits: :desc).first : available_units.sample
     quantity = (budget / best_fighter.credits).to_i
     BuildFleet.new(quantity, best_fighter, squad, planet).build! if quantity > 0
-    
     budget - (quantity * best_fighter.credits)
   end
 
   def buy_transports(budget, squad, planet)
     available_units = Unit.allowed_for(squad.faction.name).where(type: 'LightTransport').where("credits <= ?", budget)
     return budget if available_units.empty?
-
     best_transport = @smartness >= 4 ? available_units.order(credits: :desc).first : available_units.sample
     quantity = (budget / best_transport.credits).to_i
     BuildFleet.new(quantity, best_transport, squad, planet).build! if quantity > 0
-    
     budget - (quantity * best_transport.credits)
   end
 
   def buy_capital_ships(budget, squad, planet)
     available_units = Unit.allowed_for(squad.faction.name).where(type: 'CapitalShip').where("credits <= ?", budget)
     return budget if available_units.empty?
-    
     best_ship = available_units.order(credits: :desc).first
     quantity = (budget / best_ship.credits).to_i
     BuildFleet.new(quantity, best_ship, squad, planet).build! if quantity > 0
-    
     budget - (quantity * best_ship.credits)
   end
 
@@ -164,33 +192,32 @@ class AiFleet
   end
 
   def build!
-    planets = Planet.seen_by(@squad).reject { |p| p.fleets.any? { |f| f.unit.type == 'Facility' } || p.fleets.none? { |f| f.unit.type == 'CapitalShip' } }
-    return if planets.nil?
-    planet = planets.sample unless planets.empty?
-    facilities = Unit.allowed_for(@squad.faction.name).where("type = ? AND credits <= ?", 'Facility', @squad.credits)
-    facility = facilities.sample unless facilities.empty?
-    BuildFleet.new(1, facility, @squad, planet).build! unless facility.nil? || planet.nil?
+    max_budget = @squad.credits * 0.8
+    available_units = Unit.allowed_for(@squad.faction.name).where(type: 'Facility').where("credits <= ?", max_budget)
+    return if available_units.empty?
+
+    facility = @smartness >= 4 ? available_units.order(credits: :desc).first : available_units.sample
+    planet = best_planet_for_facility
+    return if planet.nil? || facility.nil?
+
+    BuildFleet.new(1, facility, @squad, planet).build!
+    GroupFleet.new(planet).group!
   end
 
   def arm!(fleet)
     return if fleet.armament.present?
     return unless fleet.unit.respond_to?(:armable?) && fleet.unit.armable?
-
     chance_to_arm = rand(1..6)
     return if chance_to_arm > @smartness
-
     armaments = Unit.allowed_for(@squad.faction.name).where(type: 'Armament')
     return if armaments.empty?
-
     armament = @smartness >= 4 ? armaments.order(credits: :desc).first : armaments.sample
     fleet.update(armament: armament)
   end
 
   def choose_destination(reachable_planets)
-    # Tenta espalhar evitando repetir alvos que já escolhemos neste act!
     options = reachable_planets.reject { |p| @targeted_planets.include?(p) }
     options = reachable_planets if options.empty? 
-
     enemy_planets = options.select { |planet| planet.fleets.any? { |fleet| fleet.squad != @squad } }
     unexplored = options.reject { |p| p.fleets.any? { |f| f.squad == @squad } }
     
