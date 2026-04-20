@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Xwsg
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1 # ATUALIZADO: Configurações padrão para Rails 7.0
+    config.load_defaults 7.2 # ATUALIZADO: Configurações padrão para Rails 7.2
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
