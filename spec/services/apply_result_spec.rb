@@ -75,10 +75,23 @@ RSpec.describe ApplyResult, type: :service do
     end
     it 'only one' do
       @result.update(captured: 1, captor: @squad_b)
-      ApplyResult.new(@result).capture!
-      expect(@result.reload.fleet.quantity).to eq(9)
-      expect(Fleet.last.quantity).to eq(1)
-      expect(Fleet.last.squad).to eq(@squad_b)
+      
+      # Guardamos a referência da frota original
+      original_fleet = @result.fleet
+      
+      # Garantimos que uma nova frota será realmente criada no banco
+      expect {
+        ApplyResult.new(@result).capture!
+      }.to change(Fleet, :count).by(1)
+
+      # A frota original perde 1 unidade
+      expect(original_fleet.reload.quantity).to eq(9)
+      
+      # Em vez do .last genérico, buscamos especificamente a frota que o @squad_b acabou de ganhar
+      new_fleet = Fleet.where(squad: @squad_b).where.not(id: original_fleet.id).last
+      
+      expect(new_fleet.quantity).to eq(1)
+      expect(new_fleet.squad).to eq(@squad_b)
     end
   end
   context 'unload carrier' do

@@ -25,11 +25,24 @@ RSpec.describe ArmFleet, type: :service do
   end
 
   it 'arms a fleet partially' do
-  	ArmFleet.new(@xwing, 6, armament).arm!
-  	expect(@xwing.reload.armament).to_not eq(armament)
-  	expect(@xwing.reload.quantity).to eq(4)
-  	expect(Fleet.last.quantity).to eq(6)
-  	expect(Fleet.last.armament).to eq(armament)
+    # Garante que o processo realmente criou uma nova frota no banco
+    expect {
+      ArmFleet.new(@xwing, 6, armament).arm!
+    }.to change(Fleet, :count).by(1)
+
+    # Verifica a frota original (@xwing)
+    expect(@xwing.reload.armament).to_not eq(armament)
+    expect(@xwing.quantity).to eq(4)
+
+    # Busca especificamente a frota nova (excluindo a original da busca)
+    new_armed_fleet = Fleet.where.not(id: @xwing.id).last
+    
+    # Outra alternativa muito boa seria buscar pelo armamento:
+    # new_armed_fleet = Fleet.where(armament: armament).last
+
+    # Verifica a frota recém-criada e armada
+    expect(new_armed_fleet.quantity).to eq(6)
+    expect(new_armed_fleet.armament).to eq(armament)
   end
 
   it 'disarms a fleet' do

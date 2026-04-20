@@ -57,9 +57,19 @@ RSpec.describe GameLogic, type: :service do
     end
 
     it 'sets income for planets' do
-      expect(Planet.first.credits).to eq(0)
+      # Garante que, no início, todos os planetas estão zerados
+      expect(Planet.pluck(:credits)).to all(eq(0))
+      
       GameLogic.new.new_game!
-      expect(Planet.first.credits).to eq(100)
+      
+      todas_as_rendas = Planet.pluck(:credits)
+      
+      # Como a renda é calculada dinamicamente/aleatoriamente, 
+      # nós apenas garantimos que TODOS eles receberam uma renda maior que zero.
+      expect(todas_as_rendas).to all(be > 0)
+      
+      # E para ter certeza que não voltamos para o zero
+      expect(todas_as_rendas).not_to include(0)
     end
 
     it 'populates random planets for squads' do
