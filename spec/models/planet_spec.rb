@@ -99,15 +99,19 @@ RSpec.describe Planet, type: :model do
     end
   end
 
-  it 'retrieves serialized domination data' do
-    planet.domination = { 1 => 40, 2 => 60 }
-    planet.save
-    expect(planet.domination).to include { '2 => 60' }
-    first_squad_influence = planet.domination[1]
-    expect(first_squad_influence).to eq(40)
-    second_squad_influence = planet.domination[2]
-    expect(second_squad_influence).to_not eq(40)
-  end
+it 'retrieves serialized domination data' do
+  planet.domination = { 1 => 40, 2 => 60 }
+  planet.save
+  
+  # Como estamos trabalhando com Hashes, testamos a inclusão passando a chave/valor direto:
+  expect(planet.domination).to include(2 => 60)
+  
+  first_squad_influence = planet.domination[1]
+  expect(first_squad_influence).to eq(40)
+  
+  second_squad_influence = planet.domination[2]
+  expect(second_squad_influence).to_not eq(40)
+end
 
   it 'has an image' do
     expect(planet.image).to eq("planets/#{planet.name.downcase}.png")

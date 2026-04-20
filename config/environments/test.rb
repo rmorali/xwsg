@@ -16,6 +16,7 @@ Rails.application.configure do
   # recommended that you enable it in continuous integration systems to ensure eager
   # loading is working properly before deploying your code.
   config.eager_load = ENV["CI"].present?
+  #config.eager_load = false # ATUALIZADO: Habilitado para garantir que o carregamento antecipado funcione corretamente, mesmo em ambientes locais. Pode melhorar a detecção de problemas relacionados ao carregamento de classes.
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
