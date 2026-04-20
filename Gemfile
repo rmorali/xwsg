@@ -20,7 +20,7 @@ gem 'puma', '~> 3.11' # ATUALIZADO: Melhor estabilidade para 7.00, embora 5.x se
 gem 'bootsnap' # ATUALIZADO: Adicionado para melhorar o tempo de boot (veja config/boot.rb)
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 8.0.0' # ATUALIZADO: Próxima versão menor (minor version)
+gem 'rails', '~> 8.1.0' # ATUALIZADO: Próxima versão menor (minor version)
 
 gem 'react-rails'
 
