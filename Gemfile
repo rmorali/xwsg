@@ -9,12 +9,13 @@ gem 'devise'
 gem 'dijkstra', git: 'https://github.com/oscartanner/dijkstra.gem.git'
 gem 'erubis'
 
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7' # ATUALIZADO: Versão mais adequada para Rails 5.2
+gem 'jbuilder', '~> 2.7' # ATUALIZADO: Versão mais adequada para Rails 7.0
 gem 'jquery-rails'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.11' # ATUALIZADO: Melhor estabilidade para 5.2
+gem 'puma', '~> 3.11' # ATUALIZADO: Melhor estabilidade para 7.00, embora 5.x seja recomendado para Rails 7.0.0+ (ver nota abaixo)
 
 gem 'bootsnap' # ATUALIZADO: Adicionado para melhorar o tempo de boot (veja config/boot.rb)
 
@@ -30,7 +31,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'simple_form'
 
 # SQLite3 para Rails 6.0.6 geralmente exige versão 1.4 ou superior, mas 1.4.2 é a mais estável.
-gem 'sqlite3', '~> 1.5.0' # ATUALIZADO: Fixado para evitar incompatibilidade inicial
+gem 'sqlite3', '~> 1.7' # ATUALIZADO: Fixado para evitar incompatibilidade inicial
 
 # ATUALIZADO: therubyracer está obsoleto. mini_racer é o substituto moderno.
 gem 'mini_racer', platforms: :ruby 
