@@ -1,128 +1,132 @@
 <% @planets.each do |planet| %>
-  <% pos_x = ( planet.x + @map_x_adjust ) * @map_ratio %>
-  <% pos_y = ( planet.y + @map_y_adjust ) * @map_ratio %>
+  <% pos_x = (planet.x + @map_x_adjust) * @map_ratio %>
+  <% pos_y = (planet.y + @map_y_adjust) * @map_ratio %>
+  <% facility = planet.fleets.select { |f| f.squad == @squad && f.type == 'Facility' }.first %>
+  <% can_produce = facility && @round.strategy? && !@squad.ready? && !facility.in_production? %>
+  <% my_influence = planet.fleets_influence.find { |i| i[0] == @squad }&.last.to_i %>
+  <% current_income = SetIncome.new(@squad, planet).current %>
 
-  <div id="images" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y %>px; z-index: 5">
-    <% facility = planet.fleets.select { |f| f.squad == @squad && f.type == 'Facility' }.first %>
-    <% if facility && @round.strategy? && !@squad.ready? && !facility.in_production? %>
-      <info class="tooltip" style="z-index: 150;">
-      <tip>Produzir Unidades</tip>
-      <a href = "" onclick="window.open('/fleets/<%= facility.id %>/edit','<%= facility.name %> - <%= facility.planet %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=450, height=400')">
-        <%= image_tag (planet.image), style: "width: 50px" %>
-      </a>
-      </info>
-    <% else %>
-      <%= image_tag (planet.image), style: "width: 50px" %>
-    <% end %>
-  </div>
-
-  <div id="wormholes" style="position: absolute; left:<%= pos_x %>px; top:<%= pos_y - 60 %>px; z-index: 15">
-    <info class="tooltip">
-    <tip>
-      <%= planet.wormhole_to if planet.wormhole? %></tip>
-      <%= image_tag ('wormhole.gif'), style: "width: 100px" if planet.wormhole? && ( Planet.seen_by(@squad).include?(planet) || Planet.fog_seen_by(@squad).include?(planet) || planet.wormholes_seen_by_radar(@squad) ) %>
-    </info>
-  </div>
-
-  <div id="names" style="position: absolute; left:<%= pos_x - 5 %>px; top:<%= pos_y - 20 %>px; z-index: -15" >
-    <span style="color: white; font-weight: bold; font-size: 12px">
-      <%= planet.name %>
-    </span>
-  </div>
-
-  <div id="planet_income" style="position:absolute; left:<%= pos_x - 20 %>px; top:<%= pos_y - 5 %>px;z-index: 15; white-space: nowrap">
-    <span style="color:gray; font-size: 10px; font-weight: bold">
+  <!-- WORMHOLE (ANOMALIA ESPACIAL) -->
+  <% if planet.wormhole? && (Planet.seen_by(@squad).include?(planet) || Planet.fog_seen_by(@squad).include?(planet) || planet.wormholes_seen_by_radar(@squad)) %>
+    <div class="planet-wormhole" style="left:<%= pos_x - 15 %>px; top:<%= pos_y - 55 %>px;">
       <info class="tooltip">
-      <tip>Income planetário máximo<br>
-           Influência Mínima: <%= @setup.minimum_fleet_for_dominate %></tip>
-        <%= planet.income %>
+        <tip><span style="color:#a855f7; font-weight:bold;">ANOMALIA //</span> <%= planet.wormhole_to %></tip>
+        <%= image_tag('wormhole.gif', class: 'wormhole-img') %>
       </info>
-    </span>
-  </div>
+    </div>
+  <% end %>
 
-  <div id="squad_income" style="position:absolute; left:<%= pos_x + 45 %>px; top:<%= pos_y - 5 %>px;z-index: 15; white-space: nowrap">
-    <span style="color:yellow;font-size: 10px;font-weight: bold">
-      <info class="tooltip">
-      <tip>Income do squad<br>
-        Influência:
-        <% planet.fleets_influence.each do |i| %>
-          <%= i[1] if i[0] == @squad %>
-        <% end %>
-        / <%= @setup.minimum_fleet_for_dominate %><br>
-      </tip>
-        <%= SetIncome.new(@squad, planet).current %>
-      </info>
-    </span>
-  </div>
-
-  <div id="fleets" class="fleets" style="position:absolute; left:<%= pos_x + 40 %>px; top:<%= pos_y - 3 %>px">
-    <% planet.fleets_seen_by(@squad).reject { |f| !f.carrier.nil? }.each do |fleet| %>
-      <!-- <span style="<%= style(fleet) %>" onclick=showDiv('edit_box','15%','10%')> -->
-      <info class="tooltip">
-      <tip><%= raw tip(fleet) %></tip>
-        <% if fleet.squad == @squad && @round.strategy? && !@squad.ready? && !fleet.in_production? %>
-          <a href = "" onclick="window.open('/fleets/<%= fleet.id %>/edit','<%= fleet.name %> - <%= fleet.planet %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=450, height=400')">
-        <% end %>
-          <span style="<%= style(fleet) %>">
-            <%= show(fleet) %>
-          </span>
-          <span style="color: white">
-            <%= show_result(fleet) %>
-          </span>
-        </a>
-      </info>
-      <span style="color: white">
-          <%= "--> #{fleet.destination.name}" if fleet.destination %>
-      </span>
-      <!--  <%= link_to show(fleet), edit_fleet_path(fleet), remote: true, style: style(fleet) %> -->
-
-      <% fleet.cargo.each do |cargo| %>
-        <br>
+  <!-- NÓ DO PLANETA (IMAGEM + ÓRBITA + TELEMETRIA) -->
+  <div class="planet-node <%= 'is-builder' if can_produce %> <%= 'is-contested' if planet.under_attack? %>" style="left:<%= pos_x %>px; top:<%= pos_y %>px;">
+    
+    <!-- Cabeçalho do Planeta (Nome + Economia) -->
+    <div class="planet-header">
+      <span class="planet-name"><%= planet.name.upcase %></span>
+      <div class="planet-economy">
         <info class="tooltip">
-        <tip><%= raw tip(cargo) %></tip>
-          <span style="<%= style(cargo) %>">
-            &nbsp &nbsp <%= show(cargo) %>
-          </span>
-          <span style="color: white">
-            <%= show_result(cargo) %>
-          </span>
+          <tip>
+            <strong style="color:#38bdf8;">TELEMETRIA ECONÔMICA</strong><br>
+            Receita Máxima: <%= planet.income %> cr<br>
+            Sua Receita: <span style="color:#4ade80;"><%= current_income %> cr</span><br>
+            Influência: <%= my_influence %> / <%= @setup.minimum_fleet_for_dominate %>
+          </tip>
+          <span class="econ-max"><%= planet.income %></span>
+          <span class="econ-sep">/</span>
+          <span class="econ-current <%= 'has-income' if current_income.to_i > 0 %>">+<%= current_income %></span>
         </info>
-      <% end %>
-      <br>
-    <% end %>
+      </div>
+    </div>
 
-    <% if @round.strategy? %>
-      <% planet.fleets_seen_by_radar(@squad).each do |fleet| %>
+    <!-- Orbe do Planeta -->
+    <div class="planet-orb-wrapper">
+      <% if can_produce %>
         <info class="tooltip">
-        <tip>- Detectado pelo radar</tip>
-          <span style="<%= style(fleet) %>; opacity: 0.9">
-            <%= show(fleet) %>
-          </span>
+          <tip><span style="color:#4ade80; font-weight:bold;">ESTALEIRO ATIVO //</span> Clique para produzir unidades</tip>
+          <a href="#" class="planet-orb-link" onclick="window.open('/fleets/<%= facility.id %>/edit','<%= facility.name %> - <%= facility.planet.name %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=480, height=440'); return false;">
+            <%= image_tag(planet.image, class: 'planet-img') %>
+            <span class="planet-build-ring"></span>
+          </a>
         </info>
-        <br>
+      <% else %>
+        <%= image_tag(planet.image, class: 'planet-img') %>
       <% end %>
-    <% end %>
-
-    <% unless planet.fleets.any? { |f| f.squad == @squad } %>
-	    <% planet.fog_seen_by(@squad).reject { |f| !f.carrier.nil? || f.final_quantity <= 0 }.each do |fleet| %>
-	      <info class="tooltip">
-	      <tip>- Enfrentado no turno: <%= fleet.round.number %></tip>
-		<span style="<%= style(fleet) %>; opacity: 0.3">
-		  <%= show_fog(fleet) %>
-		</span>
-		<% fleet.cargo.each do |cargo| %>
-		  <% unless cargo.final_quantity <= 0 %>
-		    <br>
-		    <span style="<%= style(cargo) %>; opacity: 0.3">
-		      &nbsp &nbsp <%= show_fog(cargo) %>
-  		    </span>
-  		  <% end %>
-		<% end %>
-	      </info>
-	      <br>
-	    <% end %>
-    <% end %>
+    </div>
   </div>
+
+  <!-- PAINEL TÁTICO DE FROTAS EM ÓRBITA -->
+  <% visible_fleets = planet.fleets_seen_by(@squad).reject { |f| !f.carrier.nil? } %>
+  <% radar_fleets = @round.strategy? ? planet.fleets_seen_by_radar(@squad) : [] %>
+  <% fog_fleets = planet.fleets.none? { |f| f.squad == @squad } ? planet.fog_seen_by(@squad).reject { |f| !f.carrier.nil? || f.final_quantity <= 0 } : [] %>
+
+  <% if visible_fleets.any? || radar_fleets.any? || fog_fleets.any? %>
+    <div class="fleets-card" style="left:<%= pos_x + 56 %>px; top:<%= pos_y + 12 %>px;">
+      
+      <!-- Frotas Visíveis no Setor -->
+      <% visible_fleets.each do |fleet| %>
+        <% actionable = fleet.squad == @squad && @round.strategy? && !@squad.ready? && !fleet.in_production? %>
+        <div class="fleet-row <%= 'is-actionable' if actionable %>">
+          <info class="tooltip">
+            <tip><%= raw tip(fleet) %></tip>
+            <% if actionable %>
+              <a href="#" class="fleet-link" onclick="window.open('/fleets/<%= fleet.id %>/edit','<%= fleet.name %> - <%= fleet.planet.name %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=480, height=440'); return false;">
+                <span style="<%= style(fleet) %>"><%= show(fleet) %></span>
+                <span class="fleet-result-tag"><%= show_result(fleet) %></span>
+              </a>
+            <% else %>
+              <span style="<%= style(fleet) %>"><%= show(fleet) %></span>
+              <span class="fleet-result-tag"><%= show_result(fleet) %></span>
+            <% end %>
+          </info>
+
+          <% if fleet.destination %>
+            <span class="fleet-destination">➔ <%= fleet.destination.name %></span>
+          <% end %>
+
+          <!-- Unidades Embarcadas (Cargo) -->
+          <% fleet.cargo.each do |cargo| %>
+            <div class="fleet-cargo-row">
+              <info class="tooltip">
+                <tip><%= raw tip(cargo) %></tip>
+                <span class="cargo-branch">└</span>
+                <span style="<%= style(cargo) %>"><%= show(cargo) %></span>
+                <span class="fleet-result-tag"><%= show_result(cargo) %></span>
+              </info>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Frotas Detectadas por Radar -->
+      <% radar_fleets.each do |fleet| %>
+        <div class="fleet-row fleet-radar">
+          <info class="tooltip">
+            <tip><span style="color:#38bdf8; font-weight:bold;">RADAR:</span> Detectado pelo sensor de longo alcance</tip>
+            <span style="<%= style(fleet) %>"><%= show(fleet) %></span>
+          </info>
+        </div>
+      <% end %>
+
+      <!-- Última Inteligência Conhecida (Fog of War) -->
+      <% fog_fleets.each do |fleet| %>
+        <div class="fleet-row fleet-fog">
+          <info class="tooltip">
+            <tip><span style="color:#94a3b8; font-weight:bold;">ÚLTIMO CONTATO //</span> Turno <%= fleet.round.number %></tip>
+            <span class="fog-badge">T-<%= fleet.round.number %></span>
+            <span style="<%= style(fleet) %>"><%= show_fog(fleet) %></span>
+          </info>
+          <% fleet.cargo.each do |cargo| %>
+            <% unless cargo.final_quantity <= 0 %>
+              <div class="fleet-cargo-row">
+                <span class="cargo-branch">└</span>
+                <span style="<%= style(cargo) %>"><%= show_fog(cargo) %></span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+    </div>
+  <% end %>
 
 <% end %>
 

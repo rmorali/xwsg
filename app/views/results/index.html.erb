@@ -1,58 +1,85 @@
 <script>
   refreshParent();
-  document.title = " Lista de Combates "
+  document.title = "COMBATES // RELATÓRIOS TÁTICOS";
 </script>
-<% @rounds.sort_by{|a| a.number}.reverse.each do |round| %>
-  <% current_round = false %>
-  <% current_round = true if round == @round && @round.space_combat? %>
-  <h1>Round: <%= round.number %></h1>
-  <% round.results.group_by(&:planet).each do |planet, fleet| %>
-    <div class="results">
-      <table>
-        <tr>
-          <td rowspan="<%= fleet.count + 10 %>" align="center" valign="top">
-            <h2><%= planet.name %></h2>
-            <%= image_tag (planet.image), style: "width: 70px" %><br><br>
-            <%= raw fleet.first.description %>
-          </td>
-        </tr>
-        <% if current_round %>
-          <td></td><td>Dest:</td><td>Fugiu:</td><td>Capt:</td><td>Capturador:</td>
-        <% end %>
-        <%= form_tag "results" do %>
 
-          <% fleet.each do |unit| %>
-            <tr valign="center">
-              <%= simple_fields_for "results[]", unit do |f| %>
-                <td>
-                  <span style="<%= style(unit) %>">
-                    <info class="tooltip">
-                    <tip><%= raw tip(unit) %></tip>
-                      <%= raw "&nbsp &nbsp" if unit.carrier %>
-                      <%= show(unit) %>
-                      <span style="color: white">
-                        <%= show_result(unit) %>
-                      </span>
-                    </info>
+<div class="fleet-terminal">
+  <div class="terminal-card">
+    <div class="terminal-card-header terminal-header-split">
+      <span>ARQUIVO DE COMBATES & RELATÓRIOS DE BATALHA</span>
+      <span class="level-pill">CICLO ATUAL: #<%= @round.number.to_s.rjust(2, '0') %></span>
+    </div>
 
-                  </span>
-                </td>
+    <% @rounds.sort_by(&:number).reverse.each do |round| %>
+      <% current_round = (round == @round && @round.space_combat?) %>
+
+      <div class="combat-round-block">
+        <div class="combat-round-banner">
+          <span class="round-tag">TURNO #<%= round.number.to_s.rjust(2, '0') %></span>
+          <% if current_round %>
+            <span class="hud-phase-badge phase-combat">COMBATE ATIVO // AGUARDANDO RELATÓRIO</span>
+          <% end %>
+        </div>
+
+        <% round.results.group_by(&:planet).each do |planet, fleet| %>
+          <div class="combat-planet-card">
+            <div class="combat-planet-sidebar">
+              <%= image_tag(planet.image, class: 'combat-planet-img') %>
+              <div class="combat-planet-name"><%= planet.name.upcase %></div>
+              <div class="combat-planet-desc"><%= raw fleet.first.description %></div>
+            </div>
+
+            <div class="combat-units-area">
+              <%= form_tag "results" do %>
+                <table class="tactical-table">
+                  <thead>
+                    <tr>
+                      <th>UNIDADE / ESQUADRÃO</th>
+                      <% if current_round %>
+                        <th class="text-center">DEST.</th>
+                        <th class="text-center">FUGIU</th>
+                        <th class="text-center">CAPT.</th>
+                        <th>CAPTURADOR</th>
+                      <% end %>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% fleet.each do |unit| %>
+                      <tr>
+                        <%= simple_fields_for "results[]", unit do |f| %>
+                          <td>
+                            <info class="tooltip">
+                              <tip><%= raw tip(unit) %></tip>
+                              <span style="<%= style(unit) %>">
+                                <%= raw "<span class='cargo-branch'>└</span> " if unit.carrier %>
+                                <%= show(unit) %>
+                              </span>
+                              <span class="fleet-result-tag"><%= show_result(unit) %></span>
+                            </info>
+                          </td>
+
+                          <% if current_round %>
+                            <td class="text-center"><%= f.input :blasted, label: false, input_html: { maxlength: 3, class: 't-input-xs' } %></td>
+                            <td class="text-center"><%= f.input :fled, label: false, input_html: { maxlength: 3, class: 't-input-xs' } %></td>
+                            <td class="text-center"><%= f.input :captured, label: false, input_html: { maxlength: 3, class: 't-input-xs' } %></td>
+                            <td><%= f.association :captor, collection: @enemies.reject { |squad| squad == unit.squad }, label: false, input_html: { class: 't-select-xs', style: 'width: 100%;' } %></td>
+                          <% end %>
+                        <% end %>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+
                 <% if current_round %>
-                  <td><%= f.input :blasted, label: false, input_html: { maxlength: 3, size: 1 } %></td>
-                  <td><%= f.input :fled, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
-                  <td><%= f.input :captured, label: false, input_html: { maxlength: 3, size: 1 }  %></td>
-                  <td><%= f.association :captor, collection: @enemies.reject { |squad| squad == unit.squad }, label: false %></td>
+                  <div class="combat-submit-row">
+                    <%= submit_tag 'REGISTRAR RESULTADO', class: 't-btn t-btn-primary' %>
+                  </div>
                 <% end %>
               <% end %>
-            </tr>
-          <% end %>
-          <tr>
-            <td align="center">
-              <%= submit_tag 'Salvar' if current_round %>
-            </td>
-          </tr>
+            </div>
+          </div>
         <% end %>
-      </table>
-    </div>
-  <% end %>
-<% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,94 +1,146 @@
-<table style="text-align: left; border-spacing: 15px 0px">
-  <tr>
-    <td style="text-align:center">
-      <%= image_tag ('squads/star wars.png'), style: "width: 105px; align: center;" %>
-    </td>
+<div class="hud-wrapper" style="--squad-color: <%= @squad.color.presence || '#38bdf8' %>;">
+  <div class="hud-bar">
+    
+    <!-- BLOCO 1: IDENTIDADE DO COMANDANTE -->
+    <div class="hud-section hud-identity">
+      <div class="hud-logo">
+        <%= image_tag('squads/star wars.png', class: 'hud-brand-img') %>
+      </div>
 
-    <td style="text-align:center">
-      <info class="tooltip">
-      <tip>Setup do Squad</tip>
-        <a href = "" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Setup do Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=350, height=250')">
-        <%= image_tag (@squad.image), style: "width: 50px; align: center;" %></a>
-      </info>
-    </td>
-
-    <td style="text-align:center">
-      <span style="color:<%= @squad.color %>;font-size: 22px; font-weight: bold">
-        <%= @squad.name %>
-      </span>
-      <br>
-      <span style="color:<%= @squad.color %>;font-size: 14px; font-weight: bold">
-        <%= @squad.faction.name %>
-      </span>
-    </td>
-
-    <td style="text-align:center">
-      <span style="font-size: 16px; font-weight: bold">
-        Turno: <%= @round.number %><br>
-        <%= @round.phase.upcase_first %>
-      </span>
-    </td>
-
-    <td style="text-align:center">
-      <info class="tooltip">
-      <tip>Creditos e Income</tip>
-        <%= image_tag ('squads/credits.png'), style: "width: 50px; align: right; vertical-align: top" %>
-      </info>
-    </td>
-
-    <td>
-      <span style="color: yellow; font-size: 13px; font-weight: bold">
+      <div class="hud-squad-badge">
         <info class="tooltip">
-        <tip>Crédito Disponível</tip>
-          <%= @squad_credits %>
+          <tip>Configurar Esquadrão & Cor</tip>
+          <a href="#" class="hud-emblem-btn" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Setup do Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=380, height=280'); return false;">
+            <%= image_tag(@squad.image, class: 'hud-squad-img') %>
+            <span class="hud-edit-dot">⚙</span>
+          </a>
         </info>
-      </span>
-      <br>
-      <span style="color: yellow; font-size: 10px">
-        <info class="tooltip">
-        <tip>Income Previsto</tip>
-          +<%= @squad_income %>
-        </info>
-      </span>
-    </td>
+      </div>
 
-    <td style="text-align:center">
+      <div class="hud-squad-info">
+        <div class="hud-squad-name"><%= @squad.name %></div>
+        <div class="hud-faction-tag">
+          <span class="hud-pulse-dot"></span>
+          <%= @squad.faction.name.upcase %>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-divider"></div>
+
+    <!-- BLOCO 2: TELEMETRIA DE TURNO E ECONOMIA -->
+    <div class="hud-section hud-telemetry">
+      <!-- Módulo de Turno -->
+      <div class="hud-stat-box">
+        <span class="hud-stat-label">CICLO / TURNO</span>
+        <div class="hud-stat-value-row">
+          <span class="hud-turn-number">#<%= @round.number.to_s.rjust(2, '0') %></span>
+          <span class="hud-phase-badge <%= @round.strategy? ? 'phase-strategy' : 'phase-combat' %>">
+            <%= @round.phase.upcase %>
+          </span>
+        </div>
+      </div>
+
+      <!-- Módulo de Créditos -->
+      <div class="hud-stat-box hud-credits-box">
+        <span class="hud-stat-label">TESOURO / CRÉDITOS</span>
+        <div class="hud-stat-value-row">
+          <!-- Ícone SVG Créditos Galácticos -->
+          <svg class="hud-icon-sm hud-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 19 6 19 18 12 22 5 18 5 6 12 2"></polygon>
+            <line x1="12" y1="6" x2="12" y2="18"></line>
+            <path d="M9 9h6M9 15h6"></path>
+          </svg>
+          <span class="hud-credits-value"><%= number_with_delimiter(@squad_credits, delimiter: '.') %></span>
+          <info class="tooltip">
+            <tip>Receita líquida estimada no próximo turno</tip>
+            <span class="hud-income-pill">+<%= number_with_delimiter(@squad_income, delimiter: '.') %>/turno</span>
+          </info>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-divider"></div>
+
+    <!-- BLOCO 3: CONSOLE DE COMANDO (ATALHOS) -->
+    <div class="hud-section hud-actions">
+      
+      <!-- Catálogo de Unidades -->
       <info class="tooltip">
-      <tip>Unidades do XWA</tip>
-        <a href = "" onclick="window.open('/units/index', 'Unidades', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=500, height=600')">
-          <%= image_tag ('squads/units.png'), style: "width: 50px; align: center" %></a><br><b>Unidades</b>
+        <tip>Banco de Dados de Naves e Tropas</tip>
+        <a href="#" class="hud-btn" onclick="window.open('/units/index', 'Unidades', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=560, height=640'); return false;">
+          <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2L4 20l8-4 8 4L12 2z"></path>
+            <path d="M12 16v-6"></path>
+          </svg>
+          <span>UNIDADES</span>
+        </a>
       </info>
-    </td>
 
-    <td style="text-align:center; vertical-align:bottom">
+      <!-- Relatórios de Combate -->
       <info class="tooltip">
-      <tip>Combates</tip>
-      <a href = "" onclick="window.open('/results','Combates', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=600, height=800')">
-        <%= image_tag ('squads/combats.png'), style: "width: 50px; align: left" %></a><br><b>Combates</b>
+        <tip>Logs Táticos e Relatórios de Batalha</tip>
+        <a href="#" class="hud-btn" onclick="window.open('/results', 'Combates', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=640, height=800'); return false;">
+          <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="9"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+            <line x1="12" y1="2" x2="12" y2="5"></line>
+            <line x1="12" y1="19" x2="12" y2="22"></line>
+            <line x1="2" y1="12" x2="5" y2="12"></line>
+            <line x1="19" y1="12" x2="22" y2="12"></line>
+          </svg>
+          <span>COMBATES</span>
+        </a>
       </info>
-    </td>
 
-    <td valign="center" align="center">
+      <!-- Setup do Sistema -->
       <info class="tooltip">
-      <tip>Finalizar turno</tip>
-        <%= link_to (image_tag ('squads/ready.png'), style: "width: 50px; align: center"), squads_ready_path, method: :post, data: {confirm: 'Passar Turno. Tem certeza?'} %><br><b>Turnar</b>
+        <tip>Parâmetros da Partida</tip>
+        <a href="#" class="hud-btn" onclick="window.open('/setups', 'Setup do Sistema', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=420, height=580'); return false;">
+          <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>SETUP</span>
+        </a>
       </info>
-    </td>
 
-    <td style="text-align:center; vertical-align:bottom">
+      <!-- Botão Principal: Finalizar Turno -->
       <info class="tooltip">
-      <tip>Setup do Sistema</tip>
-        <a href = "" onclick="window.open('/setups', 'Setup do Sistema', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=400, height=550')">
-          <%= image_tag ('squads/setup.png'), style: "width: 40px; align: center" %></a><br><b>Setup</b>
+        <tip><%= @squad.ready? ? 'Ordens confirmadas. Aguardando outros esquadrões...' : 'Confirmar ordens e encerrar seu turno' %></tip>
+        <%= link_to squads_ready_path, method: :post, data: { confirm: 'Passar Turno. Tem certeza?' }, class: "hud-btn-turn #{@squad.ready? ? 'is-ready' : ''}" do %>
+          <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <% if @squad.ready? %>
+              <polyline points="20 6 9 17 4 12"></polyline>
+            <% else %>
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            <% end %>
+          </svg>
+          <span><%= @squad.ready? ? 'AGUARDANDO' : 'FINALIZAR TURNO' %></span>
+        <% end %>
       </info>
-    </td>
 
-    <td style="text-align:center">
+      <!-- Logoff -->
       <info class="tooltip">
-      <tip>Logoff</tip>
-        <%= link_to (image_tag ('squads/logoff.png'), style: "width: 50px; align: center"), destroy_user_session_path %></a><br><b>Logoff</b>
+        <tip>Desconectar da Ponte de Comando</tip>
+        <%= link_to destroy_user_session_path, class: 'hud-btn hud-btn-danger' do %>
+          <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>SAIR</span>
+        <% end %>
       </info>
-    </td>
 
-  </tr>
-</table>
+    </div>
+  </div>
+
+  <!-- BARRA DE STATUS TÁTICO INTEGRADA (SUBSTITUI O STATUS_PANEL FLUTUANTE) -->
+  <% if @status.present? %>
+    <div class="hud-ticker">
+      <span class="hud-ticker-prefix">TRANSMISSÃO: </span>
+      <span class="hud-ticker-text"><%= raw @status %></span>
+    </div>
+  <% end %>
+</div>

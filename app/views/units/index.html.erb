@@ -1,19 +1,56 @@
-<h1>Unidades do Jogo:</h1>
-<table>
-  <% @units.group_by(&:type).each do |type, unit| %>
-    <tr>
-      <td colspan="5">
-        <span style="font-size: 16px">
-          <%= type.pluralize %>:
-        </span>
-      </td>
-    </tr>
-    <% unit.each do |u| %>
-      <tr>
-        <td><%= image_tag("#{u.image}", size: "35") %></td>
-        <td><%= u.name %></td>
-        <td><%= u.factions.to_s.delete("[]") %></td>
-      </tr>
+<script>
+  document.title = "BANCO DE DADOS // UNIDADES";
+</script>
+
+<div class="fleet-terminal">
+  <div class="terminal-card">
+    <div class="terminal-card-header terminal-header-split">
+      <span>BANCO DE DADOS DE NAVES & TROPAS</span>
+      <span class="level-pill"><%= @units.count %> CLASSES</span>
+    </div>
+
+    <% @units.group_by(&:type).each do |type, units| %>
+      <div class="unit-category-block">
+        <div class="unit-category-title"><%= type.pluralize.upcase %></div>
+
+        <table class="tactical-table">
+          <thead>
+            <tr>
+              <th style="width: 48px;">VISUAL</th>
+              <th>CLASSE / UNIDADE</th>
+              <th>ESPECIFICAÇÕES</th>
+              <th>FACÇÕES AUTORIZADAS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% units.each do |u| %>
+              <tr>
+                <td class="text-center">
+                  <%= image_tag(u.image, class: 'catalog-unit-img') %>
+                </td>
+                <td>
+                  <strong class="catalog-unit-name"><%= u.name %></strong>
+                  <div class="catalog-unit-acronym">[<%= u.acronym %>]</div>
+                </td>
+                <td>
+                  <div class="catalog-specs">
+                    <span>Custo: <strong class="text-gold"><%= u.credits %> cr</strong></span>
+                    <span>Tempo: <strong><%= u.producing_time %>t</strong></span>
+                    <span>Escudo/Casco: <strong><%= u.shield %>/<%= u.hull %></strong></span>
+                  </div>
+                </td>
+                <td>
+                  <div class="faction-pills">
+                    <% u.factions.each do |fac| %>
+                      <span class="faction-pill"><%= fac.upcase %></span>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     <% end %>
-  <% end %>
-</table>
+  </div>
+</div>

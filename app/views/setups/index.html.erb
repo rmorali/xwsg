@@ -1,29 +1,97 @@
-<h1>Setup do XWSG</h1>
-<h3>Alterações somente pelo administrador</h3>
-<div class="setups">
-  <%= simple_form_for @setup do |f| %>
-    <%= f.input :initial_credits, label: 'Creditos: ', collection: (6000..12000).step(1000) %>
-    <%= f.input :initial_planets, label: 'Planetas:', collection: (1..3) %>
-    <%= f.input :initial_wormholes, label: 'Wormholes:', collection: (1..3) %>
-    <%= f.input :planet_income_ratio, label: 'Income rate:', collection: (10..100).step(10) %>
-    <%= f.input :minimum_fleet_for_dominate, label: 'Frota para dominar:', collection: (5000..30000).step(1000) %>
-    <%= f.input :builder_unit, label: 'Unidade construtora:', collection: @units %>
-    <%= f.input :minimum_fleet_for_build, label: 'Minimo para construir:', collection: (1..100) %>
-    <%= f.input :upgrade_cost, label: 'Custo de upgrade:', collection: (500..2000).step(500) %>
-    <%= f.input :ai, label: ' AI Squad:', as: :boolean %>
-    <%= f.input :ai_level, collection: 1..6, label: 'AI Level:' %>
-    <br>
-    <%= f.submit 'Salvar Alterações' if @user.email == 'setup@xwsg.com' %>
+<script>
+  document.title = "SISTEMA // PARÂMETROS XWSG";
+</script>
+
+<div class="fleet-terminal">
+  <div class="terminal-card">
+    <div class="terminal-card-header terminal-header-split">
+      <span>PARÂMETROS GLOBAIS DA PARTIDA</span>
+      <span class="level-pill">ADMIN ONLY</span>
+    </div>
+
+    <%= simple_form_for @setup do |f| %>
+      <div class="tactical-form-grid">
+        <div class="t-field-row-2">
+          <div class="t-field-group">
+            <label class="t-field-label">CRÉDITOS INICIAIS</label>
+            <%= f.input :initial_credits, collection: (6000..12000).step(1000), label: false, input_html: { class: 't-select' } %>
+          </div>
+
+          <div class="t-field-group">
+            <label class="t-field-label">TAXA DE RENDA (RATIO)</label>
+            <%= f.input :planet_income_ratio, collection: (10..100).step(10), label: false, input_html: { class: 't-select' } %>
+          </div>
+        </div>
+
+        <div class="t-field-row-2">
+          <div class="t-field-group">
+            <label class="t-field-label">PLANETAS INICIAIS</label>
+            <%= f.input :initial_planets, collection: (1..3), label: false, input_html: { class: 't-select' } %>
+          </div>
+
+          <div class="t-field-group">
+            <label class="t-field-label">WORMHOLES INICIAIS</label>
+            <%= f.input :initial_wormholes, collection: (1..3), label: false, input_html: { class: 't-select' } %>
+          </div>
+        </div>
+
+        <div class="t-field-row-2">
+          <div class="t-field-group">
+            <label class="t-field-label">FROTA P/ DOMINAR</label>
+            <%= f.input :minimum_fleet_for_dominate, collection: (5000..30000).step(1000), label: false, input_html: { class: 't-select' } %>
+          </div>
+
+          <div class="t-field-group">
+            <label class="t-field-label">CUSTO DE UPGRADE</label>
+            <%= f.input :upgrade_cost, collection: (500..2000).step(500), label: false, input_html: { class: 't-select' } %>
+          </div>
+        </div>
+
+        <div class="t-field-row-2">
+          <div class="t-field-group">
+            <label class="t-field-label">UNIDADE CONSTRUTORA</label>
+            <%= f.input :builder_unit, collection: @units, label: false, input_html: { class: 't-select' } %>
+          </div>
+
+          <div class="t-field-group">
+            <label class="t-field-label">MÍNIMO P/ CONSTRUIR</label>
+            <%= f.input :minimum_fleet_for_build, collection: (1..100), label: false, input_html: { class: 't-select' } %>
+          </div>
+        </div>
+
+        <div class="t-ai-box">
+          <div class="t-checkbox-row">
+            <%= f.input :ai, label: 'Habilitar Esquadrões AI Globais', as: :boolean %>
+          </div>
+          <div class="t-field-group">
+            <label class="t-field-label">NÍVEL DA AI GLOBAL</label>
+            <%= f.input :ai_level, collection: 1..6, label: false, input_html: { class: 't-select' } %>
+          </div>
+        </div>
+
+        <% if @user.email == 'setup@xwsg.com' %>
+          <div class="combat-submit-row">
+            <%= f.submit 'SALVAR ALTERAÇÕES', class: 't-btn t-btn-primary', style: 'width: 100%;' %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @user.email == 'setup@xwsg.com' %>
+    <div class="terminal-card" style="border-left-color: #f59e0b;">
+      <div class="terminal-card-header terminal-header-split">
+        <span style="color: #fbbf24;">CONTROLE DE CICLO & RESET DE PARTIDA</span>
+        <span class="hud-phase-badge phase-strategy"><%= @round.phase.upcase %></span>
+      </div>
+
+      <div class="admin-actions-col">
+        <% if Squad.first.credits == 0 %>
+          <%= link_to 'INICIAR NOVA PARTIDA (NEW GAME)', setups_new_game_path, class: 't-btn t-btn-success admin-link-btn' %>
+        <% end %>
+
+        <%= link_to 'FORÇAR VIRADA DE TURNO (TODOS)', setups_finaliza_turno_path, data: { confirm: 'Virar turno para todos. Confirma?' }, class: 't-btn t-btn-warn admin-link-btn' %>
+      </div>
+    </div>
   <% end %>
 </div>
-<% if @user.email == 'setup@xwsg.com' %>
-  <h1>Reset e Turnos</h1>
-  <div class="setups">
-    <%= link_to 'NEW GAME - Iniciar partida', setups_new_game_path if Squad.first.credits == 0  %>
-    <br><br>
-    Fase atual: <%= @round.phase %>
-    <br><br>
-    <%= link_to 'FINALIZAR TURNO', setups_finaliza_turno_path, data: {confirm: 'Virar turno para todos. Confirma?'} %> - Virar o turno para todos
-    <br><br>
-  </div>
-<% end %>

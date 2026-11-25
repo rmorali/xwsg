@@ -1,14 +1,22 @@
-<div class="edit_fleets">
-  <div class="form-inputs">
-    Construir / Produzir:
-    <%= simple_form_for @fleet, url: url_for(action: 'build') do |f| %>
-      <table>
-        <tr>
-          <td><%= f.input :quantity, label: false, input_html: { maxlength: 3, size: 1 } %></td>
-          <td><%= f.input :unit, collection: @units, label: false %></td>
-          <td><%= f.submit 'Construir' %></td>
-        </tr>
-      </table>
-    <% end %>
+<div class="terminal-card">
+  <div class="terminal-card-header">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2">
+      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+      <polyline points="2 17 12 22 22 17"></polyline>
+      <polyline points="2 12 12 17 22 12"></polyline>
+    </svg>
+    <span>ESTALEIRO & PRODUÇÃO DE UNIDADES</span>
   </div>
+
+  <%= simple_form_for @fleet, url: url_for(action: 'build') do |f| %>
+    <div class="terminal-form-row">
+      <div class="terminal-field-xs">
+        <%= f.input :quantity, label: false, placeholder: 'Qtd', input_html: { maxlength: 3, class: 't-input', min: 1 } %>
+      </div>
+      <div class="terminal-field-grow">
+        <%= f.input :unit, collection: @units, label: false, prompt: 'Selecione a unidade...', input_html: { class: 't-select' } %>
+      </div>
+      <%= f.submit 'PRODUZIR', class: 't-btn t-btn-success' %>
+    </div>
+  <% end %>
 </div>

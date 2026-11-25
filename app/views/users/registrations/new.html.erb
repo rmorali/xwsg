@@ -1,25 +1,50 @@
-<div style="display: table; margin: auto; vertical-align: middle;">
-  <%= image_tag ('star wars.png'), style: "align: right; vertical-align: top;" %>
-  <h2>Sign up</h2>
-  <div class="users">
+<div class="auth-viewport">
+  <div class="auth-terminal">
+    <div class="auth-header">
+      <%= image_tag('star wars.png', class: 'auth-logo') %>
+      <div class="auth-subtitle">X-WING STRATEGY GAME</div>
+      <div class="auth-title">ALISTAMENTO DE COMANDANTE</div>
+    </div>
+
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= f.error_notification %>
+      <%= f.error_notification class: 'auth-error-banner' %>
 
-      <div class="form-inputs">
-        <%= f.input :email, required: true, autofocus: true, label: 'E-mail: ' %>
-        <%= f.input :password, required: true, label: 'Password: ', hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
-        <%= f.input :password_confirmation, required: true, label: 'Password confirm: ' %>
-        <%= f.label 'Esquadrão' %> <i>(em branco para criar novo):</i>
-        <%= f.collection_select(:squad_id, Squad.all, :id, :name, :include_blank => true) %>
-      </div>
+      <div class="auth-form-grid">
+        <div class="auth-field">
+          <label class="auth-label">E-MAIL DE COMUNICAÇÃO</label>
+          <%= f.input :email, required: true, autofocus: true, label: false, placeholder: 'piloto@esquadrao.gal', input_html: { class: 'auth-input' } %>
+        </div>
 
-      <br />
+        <div class="auth-field">
+          <label class="auth-label">
+            SENHA DE ACESSO
+            <% if @minimum_password_length %>
+              <span class="auth-hint">(mín. <%= @minimum_password_length %> caracteres)</span>
+            <% end %>
+          </label>
+          <%= f.input :password, required: true, label: false, input_html: { class: 'auth-input' } %>
+        </div>
 
-      <div class="form-actions">
-        <%= f.button :submit, "Sign up" %>
+        <div class="auth-field">
+          <label class="auth-label">CONFIRMAR SENHA</label>
+          <%= f.input :password_confirmation, required: true, label: false, input_html: { class: 'auth-input' } %>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label">
+            ESQUADRÃO <span class="auth-hint">(vazio para criar novo)</span>
+          </label>
+          <%= f.collection_select(:squad_id, Squad.all, :id, :name, { include_blank: '— Criar Novo Esquadrão —' }, { class: 'auth-select' }) %>
+        </div>
+
+        <div class="auth-actions">
+          <%= f.button :submit, 'CONFIRMAR ALISTAMENTO', class: 'auth-btn-success' %>
+        </div>
       </div>
     <% end %>
 
-    <%= render "users/shared/links" %>
+    <div class="auth-footer-links">
+      <%= render 'users/shared/links' %>
+    </div>
   </div>
 </div>

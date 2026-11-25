@@ -1,26 +1,25 @@
 <% unless @armables.empty? %>
-  <div class="edit_fleets">
-    <table>
-      <tr align="center">
-        <td>Armar:</td><td>Qtde:</td><td>Armamento:</td>
-      </tr>
+  <div class="terminal-card">
+    <div class="terminal-card-header">
+      <span>ARMORIAL // EQUIPAR OGIVAS & SISTEMAS</span>
+    </div>
+
+    <div class="armory-list">
       <% @armables.each do |armable| %>
-        <tr align="center">
-          <td>
-            <span style="<%= style(armable) %>">
-              <%= show(armable) %>
-            </span>
-          </td>
-          <%= simple_form_for armable, url: url_for(action: 'arm') do |f| %>
+        <%= simple_form_for armable, url: url_for(action: 'arm') do |f| %>
+          <div class="armory-row">
+            <span class="armory-unit-name" style="<%= style(armable) %>"><%= show(armable) %></span>
             <%= simple_fields_for :custom do |c| %>
               <%= c.hidden_field :id, value: armable.id %>
-              <td><%= c.input :quantity, collection: (1..armable.quantity), selected: armable.quantity, label: false %></td>
-              <td><%= c.input :armament, collection: @armaments, selected: @armaments.first, label: false %></td>
+              <div class="armory-controls">
+                <%= c.input :quantity, collection: (1..armable.quantity), selected: armable.quantity, label: false, input_html: { class: 't-select-xs' } %>
+                <%= c.input :armament, collection: @armaments, selected: @armaments.first, label: false, input_html: { class: 't-select-sm' } %>
+                <%= f.submit 'EQUIPAR', class: 't-btn-xs t-btn-success' %>
+              </div>
             <% end %>
-            <td><%= f.submit 'Armar' %></td>
-          <% end %>
-        </tr>
+          </div>
+        <% end %>
       <% end %>
-    </table>
+    </div>
   </div>
 <% end %>

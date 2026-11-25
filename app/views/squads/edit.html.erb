@@ -1,16 +1,47 @@
 <script>
   refreshParent();
-  document.title = " Setup do Squad "
+  document.title = "SETUP // <%= @squad.name.upcase %>";
 </script>
-<h1> Setup do Squad </h1>
-<div class="panels" style="width: auto">
-  <%= simple_form_for @squad do |f| %>
-  	<%= f.input :name, label: 'Nome: ', input_html: { size: 10 } %>
-  	<%= f.input :color, collection: @colors, label: 'Cor: ' %>
-  	<%= f.input :map_ratio, label: 'Tamanho do mapa (%):', collection: (70..130).step(5), selected: @squad.map_ratio %>
-  	<%= f.input :ai, label: ' Ativar modo AI?', as: :boolean %>
-  	<%= f.input :ai_level, collection: 1..6, label: 'AI Level:' %>
-  	<br>
-  	<%= f.submit 'Atualizar' %>
-  <% end %>
+
+<div class="fleet-terminal" style="--squad-color: <%= @squad.color.presence || '#38bdf8' %>;">
+  <div class="terminal-card">
+    <div class="terminal-card-header">
+      <span>CONFIGURAÇÃO DO ESQUADRÃO</span>
+    </div>
+
+    <%= simple_form_for @squad do |f| %>
+      <div class="tactical-form-grid">
+        <div class="t-field-group">
+          <label class="t-field-label">IDENTIFICAÇÃO DO ESQUADRÃO</label>
+          <%= f.input :name, label: false, input_html: { class: 't-input' } %>
+        </div>
+
+        <div class="t-field-row-2">
+          <div class="t-field-group">
+            <label class="t-field-label">COR TÁTICA</label>
+            <%= f.input :color, collection: @colors, label: false, input_html: { class: 't-select' } %>
+          </div>
+
+          <div class="t-field-group">
+            <label class="t-field-label">ESCALA DO MAPA (%)</label>
+            <%= f.input :map_ratio, collection: (70..130).step(5), selected: @squad.map_ratio, label: false, input_html: { class: 't-select' } %>
+          </div>
+        </div>
+
+        <div class="t-ai-box">
+          <div class="t-checkbox-row">
+            <%= f.input :ai, label: 'Ativar piloto automático (Modo AI)', as: :boolean %>
+          </div>
+          <div class="t-field-group">
+            <label class="t-field-label">NÍVEL DA INTELIGÊNCIA ARTIFICIAL</label>
+            <%= f.input :ai_level, collection: 1..6, label: false, input_html: { class: 't-select' } %>
+          </div>
+        </div>
+
+        <div class="combat-submit-row">
+          <%= f.submit 'SALVAR PARÂMETROS', class: 't-btn t-btn-primary', style: 'width: 100%;' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>

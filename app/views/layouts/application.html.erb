@@ -1,77 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>X-Wing Strategy Game</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <script type="text/javascript">
+      function refreshParent() {
+        if (window.opener && !window.opener.closed) {
+          window.opener.location.reload();
+        }
+      }
+
+      function showDiv(id, pos_x, pos_y) {
+        var x = document.getElementById(id);
+        if (!x) return;
+        x.style.display = "block";
+        x.style.left = pos_x;
+        x.style.top = pos_y;
+      }
+
+      function hideDiv(id) {
+        var x = document.getElementById(id);
+        if (!x) return;
+        x.style.display = "none";
+      }
+
+      function dragElement(elmnt) {
+        if (!elmnt) return;
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        var header = document.getElementById(elmnt.id + "header");
+
+        if (header) {
+          header.onmousedown = dragMouseDown;
+        } else {
+          elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+          e = e || window.event;
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          document.onmouseup = closeDragElement;
+          document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+          e = e || window.event;
+          pos1 = pos3 - e.clientX;
+          pos2 = pos4 - e.clientY;
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+          document.onmouseup = null;
+          document.onmousemove = null;
+        }
+      }
+    </script>
   </head>
 
-  <script type="text/javascript">
-
-   function refreshParent(id) {
-        window.opener.location.reload();
-      }
-
-   function showDiv(id, pos_x, pos_y) {
-     var x = document.getElementById(id);
-       x.style.display = "block";
-       x.style.left = pos_x;
-       x.style.top = pos_y;
-   }
-
-   function hideDiv() {
-     var x = document.getElementById(id);
-       x.style.display = "none";
-     }
-
-   function dragElement(elmnt) {
-      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-      if (document.getElementById(elmnt.id + "header")) {
-        // if present, the header is where you move the DIV from:
-        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-      } else {
-        // otherwise, move the DIV from anywhere inside the DIV:
-        elmnt.onmousedown = dragMouseDown;
-      }
-
-    function dragMouseDown(e) {
-      e = e || window.event;
-
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-      e = e || window.event;
-
-      // calculate the new cursor position:
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      // set the element's new position:
-      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-      // stop moving when mouse button is released:
-      document.onmouseup = null;
-      document.onmousemove = null;
-    }
-  }
-
-  </script>
-
   <body>
+    <div id="global-tactical-tooltip"></div>
+
     <div class="container">
       <%= yield %>
     </div>
+
+    <script type="text/javascript">
+      (function() {
+        var globalTip = document.getElementById('global-tactical-tooltip');
+        if (!globalTip) return;
+
+        function positionTooltip(target) {
+          var rect = target.getBoundingClientRect();
+          var tipRect = globalTip.getBoundingClientRect();
+          var margin = 8;
+
+          var left = rect.left + (rect.width / 2) - (tipRect.width / 2);
+          var top = rect.bottom + margin;
+
+          if (left < margin) {
+            left = margin;
+          } else if (left + tipRect.width > window.innerWidth - margin) {
+            left = window.innerWidth - tipRect.width - margin;
+          }
+
+          if (top + tipRect.height > window.innerHeight - margin) {
+            top = rect.top - tipRect.height - margin;
+          }
+
+          globalTip.style.left = Math.max(margin, left) + 'px';
+          globalTip.style.top = Math.max(margin, top) + 'px';
+        }
+
+        document.addEventListener('mouseover', function(e) {
+          var info = e.target.closest('info.tooltip');
+          if (!info) return;
+
+          var tipNode = info.querySelector('tip');
+          if (!tipNode || !tipNode.innerHTML.trim()) return;
+
+          globalTip.innerHTML = tipNode.innerHTML;
+          globalTip.style.display = 'block';
+          positionTooltip(info);
+        });
+
+        document.addEventListener('mouseout', function(e) {
+          var info = e.target.closest('info.tooltip');
+          if (!info) return;
+
+          if (!info.contains(e.relatedTarget)) {
+            globalTip.style.display = 'none';
+          }
+        });
+
+        window.addEventListener('scroll', function() {
+          globalTip.style.display = 'none';
+        }, true);
+      })();
+    </script>
   </body>
 </html>

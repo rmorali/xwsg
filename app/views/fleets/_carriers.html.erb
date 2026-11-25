@@ -1,67 +1,63 @@
-<table style="width: 100%">
-  <tr style="height: 100%; width: 100%">
-    <td>
-      <div class="edit_fleets" style="display: inline-block; height: 100%">
-        <div id="available_capacity">
-          Embarcados: (<%= @fleet.capacity - @fleet.available_capacity %> / <%= @fleet.capacity %>)
-        </div>
-        <div class="form-inputs">
-          <% if @fleet.cargo.count > 0 %>
-            <% @fleet.cargo.each do |fleet| %>
-              <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
-                <table>
-                  <tr>
-                    <td>
-                      <span style="<%= style(fleet) %>">
-                        <%= show(fleet) %>
-                      </span>
-                    </td>
-                    <%= simple_fields_for :custom do |c| %>
-                      <%= c.hidden_field :id, value: fleet.id %>
-                      <td><%= c.input :quantity, collection: 1..fleet.quantity, selected: fleet.quantity, label: false if @round.strategy? %></td>
-                    <% end %>
-                    <td><%= f.submit '->' if @round.strategy? %></td>
-                  </tr>
-                </table>
+<% used = @fleet.capacity - @fleet.available_capacity %>
+<% pct = @fleet.capacity > 0 ? ((used.to_f / @fleet.capacity) * 100).round : 0 %>
+
+<div class="terminal-card">
+  <div class="terminal-card-header terminal-header-split">
+    <span>BAÍA DE HANGAR & TRANSPORTE</span>
+    <span class="capacity-counter"><%= used %> / <%= @fleet.capacity %> TONS (<%= pct %>%)</span>
+  </div>
+
+  <div class="capacity-bar-track">
+    <div class="capacity-bar-fill" style="width: <%= [pct, 100].min %>%;"></div>
+  </div>
+
+  <div class="hangar-grid">
+    <!-- COLUNA 1: UNIDADES EMBARCADAS -->
+    <div class="hangar-col">
+      <div class="hangar-col-title">EMBARCADOS NO HANGAR</div>
+      <% if @fleet.cargo.any? %>
+        <% @fleet.cargo.each do |cargo_fleet| %>
+          <%= simple_form_for @fleet, url: url_for(action: 'disembark') do |f| %>
+            <div class="hangar-item-row">
+              <span class="hangar-unit-name" style="<%= style(cargo_fleet) %>"><%= show(cargo_fleet) %></span>
+              <% if @round.strategy? %>
+                <div class="hangar-item-controls">
+                  <%= simple_fields_for :custom do |c| %>
+                    <%= c.hidden_field :id, value: cargo_fleet.id %>
+                    <%= c.input :quantity, collection: 1..cargo_fleet.quantity, selected: cargo_fleet.quantity, label: false, input_html: { class: 't-select-xs' } %>
+                  <% end %>
+                  <%= f.submit 'DESEMBARCAR ➔', class: 't-btn-xs t-btn-warn', title: 'Desembarcar' %>
+                </div>
               <% end %>
-            <% end %>
+            </div>
           <% end %>
-        </div>
-      </div>
-    </td>
-    <td>
-      <--<br><br>
-      -->
-    </td>
-    <td style="height: 100%; width: 100%">
-      <div class="edit_fleets" style="display: inline-block; height: 100%; width: 100%">
-        <div id="available_capacity">
-          Disponíveis para embarque:
-        </div>
-        <div class="form-inputs">
-          <% if @carriables.count > 0 && @round.strategy?%>
-            <% @carriables.each do |fleet| %>
-              <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
-                <table>
-                  <tr>
-                    <td>
-                      <span style="<%= style(fleet) %>">
-                        <%= show(fleet) %>
-                      </span>
-                    </td>
-                    <%= simple_fields_for :custom do |c| %>
-                      <%= c.hidden_field :id, value: fleet.id, label: false %>
-                      <td><%= c.input :quantity, collection: 1..fleet.quantity, selected: fleet.quantity, label: false %></td>
-                    <% end %>
-                    <td><%= f.submit '<-' %></td>
-                  </tr>
-                </table>
-              <% end %>
-            <% end %>
+        <% end %>
+      <% else %>
+        <div class="hangar-empty">Hangar vazio</div>
+      <% end %>
+    </div>
+
+    <!-- COLUNA 2: DISPONÍVEIS EM ÓRBITA -->
+    <div class="hangar-col">
+      <div class="hangar-col-title">DISPONÍVEIS EM ÓRBITA</div>
+      <% if @carriables.any? && @round.strategy? %>
+        <% @carriables.each do |avail_fleet| %>
+          <%= simple_form_for @fleet, url: url_for(action: 'embark') do |f| %>
+            <div class="hangar-item-row">
+              <span class="hangar-unit-name" style="<%= style(avail_fleet) %>"><%= show(avail_fleet) %></span>
+              <div class="hangar-item-controls">
+                <%= simple_fields_for :custom do |c| %>
+                  <%= c.hidden_field :id, value: avail_fleet.id %>
+                  <%= c.input :quantity, collection: 1..avail_fleet.quantity, selected: avail_fleet.quantity, label: false, input_html: { class: 't-select-xs' } %>
+                <% end %>
+                <%= f.submit '⬅ EMBARCAR', class: 't-btn-xs t-btn-primary', title: 'Embarcar' %>
+              </div>
+            </div>
           <% end %>
-        </div>
-      </div>
-    <td>
-  </tr>
-</table>
-<br>
+        <% end %>
+      <% else %>
+        <div class="hangar-empty">Nenhuma unidade compatível</div>
+      <% end %>
+    </div>
+  </div>
+</div>

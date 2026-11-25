@@ -1,60 +1,100 @@
 <script>
   refreshParent();
-  document.title = "<%= @fleet.name %> - <%= @fleet.planet.name %>"
+  document.title = "<%= @fleet.name %> // <%= @fleet.planet.name %>";
 </script>
-<div class="edit_fleets">
-  <table>
-    <tr>
-      <td>
-        <div id="fleet_image">
-          <%= image_tag (@fleet.image), style: "width: 100px; border: 1px solid #111; border-radius: 4px; padding: 5px" unless @fleet.image.nil? %>
+
+<div class="fleet-terminal" style="--squad-color: <%= @fleet.squad.color.presence || '#38bdf8' %>;">
+  
+  <!-- CABEÇALHO DA UNIDADE & TELEMETRIA -->
+  <div class="terminal-card terminal-header-card">
+    <div class="terminal-unit-preview">
+      <% unless @fleet.image.nil? %>
+        <%= image_tag(@fleet.image, class: 'terminal-unit-img') %>
+      <% end %>
+      <span class="terminal-unit-badge"><%= @fleet.type.upcase %></span>
+    </div>
+
+    <div class="terminal-unit-details">
+      <div class="terminal-title-row">
+        <h2 class="terminal-unit-name" style="<%= style(@fleet) %>"><%= show(@fleet) %></h2>
+        <span class="terminal-planet-tag">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+          </svg>
+          <%= @fleet.planet.name.upcase %>
+        </span>
+      </div>
+
+      <div class="terminal-stats-grid">
+        <div class="t-stat">
+          <span class="t-label">EFETIVO</span>
+          <span class="t-val"><%= @fleet.quantity %></span>
         </div>
-      </td>
-      <td>
-        <div id="fleet_name" style="<%= style(@fleet) %>; font-size: 20px; text-align: center">
-          <%= show(@fleet) %>
+        <div class="t-stat">
+          <span class="t-label">INFLUÊNCIA</span>
+          <span class="t-val"><%= @fleet.influence %></span>
         </div>
-        <div id="planet" style="color: white; font-size: 16px; text-align: center">
-          <%= @fleet.planet.name %>
-        </div>
-        <br>
-        <div class="form-inputs">
-          <% if @fleet.movable? && @round.strategy? %>
-            <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
-              <table>
-                <tr>
-                  <td><%= f.input :quantity, collection: 0..@fleet.quantity, label: false %></td>
-                  <td><%= f.input :destination, collection: @destinations, label: false %></td>
-                  <td><%= f.submit 'Mover' %></td>
-                </tr>
-              </table>
-            <% end %>
-          <% end %>
-        </div>
-        <br>
-        <% if @fleet.destination %>
-          <div class="img_container">
-            <%= image_tag ("fleets/hyperspace.gif") %>
-            <div class="centered"> <%= "#{@fleet.destination.name}" %> </div>
+        <% if @fleet.loadable? %>
+          <div class="t-stat">
+            <span class="t-label">CARGA</span>
+            <span class="t-val"><%= @fleet.used_capacity %>/<%= @fleet.capacity %>t</span>
           </div>
         <% end %>
-      </td>
-    </tr>
-  </table>
+        <% if @fleet.type == 'CapitalShip' %>
+          <div class="t-stat">
+            <span class="t-label">NÍVEL</span>
+            <span class="t-val">NV.<%= @fleet.level %></span>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- ORDEM DE SALTO HIPERESPACIAL -->
+      <% if @fleet.movable? && @round.strategy? %>
+        <div class="terminal-move-box">
+          <div class="terminal-section-label">COORDENADAS DE SALTO HIPERESPACIAL</div>
+          <%= simple_form_for @fleet, url: url_for(action: 'move') do |f| %>
+            <div class="terminal-form-row">
+              <div class="terminal-field-sm">
+                <%= f.input :quantity, collection: 0..@fleet.quantity, label: false, input_html: { class: 't-select' } %>
+              </div>
+              <div class="terminal-field-grow">
+                <%= f.input :destination, collection: @destinations, label: false, prompt: 'Selecione o destino...', input_html: { class: 't-select' } %>
+              </div>
+              <%= f.submit 'SALTAR', class: 't-btn t-btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- VISOR DE SALTO ATIVO -->
+      <% if @fleet.destination %>
+        <div class="hyperspace-visor">
+          <%= image_tag('fleets/hyperspace.gif', class: 'hyperspace-bg') %>
+          <div class="hyperspace-overlay">
+            <span class="hyperspace-label">ROTA TRAÇADA // DESTINO</span>
+            <span class="hyperspace-target">➔ <%= @fleet.destination.name.upcase %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- MÓDULOS CONDICIONAIS -->
+  <% if @fleet.builder? && @round.strategy? %>
+    <%= render partial: 'builders' %>
+  <% end %>
+
+  <% if @fleet.loadable? %>
+    <%= render partial: 'carriers', object: @fleet %>
+  <% end %>
+
+  <% if @fleet.upgradable? %>
+    <%= render partial: 'upgrade', object: @fleet %>
+  <% end %>
+
+  <% if @fleet.armory? %>
+    <%= render partial: 'armory', object: @fleet %>
+  <% end %>
+
 </div>
-
-<% if @fleet.builder? && @round.strategy? %>
-  <%= render partial: 'builders' %>
-<% end %>
-
-<% if @fleet.loadable? %>
-  <%= render partial: 'carriers', object: @fleet  %>
-<% end %>
-
-<% if @fleet.upgradable? %>
-  <%= render partial: 'upgrade', object: @fleet  %>
-<% end %>
-
-<% if @fleet.armory? %>
-  <%= render partial: 'armory', object: @fleet  %>
-<% end %>

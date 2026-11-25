@@ -1,19 +1,32 @@
-<svg width="<%= (@map_x_adjust + 1700) * @map_ratio %>" height="<%= 1300 * @map_ratio %>">
+<svg class="galaxy-grid" width="<%= (@map_x_adjust + 1700) * @map_ratio %>" height="<%= 1300 * @map_ratio %>">
+  <defs>
+    <filter id="glow-line" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Eixo Horizontal Galáctico -->
   <polyline points="
      <%= (@map_x_adjust + 10) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>
      <%= (@map_x_adjust + 1700) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>"
-     style="fill:none;stroke:white;stroke-width:1;stroke-dasharray:1,2" />
+     stroke="rgba(56, 189, 248, 0.24)" stroke-width="1" stroke-dasharray="4,4" fill="none" />
+
+  <!-- Eixo Diagonal Superior -->
   <polyline points="
      <%= (@map_x_adjust + 1010) * @map_ratio %>,<%= (@map_y_adjust + 10) * @map_ratio %>
      <%= (@map_x_adjust + 680) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>"
-     style="fill:none;stroke:white;stroke-width:1;stroke-dasharray:1,2" />
+     stroke="rgba(56, 189, 248, 0.24)" stroke-width="1" stroke-dasharray="4,4" fill="none" />
+
+  <!-- Eixo Diagonal Inferior -->
   <polyline points="
      <%= (@map_x_adjust + 640) * @map_ratio %>,<%= (@map_y_adjust + 650) * @map_ratio %>
      <%= (@map_x_adjust + 960) * @map_ratio %>,<%= (@map_y_adjust + 1300) * @map_ratio %>"
-     style="fill:none;stroke:white;stroke-width:1;stroke-dasharray:1,2" />
-     
-     <text x="<%= (@map_x_adjust + 645) %>" y="<%= (@map_y_adjust + 645) %>" fill="gray">Alpha</text>
-     <text x="<%= (@map_x_adjust + 690) %>" y="<%= (@map_y_adjust + 645) %>" fill="gray">Beta</text>
-     <text x="<%= (@map_x_adjust + 610) %>" y="<%= (@map_y_adjust + 662) %>" fill="gray">Delta</text>
-     <text x="<%= (@map_x_adjust + 650) %>" y="<%= (@map_y_adjust + 662) %>" fill="gray">Gamma</text>
-<svg>
+     stroke="rgba(56, 189, 248, 0.24)" stroke-width="1" stroke-dasharray="4,4" fill="none" />
+
+  <!-- Rótulos dos Quadrantes -->
+  <text x="<%= (@map_x_adjust + 615) * @map_ratio %>" y="<%= (@map_y_adjust + 640) * @map_ratio %>" class="sector-label">ALPHA</text>
+  <text x="<%= (@map_x_adjust + 695) * @map_ratio %>" y="<%= (@map_y_adjust + 640) * @map_ratio %>" class="sector-label">BETA</text>
+  <text x="<%= (@map_x_adjust + 585) * @map_ratio %>" y="<%= (@map_y_adjust + 668) * @map_ratio %>" class="sector-label">DELTA</text>
+  <text x="<%= (@map_x_adjust + 660) * @map_ratio %>" y="<%= (@map_y_adjust + 668) * @map_ratio %>" class="sector-label">GAMMA</text>
+</svg>

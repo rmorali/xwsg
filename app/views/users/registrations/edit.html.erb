@@ -1,30 +1,52 @@
-<div style="display: table; margin: auto; vertical-align: middle;">
-  <%= image_tag ('star wars.png'), style: "align: right; vertical-align: top;" %>
-  <h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= f.error_notification %>
-
-    <div class="form-inputs">
-      <%= f.input :email, required: true, autofocus: true %>
-
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-      <% end %>
-
-      <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false %>
-      <%= f.input :password_confirmation, required: false %>
-      <%= f.input :current_password, hint: "we need your current password to confirm your changes", required: true %>
+<div class="auth-viewport">
+  <div class="auth-terminal">
+    <div class="auth-header">
+      <%= image_tag('star wars.png', class: 'auth-logo') %>
+      <div class="auth-subtitle">TERMINAL DO COMANDANTE</div>
+      <div class="auth-title">ATUALIZAR CREDENCIAIS</div>
     </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, "Update" %>
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= f.error_notification class: 'auth-error-banner' %>
+
+      <div class="auth-form-grid">
+        <div class="auth-field">
+          <label class="auth-label">E-MAIL</label>
+          <%= f.input :email, required: true, autofocus: true, label: false, input_html: { class: 'auth-input' } %>
+        </div>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div class="auth-info-banner">Aguardando confirmação para: <%= resource.unconfirmed_email %></div>
+        <% end %>
+
+        <div class="auth-field">
+          <label class="auth-label">NOVA SENHA <span class="auth-hint">(deixe em branco para manter)</span></label>
+          <%= f.input :password, autocomplete: 'off', required: false, label: false, input_html: { class: 'auth-input' } %>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label">CONFIRMAR NOVA SENHA</label>
+          <%= f.input :password_confirmation, required: false, label: false, input_html: { class: 'auth-input' } %>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label">SENHA ATUAL <span class="auth-hint">(obrigatória para confirmar)</span></label>
+          <%= f.input :current_password, required: true, label: false, input_html: { class: 'auth-input' } %>
+        </div>
+
+        <div class="auth-actions">
+          <%= f.button :submit, 'SALVAR ALTERAÇÕES', class: 'auth-btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="auth-danger-zone">
+      <div class="auth-danger-title">ENCERRAMENTO DE REGISTRO</div>
+      <%= link_to 'Cancelar minha conta', registration_path(resource_name), data: { confirm: 'Tem certeza que deseja excluir sua conta?' }, method: :delete, class: 'auth-danger-link' %>
     </div>
-  <% end %>
 
-  <h3>Cancel my account</h3>
-
-  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-  <%= link_to "Back", :back %>
+    <div class="auth-footer-links">
+      <%= link_to '⬅ Voltar ao Mapa', :back %>
+    </div>
+  </div>
 </div>
