@@ -1,0 +1,18 @@
+services:
+  web:
+    build: .
+    container_name: xwsg_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+    environment:
+      RAILS_ENV: development
+      # Descomente e preencha caso utilize o envio de e-mails via SendGrid
+      # SENDGRID_API_KEY: "sua_chave_aqui"
+    stdin_open: true
+    tty: true
+
+volumes:
+  bundle_cache:
