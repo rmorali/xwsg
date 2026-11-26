@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_04_20_114403) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_25_205551) do
   create_table "active_admin_comments", force: :cascade do |t|
-    t.string "namespace"
-    t.text "body"
-    t.string "resource_type"
-    t.integer "resource_id"
-    t.string "author_type"
     t.integer "author_id"
+    t.string "author_type"
+    t.text "body"
     t.datetime "created_at", precision: nil, null: false
+    t.string "namespace"
+    t.integer "resource_id"
+    t.string "resource_type"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
@@ -26,38 +26,38 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_20_114403) do
   end
 
   create_table "admin_users", force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
     t.datetime "remember_created_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.string "reset_password_token"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
   create_table "factions", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", precision: nil, null: false
+    t.string "name"
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "fleets", force: :cascade do |t|
-    t.integer "quantity"
-    t.integer "unit_id"
-    t.integer "squad_id"
-    t.integer "planet_id"
-    t.integer "round_id"
-    t.integer "carrier_id"
-    t.integer "arrives_in"
-    t.integer "ready_in"
-    t.integer "destination_id"
-    t.integer "armament_id"
-    t.integer "level"
-    t.string "description"
     t.boolean "ai"
+    t.integer "armament_id"
+    t.integer "arrives_in"
+    t.integer "carrier_id"
     t.datetime "created_at", precision: nil, null: false
+    t.string "description"
+    t.integer "destination_id"
+    t.integer "level"
+    t.integer "planet_id"
+    t.integer "quantity"
+    t.integer "ready_in"
+    t.integer "round_id"
+    t.integer "squad_id"
+    t.integer "unit_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["planet_id"], name: "index_fleets_on_planet_id"
     t.index ["squad_id"], name: "index_fleets_on_squad_id"
@@ -65,124 +65,129 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_20_114403) do
   end
 
   create_table "planets", force: :cascade do |t|
-    t.string "name"
-    t.integer "sector"
-    t.integer "population", limit: 8
+    t.datetime "created_at", precision: nil, null: false
     t.integer "credits"
     t.string "domination"
+    t.string "name"
+    t.integer "population", limit: 8
+    t.integer "sector"
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "x"
     t.integer "y"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "results", force: :cascade do |t|
-    t.integer "round_id"
-    t.integer "unit_id"
+    t.integer "armament_id"
+    t.integer "arrives_in"
+    t.integer "blasted"
+    t.boolean "blocked"
+    t.integer "captor_id"
+    t.integer "captured"
+    t.integer "carrier_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.string "description"
+    t.integer "destination_id"
+    t.integer "final_quantity"
+    t.integer "fled"
     t.integer "fleet_id"
-    t.integer "squad_id"
+    t.integer "level"
     t.integer "planet_id"
     t.integer "quantity"
-    t.integer "blasted"
-    t.integer "fled"
-    t.integer "captured"
-    t.integer "captor_id"
-    t.integer "final_quantity"
-    t.boolean "blocked"
-    t.integer "carrier_id"
-    t.integer "destination_id"
-    t.integer "arrives_in"
     t.integer "ready_in"
-    t.integer "armament_id"
-    t.integer "level"
-    t.string "description"
-    t.datetime "created_at", precision: nil, null: false
+    t.integer "round_id"
+    t.integer "squad_id"
+    t.integer "unit_id"
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.integer "phase", default: 0
     t.datetime "created_at", precision: nil, null: false
+    t.integer "phase", default: 0
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "routes", force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
+    t.integer "distance"
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "vector_a"
     t.integer "vector_b"
-    t.integer "distance"
     t.boolean "wormhole"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "setups", force: :cascade do |t|
-    t.integer "planet_income_ratio"
+    t.boolean "ai"
+    t.integer "ai_level"
+    t.string "builder_unit"
     t.integer "initial_credits"
     t.integer "initial_planets"
     t.integer "initial_wormholes"
-    t.integer "minimum_fleet_for_dominate"
     t.integer "minimum_fleet_for_build"
-    t.string "builder_unit"
+    t.integer "minimum_fleet_for_dominate"
+    t.integer "planet_income_ratio"
     t.integer "upgrade_cost"
-    t.boolean "ai"
-    t.integer "ai_level"
   end
 
   create_table "squads", force: :cascade do |t|
-    t.string "name"
-    t.integer "credits", default: 0
-    t.integer "metals"
-    t.integer "rare_elements"
-    t.integer "faction_id"
-    t.string "color"
-    t.string "url"
-    t.boolean "ready"
     t.boolean "ai"
     t.integer "ai_level"
-    t.integer "map_ratio", default: 100
+    t.string "color"
     t.datetime "created_at", precision: nil, null: false
+    t.integer "credits", default: 0
+    t.integer "faction_id"
+    t.integer "map_ratio", default: 100
+    t.integer "metals"
+    t.string "name"
+    t.integer "rare_elements"
+    t.boolean "ready"
     t.datetime "updated_at", precision: nil, null: false
+    t.string "url"
   end
 
   create_table "units", force: :cascade do |t|
-    t.string "name"
     t.string "acronym"
-    t.string "type"
-    t.string "terrain"
-    t.integer "faction_mask"
-    t.integer "hyperdrive", default: 0
-    t.integer "credits"
-    t.integer "producing_time"
-    t.integer "influence_ratio"
-    t.integer "weight"
-    t.integer "capacity"
-    t.boolean "groupable"
-    t.boolean "carriable"
     t.boolean "armable"
+    t.integer "armor_class", default: 1, null: false
     t.boolean "armory"
-    t.string "description"
+    t.integer "capacity"
+    t.boolean "carriable"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "shield"
+    t.integer "credits"
+    t.string "description"
+    t.integer "faction_mask"
+    t.boolean "groupable"
     t.integer "hull"
+    t.integer "hyperdrive", default: 0
+    t.integer "influence_ratio"
+    t.integer "ion_attack", default: 0, null: false
+    t.integer "laser_attack", default: 0, null: false
+    t.integer "maneuverability", default: 0, null: false
+    t.string "name"
+    t.integer "ordnance_attack", default: 0, null: false
+    t.integer "producing_time"
+    t.integer "shield"
+    t.integer "speed", default: 0, null: false
+    t.string "terrain"
+    t.string "type"
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "weight"
   end
 
   create_table "users", force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "current_sign_in_at", precision: nil
+    t.string "current_sign_in_ip"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
-    t.datetime "remember_created_at", precision: nil
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: nil
     t.datetime "last_sign_in_at", precision: nil
-    t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "reset_password_sent_at", precision: nil
+    t.string "reset_password_token"
+    t.integer "sign_in_count", default: 0, null: false
     t.integer "squad_id"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
 end
