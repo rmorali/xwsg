@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_25_205551) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_26_172642) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.integer "author_id"
     t.string "author_type"
@@ -145,16 +145,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_25_205551) do
   end
 
   create_table "units", force: :cascade do |t|
+    t.integer "acceleration", default: 0, null: false
     t.string "acronym"
     t.boolean "armable"
     t.integer "armor_class", default: 1, null: false
     t.boolean "armory"
     t.integer "capacity"
     t.boolean "carriable"
+    t.integer "command_bonus", default: 0, null: false
     t.datetime "created_at", precision: nil, null: false
     t.integer "credits"
     t.string "description"
     t.integer "faction_mask"
+    t.integer "force_power", default: 0, null: false
     t.boolean "groupable"
     t.integer "hull"
     t.integer "hyperdrive", default: 0
@@ -162,10 +165,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_25_205551) do
     t.integer "ion_attack", default: 0, null: false
     t.integer "laser_attack", default: 0, null: false
     t.integer "maneuverability", default: 0, null: false
+    t.integer "morale", default: 75, null: false
     t.string "name"
     t.integer "ordnance_attack", default: 0, null: false
     t.integer "producing_time"
+    t.integer "rank", default: 0, null: false
     t.integer "shield"
+    t.integer "siege_power", default: 0, null: false
     t.integer "speed", default: 0, null: false
     t.string "terrain"
     t.string "type"

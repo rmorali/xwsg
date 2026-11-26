@@ -27,3 +27,4 @@ EXPOSE 3000
 
 # Remove PIDs antigos do Puma caso o container tenha sido encerrado bruscamente e inicia o servidor
 CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"]
+
