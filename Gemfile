@@ -1,69 +1,51 @@
-source 'https://rubygems.org' # ATUALIZADO: Segurança (https)
+source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'devise'
-gem 'dijkstra', git: 'https://github.com/oscartanner/dijkstra.gem.git'
-gem 'erubis'
-
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder'
-gem 'jquery-rails'
-
-# Use Puma as the app server
-gem 'puma', '>= 5.0'
-
-gem 'bootsnap' # ATUALIZADO: Adicionado para melhorar o tempo de boot (veja config/boot.rb)
-
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 8.1.0' # ATUALIZADO: Próxima versão menor (minor version)
-
-gem 'react-rails'
-
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 6.0'
-
-# Simple Form Rails
-gem 'simple_form'
-
-# SQLite3 para Rails 8 exige versão 2.1 ou superior
+# Core Rails 8.1
+gem 'rails', '~> 8.1.0'
+gem 'puma', '>= 6.4'
 gem 'sqlite3', '>= 2.1'
-
-# ATUALIZADO: therubyracer está obsoleto. mini_racer é o substituto moderno.
-gem 'mini_racer', platforms: :ruby 
-
-# Turbolinks makes navigating your web application faster.
-gem 'turbolinks'
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'bootsnap', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-gem 'uglifier'
 
-gem 'activeadmin'
+# Autenticação & Painel Admin
+gem 'devise', '>= 4.9.4'
+gem 'activeadmin', '>= 3.2.2'
 
-# gem 'thin' # COMENTADO: Use o Puma (acima). Ter dois servidores pode causar confusão.
+# Frontend & Assets (seguros e compatíveis com Rails 8 + Windows)
+gem 'sprockets-rails'
+gem 'dartsass-rails' # Substitui o antigo sass-rails sem precisar compilar C++ no Windows
+gem 'terser'         # Substitui o antigo uglifier com suporte a JS moderno
+gem 'turbo-rails'    # Substitui o antigo turbolinks
+gem 'jquery-rails'
+gem 'react-rails'
+gem 'simple_form'
+gem 'jbuilder'
+
+# E-mail & Algoritmos
 gem 'sendgrid-ruby'
+#gem 'dijkstra', git: 'https://github.com/oscartanner/dijkstra.gem.git', ref: 'master'
 
 group :development, :test do
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  
-  # ATUALIZADO: factory_girl mudou de nome para factory_bot
-  gem 'factory_bot_rails' 
-  
+  gem 'debug', platforms: %i[mri mingw x64_mingw] # Substitui byebug no Ruby 3+
+  gem 'rspec-rails', '>= 7.1'
+  gem 'factory_bot_rails'
   gem 'faker'
-  gem 'rspec-rails'
+  gem 'shoulda-matchers', '~> 6.0' # Removida a trava da branch rails-5
   gem 'rubocop', require: false
-  gem 'selenium-webdriver'
-  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'rubocop-rails', require: false
+  gem 'bundler-audit', require: false # Auditoria local de CVEs
 end
 
 group :development do
   gem 'listen'
-  #gem 'spring'
-  #gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console'
+end
+
+group :test do
+  gem 'selenium-webdriver'
 end
