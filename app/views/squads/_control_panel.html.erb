@@ -108,7 +108,10 @@
       <!-- Botão Principal: Finalizar Turno -->
       <info class="tooltip">
         <tip><%= @squad.ready? ? 'Ordens confirmadas. Aguardando outros esquadrões...' : 'Confirmar ordens e encerrar seu turno' %></tip>
-        <%= link_to squads_ready_path, method: :post, data: { confirm: 'Passar Turno. Tem certeza?' }, class: "hud-btn-turn #{@squad.ready? ? 'is-ready' : ''}" do %>
+        <%= button_to squads_ready_path,
+                      method: :post,
+                      form: { class: 'hud-inline-form', data: { turbo_confirm: 'Passar Turno. Tem certeza?' } },
+                      class: "hud-btn-turn #{@squad.ready? ? 'is-ready' : ''}" do %>
           <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <% if @squad.ready? %>
               <polyline points="20 6 9 17 4 12"></polyline>
@@ -123,7 +126,10 @@
       <!-- Logoff -->
       <info class="tooltip">
         <tip>Desconectar da Ponte de Comando</tip>
-        <%= link_to destroy_user_session_path, class: 'hud-btn hud-btn-danger' do %>
+        <%= button_to destroy_user_session_path,
+                      method: :delete,
+                      form: { class: 'hud-inline-form' },
+                      class: 'hud-btn hud-btn-danger' do %>
           <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
