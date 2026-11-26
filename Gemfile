@@ -18,7 +18,7 @@ gem 'activeadmin', '>= 3.2.2'
 
 # Frontend & Assets (seguros e compatíveis com Rails 8 + Windows)
 gem 'sprockets-rails'
-gem 'dartsass-rails' # Substitui o antigo sass-rails sem precisar compilar C++ no Windows
+gem 'sassc-rails'
 gem 'terser'         # Substitui o antigo uglifier com suporte a JS moderno
 gem 'turbo-rails'    # Substitui o antigo turbolinks
 gem 'jquery-rails'
