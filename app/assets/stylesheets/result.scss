@@ -4,10 +4,86 @@
   margin: 5px 0px 0px 0px;
   border: 0 outset gray;
   border-radius: 6px;
-  box-shadow: 0 0 5px 1px rgba(120,130,180,0.60) inset;
+  box-shadow: 0 0 5px 1px rgba(120, 130, 180, 0.60) inset;
   padding: 5px;
   width: auto;
   height: auto;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 10;
+}
+
+/* ==========================================================================
+   DIÁRIO DE BORDO DO COMANDANTE (RELATO INDIVIDUAL POR TURNO)
+   ========================================================================== */
+
+.commander-log-card {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, rgba(12, 18, 32, 0.92) 0%, rgba(6, 10, 20, 0.9) 100%);
+  border: 1px solid rgba(100, 160, 255, 0.25);
+  border-left: 3px solid var(--squad-color, #38bdf8);
+  border-radius: 4px;
+  box-shadow: inset 0 0 14px rgba(56, 189, 248, 0.08);
+}
+
+.commander-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 11px;
+}
+
+.commander-log-title {
+  color: #cbd5e1;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+.commander-log-status {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #38bdf8;
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.commander-log-textarea {
+  width: 100%;
+  min-height: 68px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  background: rgba(5, 9, 18, 0.88);
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  border-radius: 4px;
+  color: #f1f5f9;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--squad-color, #38bdf8);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+  }
+}
+
+.commander-log-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.commander-log-hint {
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  color: #64748b;
 }

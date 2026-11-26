@@ -12,6 +12,7 @@
 
     <% @rounds.sort_by(&:number).reverse.each do |round| %>
       <% current_round = (round == @round && @round.space_combat?) %>
+      <% my_report = @my_reports[round.id] %>
 
       <div class="combat-round-block">
         <div class="combat-round-banner">
@@ -79,6 +80,33 @@
             </div>
           </div>
         <% end %>
+
+        <!-- RELATO INDIVIDUAL DO COMANDANTE (INPUT PARA NARRATIVA IA) -->
+        <div class="commander-log-card" style="--squad-color: <%= @squad.color.presence || '#38bdf8' %>;">
+          <div class="commander-log-header">
+            <span class="commander-log-title">
+              DIÁRIO DE BORDO // <strong style="color: <%= @squad.color %>;"><%= @squad.name.upcase %></strong>
+            </span>
+            <span class="commander-log-status">
+              <%= my_report&.content.present? ? 'REGISTRADO PARA CRÔNICA IA' : 'PENDENTE' %>
+            </span>
+          </div>
+
+          <%= form_with url: save_report_results_path, method: :post, local: true, class: 'commander-log-form' do %>
+            <%= hidden_field_tag 'battle_report[round_id]', round.id %>
+            <%= text_area_tag 'battle_report[content]',
+                              my_report&.content,
+                              rows: 3,
+                              maxlength: 1500,
+                              placeholder: "Descreva brevemente o que aconteceu neste turno sob a ótica do #{ @squad.name } (emboscadas, viradas, perdas críticas, manobras...) para compor a narrativa...",
+                              class: 'commander-log-textarea' %>
+
+            <div class="commander-log-footer">
+              <span class="commander-log-hint">Visível apenas para você e para o gerador de crônicas da partida.</span>
+              <%= submit_tag(my_report&.content.present? ? 'ATUALIZAR RELATO' : 'SALVAR RELATO', class: 't-btn t-btn-secondary') %>
+            </div>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>

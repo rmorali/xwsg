@@ -3,6 +3,7 @@ class Round < ApplicationRecord
 
   has_many :fleets
   has_many :results
+  has_many :battle_reports, dependent: :destroy
 
   scope :results_for, ->(squad) { joins(:results).where(results: {squad: squad}).group("id") }
 

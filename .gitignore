@@ -18,3 +18,6 @@
 
 .byebug_history
 sendgrid.env
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

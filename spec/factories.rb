@@ -1,14 +1,20 @@
 FactoryBot.define do
   factory :admin_user do
   end
+
   factory :user do
+    email { Faker::Internet.unique.email }
+    password { 'password123' }
   end
+
   factory :round do
     phase { 0 }
   end
+
   factory :faction do
     name { 'Empire' }
   end
+
   factory :fleet do
     quantity { 1 }
     association :unit, factory: :unit
@@ -17,6 +23,7 @@ FactoryBot.define do
     association :round, factory: :round
     level { 0 }
   end
+
   factory :squad do
     name { 'DarkSide Squadron' }
     association :faction, factory: :faction
@@ -24,11 +31,13 @@ FactoryBot.define do
     url { Faker::Internet.url(host: 'squad.com') }
     ready { false }
   end
+
   factory :route do
     association :vector_a, factory: :planet
     association :vector_b, factory: :planet
     distance { 1 }
   end
+
   factory :planet do
     name { Faker::Movies::StarWars.planet }
     sector { 1 }
@@ -37,6 +46,7 @@ FactoryBot.define do
     x { 1 }
     y { 1 }
   end
+
   factory :unit, aliases: %i[ship facility] do
     name { Faker::Movies::StarWars.vehicle }
     acronym { 'CS' }
@@ -51,11 +61,11 @@ FactoryBot.define do
     groupable { true }
     carriable { true }
     description { 'Descricao' }
-    all = %w[Empire Rebel Mercenary Pirate]
-    factions { all }
+    factions { %w[Empire Rebel Mercenary Mandalorians] }
     shield { 1000 }
     hull { 500 }
   end
+
   factory :result do
     association :round, factory: :round
     association :unit, factory: :unit
@@ -65,6 +75,13 @@ FactoryBot.define do
     quantity { 10 }
     final_quantity { 0 }
   end
+
+  factory :battle_report do
+    association :round, factory: :round
+    association :squad, factory: :squad
+    content { 'Emboscada no setor exterior; perdemos dois interceptadores mas mantivemos a órbita.' }
+  end
+
   factory :setup do
     planet_income_ratio { 1 }
     initial_credits { 12000 }
@@ -75,6 +92,6 @@ FactoryBot.define do
     builder_unit { 'Trooper' }
     upgrade_cost { 100 }
     ai { true }
-    ai_level { 1 }  
+    ai_level { 1 }
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_26_172642) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_26_214041) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.integer "author_id"
     t.string "author_type"
@@ -35,6 +35,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_172642) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "battle_reports", force: :cascade do |t|
+    t.integer "round_id", null: false
+    t.integer "squad_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["round_id"], name: "index_battle_reports_on_round_id"
+    t.index ["squad_id"], name: "index_battle_reports_on_squad_id"
   end
 
   create_table "factions", force: :cascade do |t|
@@ -196,4 +206,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_26_172642) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "battle_reports", "rounds"
+  add_foreign_key "battle_reports", "squads"
 end

@@ -13,7 +13,11 @@ Rails.application.routes.draw do
 
   resources :planets
 
-  resources :results
+  resources :results do
+    collection do
+      post :save_report
+    end
+  end
 
   resources :setups
 
