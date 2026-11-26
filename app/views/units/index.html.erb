@@ -2,47 +2,235 @@
   document.title = "BANCO DE DADOS // UNIDADES";
 </script>
 
+<%
+  category_labels = {
+    'CapitalShip'    => 'NAVES CAPITAIS (CAPITAL SHIPS)',
+    'LightTransport' => 'TRANSPORTES LEVES (LIGHT TRANSPORTS)',
+    'HeavyTransport' => 'TRANSPORTES PESADOS (HEAVY TRANSPORTS)',
+    'Interceptor'    => 'INTERCEPTADORES (INTERCEPTORS)',
+    'Fighter'        => 'CAÇAS MULTIUSO (FIGHTERS)',
+    'Bomber'         => 'BOMBARDEIROS (BOMBERS)',
+    'Facility'       => 'INSTALAÇÕES ORBITAIS (FACILITIES)',
+    'DefenseSystem'  => 'SISTEMAS DE DEFESA (DEFENSES)',
+    'Armament'       => 'OGIVAS & CONTRAMEDIDAS (WARHEADS)',
+    'Upgrade'        => 'MELHORIAS DE NAVE CAPITAL (UPGRADES)',
+    'Warrior'        => 'GUERREIROS & HERÓIS (WARRIORS)',
+    'Infantry'       => 'INFANTARIA (INFANTRY)',
+    'Cavalry'        => 'CAVALARIA & RECONHECIMENTO (CAVALRY)',
+    'Artillery'      => 'ARTILHARIA & ANTIVEÍCULO (ARTILLERY)',
+    'Armor'          => 'BLINDADOS PESADOS (ARMOR)'
+  }
+
+  faction_badge_class = ->(fac) do
+    case fac.to_s.downcase
+    when 'rebel'        then 'fac-rebel'
+    when 'empire'       then 'fac-empire'
+    when 'mercenary'    then 'fac-mercenary'
+    when 'mandalorians' then 'fac-mandalorians'
+    else 'fac-neutral'
+    end
+  end
+%>
+
 <div class="fleet-terminal">
   <div class="terminal-card">
     <div class="terminal-card-header terminal-header-split">
-      <span>BANCO DE DADOS DE NAVES & TROPAS</span>
-      <span class="level-pill"><%= @units.count %> CLASSES</span>
+      <div>
+        <span>BANCO DE DADOS DE NAVES & TROPAS</span>
+        <span class="level-pill" style="margin-left: 8px;"><%= @units.count %> CLASSES</span>
+      </div>
+
+      <div class="faction-filter-bar" id="unit_faction_filters">
+        <button type="button" class="filter-chip is-active" data-faction="ALL">TODAS</button>
+        <button type="button" class="filter-chip fac-rebel" data-faction="Rebel">REBEL</button>
+        <button type="button" class="filter-chip fac-empire" data-faction="Empire">EMPIRE</button>
+        <button type="button" class="filter-chip fac-mercenary" data-faction="Mercenary">MERCENARY</button>
+        <button type="button" class="filter-chip fac-mandalorians" data-faction="Mandalorians">MANDALORIANS</button>
+      </div>
     </div>
 
     <% @units.group_by(&:type).each do |type, units| %>
-      <div class="unit-category-block">
-        <div class="unit-category-title"><%= type.pluralize.upcase %></div>
+      <div class="unit-category-block" data-category-block>
+        <div class="unit-category-title">
+          <span><%= category_labels[type] || type.pluralize.upcase %></span>
+          <span class="category-count"><%= units.size %></span>
+        </div>
 
-        <table class="tactical-table">
+        <table class="tactical-table unit-db-table">
           <thead>
             <tr>
-              <th style="width: 48px;">VISUAL</th>
-              <th>CLASSE / UNIDADE</th>
-              <th>ESPECIFICAÇÕES</th>
-              <th>FACÇÕES AUTORIZADAS</th>
+              <th style="width: 54px;">VISUAL</th>
+              <th style="width: 22%;">UNIDADE & PERFIL</th>
+              <th style="width: 24%;">DEFESA & MORAL</th>
+              <th style="width: 22%;">PODER DE FOGO</th>
+              <th style="width: 18%;">PROPULSÃO & TÁTICA</th>
+              <th style="width: 14%;">FACÇÕES</th>
             </tr>
           </thead>
           <tbody>
             <% units.each do |u| %>
-              <tr>
+              <%
+                is_all_factions = u.factions.size >= 4
+                row_factions = is_all_factions ? 'ALL' : u.factions.join(',')
+              %>
+              <tr data-unit-row data-factions="<%= row_factions %>">
                 <td class="text-center">
-                  <%= image_tag(u.image, class: 'catalog-unit-img') %>
+                  <%= image_tag(u.image, class: 'catalog-unit-img', alt: u.name) %>
                 </td>
+
+                <!-- 1. IDENTIDADE, CUSTO & DESCRIÇÃO -->
                 <td>
-                  <strong class="catalog-unit-name"><%= u.name %></strong>
-                  <div class="catalog-unit-acronym">[<%= u.acronym %>]</div>
+                  <div class="unit-title-line">
+                    <strong class="catalog-unit-name"><%= u.name %></strong>
+                    <span class="catalog-unit-acronym">[<%= u.acronym %>]</span>
+                  </div>
+
+                  <div class="unit-cost-line">
+                    <span class="stat-tag text-gold"><strong><%= u.credits %></strong> cr</span>
+                    <% if u.producing_time.to_i > 0 %>
+                      <span class="stat-tag">Build: <strong><%= u.producing_time %>t</strong></span>
+                    <% end %>
+                    <% if u.rank.to_i > 0 %>
+                      <span class="stat-tag text-cyan">Rank <strong><%= u.rank %></strong></span>
+                    <% end %>
+                  </div>
+
+                  <% if u.description.present? %>
+                    <div class="catalog-unit-desc"><%= u.description %></div>
+                  <% end %>
                 </td>
+
+                <!-- 2. DEFESA, BLINDAGEM & MORAL -->
                 <td>
-                  <div class="catalog-specs">
-                    <span>Custo: <strong class="text-gold"><%= u.credits %> cr</strong></span>
-                    <span>Tempo: <strong><%= u.producing_time %>t</strong></span>
-                    <span>Escudo/Casco: <strong><%= u.shield %>/<%= u.hull %></strong></span>
+                  <div class="stat-grid">
+                    <% if u.shield.to_i > 0 || u.hull.to_i > 0 %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">ESCUDO</span>
+                        <span class="stat-val text-cyan"><%= u.shield.to_i %></span>
+                      </div>
+                      <div class="stat-item">
+                        <span class="stat-lbl">CASCO</span>
+                        <span class="stat-val"><%= u.hull.to_i %></span>
+                      </div>
+                    <% else %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">ESTRUTURA</span>
+                        <span class="stat-val text-muted">Módulo / Ogiva</span>
+                      </div>
+                    <% end %>
+
+                    <div class="stat-item">
+                      <span class="stat-lbl">BLINDAGEM</span>
+                      <span class="stat-val">Classe <%= u.armor_class %></span>
+                    </div>
+
+                    <% if %w[CapitalShip Warrior Infantry Cavalry Artillery Armor].include?(u.type) %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">MORAL</span>
+                        <span class="stat-val <%= u.morale >= 85 ? 'text-green' : (u.morale <= 65 ? 'text-amber' : '') %>">
+                          <%= u.morale %>%
+                        </span>
+                      </div>
+                    <% end %>
                   </div>
                 </td>
+
+                <!-- 3. ARMAMENTO & PODER DE COMBATE -->
+                <td>
+                  <% has_weapons = u.laser_attack.to_i > 0 || u.ion_attack.to_i > 0 || u.ordnance_attack.to_i > 0 || u.siege_power.to_i > 0 || u.force_power.to_i > 0 %>
+                  <% if has_weapons %>
+                    <div class="stat-grid">
+                      <% if u.laser_attack.to_i > 0 %>
+                        <div class="stat-item">
+                          <span class="stat-lbl"><%= u.type == 'Warrior' ? 'MARCIAL' : 'LASER' %></span>
+                          <span class="stat-val text-red"><%= u.laser_attack %></span>
+                        </div>
+                      <% end %>
+
+                      <% if u.ion_attack.to_i > 0 %>
+                        <div class="stat-item">
+                          <span class="stat-lbl">ÍONS</span>
+                          <span class="stat-val text-cyan"><%= u.ion_attack %></span>
+                        </div>
+                      <% end %>
+
+                      <% if u.ordnance_attack.to_i > 0 %>
+                        <div class="stat-item">
+                          <span class="stat-lbl">OGIVAS</span>
+                          <span class="stat-val text-amber"><%= u.ordnance_attack %></span>
+                        </div>
+                      <% end %>
+
+                      <% if u.siege_power.to_i > 0 %>
+                        <div class="stat-item">
+                          <span class="stat-lbl">CERCO</span>
+                          <span class="stat-val text-orange"><%= u.siege_power %></span>
+                        </div>
+                      <% end %>
+
+                      <% if u.force_power.to_i > 0 %>
+                        <div class="stat-item">
+                          <span class="stat-lbl">FORÇA</span>
+                          <span class="stat-val text-purple"><%= u.force_power %></span>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% else %>
+                    <span class="stat-empty">Sem armamento ofensivo</span>
+                  <% end %>
+                </td>
+
+                <!-- 4. PROPULSÃO, HANGAR & COMANDO -->
+                <td>
+                  <div class="stat-grid">
+                    <% if u.speed.to_i > 0 %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">VEL / ACEL</span>
+                        <span class="stat-val"><%= u.speed %> <small class="text-muted">(<%= u.acceleration %>)</small></span>
+                      </div>
+                    <% end %>
+
+                    <% if u.maneuverability.to_i > 0 %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">MANOBRA</span>
+                        <span class="stat-val"><%= u.maneuverability %></span>
+                      </div>
+                    <% end %>
+
+                    <% if u.terrain == 'Space' && !%w[Facility DefenseSystem Armament Upgrade].include?(u.type) %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">HIPERDRIVE</span>
+                        <span class="stat-val <%= u.hyperdrive.to_i > 0 ? 'text-green' : 'text-red' %>">
+                          <%= u.hyperdrive.to_i > 0 ? 'Sim' : 'Não' %>
+                        </span>
+                      </div>
+                    <% end %>
+
+                    <% if u.capacity.to_i > 0 %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">CAPACIDADE</span>
+                        <span class="stat-val text-cyan"><%= u.capacity %></span>
+                      </div>
+                    <% end %>
+
+                    <% if u.command_bonus.to_i > 0 %>
+                      <div class="stat-item">
+                        <span class="stat-lbl">COMANDO</span>
+                        <span class="stat-val text-green">+<%= u.command_bonus %>%</span>
+                      </div>
+                    <% end %>
+                  </div>
+                </td>
+
+                <!-- 5. FACÇÕES AUTORIZADAS -->
                 <td>
                   <div class="faction-pills">
-                    <% u.factions.each do |fac| %>
-                      <span class="faction-pill"><%= fac.upcase %></span>
+                    <% if is_all_factions %>
+                      <span class="faction-pill fac-all">ALL</span>
+                    <% else %>
+                      <% u.factions.each do |fac| %>
+                        <span class="faction-pill <%= faction_badge_class.call(fac) %>"><%= fac.upcase %></span>
+                      <% end %>
                     <% end %>
                   </div>
                 </td>
@@ -54,3 +242,40 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  (function() {
+    function initUnitCatalogFilter() {
+      var bar = document.getElementById('unit_faction_filters');
+      if (!bar || bar.dataset.bound === '1') return;
+      bar.dataset.bound = '1';
+
+      bar.querySelectorAll('.filter-chip').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          bar.querySelectorAll('.filter-chip').forEach(function(b) {
+            b.classList.remove('is-active');
+          });
+          btn.classList.add('is-active');
+
+          var chosen = btn.dataset.faction;
+          document.querySelectorAll('[data-category-block]').forEach(function(block) {
+            var visibleCount = 0;
+            block.querySelectorAll('[data-unit-row]').forEach(function(row) {
+              var facs = row.dataset.factions;
+              var show = (chosen === 'ALL' || facs === 'ALL' || facs.split(',').indexOf(chosen) !== -1);
+              row.style.display = show ? '' : 'none';
+              if (show) visibleCount++;
+            });
+            block.style.display = visibleCount > 0 ? '' : 'none';
+            var counter = block.querySelector('.category-count');
+            if (counter) counter.textContent = visibleCount;
+          });
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initUnitCatalogFilter);
+    document.addEventListener('turbo:load', initUnitCatalogFilter);
+    initUnitCatalogFilter();
+  })();
+</script>

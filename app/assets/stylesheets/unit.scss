@@ -1,3 +1,166 @@
 // Place all the styles related to the Unit controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* ==========================================================================
+   BANCO DE DADOS DE UNIDADES (CATÁLOGO TÁTICO)
+   ========================================================================== */
+
+.faction-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-chip {
+  padding: 4px 10px;
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(100, 116, 139, 0.45);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover,
+  &.is-active {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+  }
+}
+
+.unit-category-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-count {
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+.unit-db-table td {
+  vertical-align: top;
+  padding: 9px 10px;
+}
+
+.unit-title-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.catalog-unit-acronym {
+  display: inline-block;
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  color: #38bdf8;
+}
+
+.unit-cost-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.stat-tag {
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  padding: 1px 6px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(71, 85, 105, 0.45);
+  border-radius: 3px;
+  color: #cbd5e1;
+}
+
+.catalog-unit-desc {
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #94a3b8;
+  white-space: normal;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 10px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 6px;
+  background: rgba(8, 13, 24, 0.72);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 3px;
+}
+
+.stat-lbl {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  color: #64748b;
+}
+
+.stat-val {
+  font-family: 'Consolas', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.stat-empty {
+  font-family: 'Consolas', monospace;
+  font-size: 10px;
+  font-style: italic;
+  color: #64748b;
+}
+
+/* Utilitários de cor */
+.text-gold   { color: #facc15; }
+.text-cyan   { color: #38bdf8; }
+.text-green  { color: #4ade80; }
+.text-red    { color: #f87171; }
+.text-amber  { color: #fbbf24; }
+.text-orange { color: #fb923c; }
+.text-purple { color: #c084fc; }
+.text-muted  { color: #64748b; }
+
+/* Badges de Facção (mesma paleta da planilha XWSG 1.7) */
+.faction-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.faction-pill {
+  display: inline-block;
+  text-align: center;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Consolas', monospace;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.85);
+
+  &.fac-rebel        { color: #f87171; border-color: rgba(248, 113, 113, 0.45); }
+  &.fac-empire       { color: #4ade80; border-color: rgba(74, 222, 128, 0.45); }
+  &.fac-mercenary    { color: #facc15; border-color: rgba(250, 204, 21, 0.45); }
+  &.fac-mandalorians { color: #c084fc; border-color: rgba(192, 132, 252, 0.45); }
+  &.fac-all          { color: #ffffff; border-color: rgba(255, 255, 255, 0.45); }
+}
