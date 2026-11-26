@@ -1,20 +1,146 @@
-<div style="display: table; margin: auto; vertical-align: middle;">
-  <%= image_tag ('star wars.png'), style: "align: right; vertical-align: top;" %>
-  <h2>Novo Esquadrão</h2>
+<div class="tactical-auth-wrapper">
+  <div class="tactical-card">
+    <div class="tactical-logo">
+      <%= image_tag('star wars.png', alt: 'XWSG') %>
+    </div>
 
-  <div class="users">
-    <%= simple_form_for @squad do |f| %>
-      <%= f.error_notification %>
+    <h2 class="tactical-title">Novo Esquadrão</h2>
+    <p class="tactical-subtitle">Defina o indicativo, a cor tática e a facção da sua frota</p>
 
-      <div class="form-inputs">
-        <%= f.input :name, error: 'Please name it', label: 'Nome: ' %>
-        <%= f.input :color, collection: @colors, style: 'background:red', label: 'Cor: ' %>
-        <%= f.input :faction_id, collection: @factions, label: 'Facção: ' %>
-      </div>
+    <div class="users">
+      <%= simple_form_for @squad do |f| %>
+        <%= f.error_notification %>
 
-      <div class="actions">
-        <%= f.submit 'Create Squad' %><br />
-      </div>
-    <% end %>
+        <%
+          palette = {
+            'vermelho' => '#f87171',
+            'red'      => '#f87171',
+            'amarelo'  => '#facc15',
+            'yellow'   => '#facc15',
+            'verde'    => '#4ade80',
+            'green'    => '#4ade80',
+            'roxo'     => '#c084fc',
+            'purple'   => '#c084fc',
+            'cyano'    => '#38bdf8',
+            'ciano'    => '#38bdf8',
+            'cyan'     => '#38bdf8',
+            'orange'   => '#fb923c',
+            'laranja'  => '#fb923c',
+            'random'   => 'linear-gradient(135deg, #f87171, #facc15, #4ade80, #38bdf8, #c084fc)'
+          }
+
+          color_items = (@colors || []).map do |c|
+            label, val = c.is_a?(Array) ? c : [c, c]
+            key = label.to_s.strip.downcase
+            swatch = palette[key] || (val.to_s.start_with?('#') ? val : '#38bdf8')
+            text_color = key == 'random' ? '#f8fafc' : swatch
+            { label: label, value: val, swatch: swatch, text_color: text_color }
+          end
+
+          current_val = @squad.color.presence || color_items.first&.dig(:value)
+          current_item = color_items.find { |i| i[:value].to_s == current_val.to_s } || color_items.first
+        %>
+
+        <div class="form-inputs">
+          <%= f.input :name,
+                      error: 'Informe o nome do esquadrão',
+                      label: 'Nome do Esquadrão',
+                      input_html: { placeholder: 'Ex.: Esquadrão Rogue', autocomplete: 'off' } %>
+
+          <div class="input tactical-field">
+            <label for="squad_color_trigger">Cor Tática</label>
+            <%= f.hidden_field :color, value: current_item&.dig(:value), id: 'squad_color_input' %>
+
+            <div class="tactical-color-dropdown" id="squad_color_dropdown">
+              <button type="button" class="tactical-color-trigger" id="squad_color_trigger"
+                      style="border-color: <%= current_item&.dig(:text_color) %>;">
+                <span class="color-swatch" id="squad_color_swatch"
+                      style="background: <%= current_item&.dig(:swatch) %>; box-shadow: 0 0 8px <%= current_item&.dig(:text_color) %>;"></span>
+                <span class="color-label" id="squad_color_label"
+                      style="color: <%= current_item&.dig(:text_color) %>;">
+                  <%= current_item&.dig(:label) %>
+                </span>
+                <span class="color-caret">▾</span>
+              </button>
+
+              <ul class="tactical-color-menu" id="squad_color_menu">
+                <% color_items.each do |item| %>
+                  <li class="tactical-color-option <%= 'is-selected' if item[:value].to_s == current_item&.dig(:value).to_s %>"
+                      data-value="<%= item[:value] %>"
+                      data-label="<%= item[:label] %>"
+                      data-swatch="<%= item[:swatch] %>"
+                      data-textcolor="<%= item[:text_color] %>">
+                    <span class="color-swatch" style="background: <%= item[:swatch] %>; box-shadow: 0 0 8px <%= item[:text_color] %>;"></span>
+                    <span class="color-label" style="color: <%= item[:text_color] %>;"><%= item[:label] %></span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+
+          <%= f.input :faction_id,
+                      collection: @factions,
+                      include_blank: false,
+                      label: 'Facção',
+                      input_html: { class: 'select' } %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit 'Criar Esquadrão', class: 'btn-tactical-primary' %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
+
+<script>
+  (function() {
+    function initTacticalColorDropdown() {
+      var dropdown = document.getElementById('squad_color_dropdown');
+      var trigger  = document.getElementById('squad_color_trigger');
+      var menu     = document.getElementById('squad_color_menu');
+      var input    = document.getElementById('squad_color_input');
+      var swatch   = document.getElementById('squad_color_swatch');
+      var label    = document.getElementById('squad_color_label');
+
+      if (!dropdown || dropdown.dataset.bound === '1') return;
+      dropdown.dataset.bound = '1';
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('is-open');
+      });
+
+      menu.querySelectorAll('.tactical-color-option').forEach(function(opt) {
+        opt.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var val   = opt.dataset.value;
+          var txt   = opt.dataset.label;
+          var sw    = opt.dataset.swatch;
+          var color = opt.dataset.textcolor;
+
+          input.value = val;
+          label.textContent = txt;
+          label.style.color = color;
+          swatch.style.background = sw;
+          swatch.style.boxShadow = '0 0 8px ' + color;
+          trigger.style.borderColor = color;
+
+          menu.querySelectorAll('.tactical-color-option').forEach(function(el) {
+            el.classList.remove('is-selected');
+          });
+          opt.classList.add('is-selected');
+          dropdown.classList.remove('is-open');
+        });
+      });
+
+      document.addEventListener('click', function() {
+        dropdown.classList.remove('is-open');
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initTacticalColorDropdown);
+    document.addEventListener('turbo:load', initTacticalColorDropdown);
+    initTacticalColorDropdown();
+  })();
+</script>
