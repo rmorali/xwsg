@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+# Executa migrations pendentes no SQLite persistente antes de iniciar
+if [ "${*}" == "./bin/rails server" ]; then
+  ./bin/rails db:prepare
+fi
+
+exec "${@}"
