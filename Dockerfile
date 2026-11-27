@@ -37,7 +37,9 @@ COPY --from=build /rails /rails
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     mkdir -p /rails/storage /rails/tmp /rails/log && \
-    chown -R rails:rails /rails/db /rails/log /rails/storage /rails/tmp
+    chown -R rails:rails /rails/db /rails/log /rails/storage /rails/tmp && \
+    sed -i 's/\r$//' /rails/bin/docker-entrypoint && \
+    chmod +x /rails/bin/docker-entrypoint
 
 USER 1000:1000
 
