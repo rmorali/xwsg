@@ -1,0 +1,39 @@
+<div class="narratives-window">
+  <header class="narratives-header">
+    <div>
+      <span class="holonet-tag">HOLONET TACTICAL ARCHIVE // REGISTROS DE GUERRA</span>
+      <h1 class="narratives-title">CRÔNICAS DA CAMPANHA</h1>
+    </div>
+    <button type="button" class="btn-close-window" onclick="window.close();">FECHAR</button>
+  </header>
+
+  <% if @rounds.any? %>
+    <div class="narratives-timeline">
+      <% @rounds.each_with_index do |round, index| %>
+        <% is_latest = index.zero? %>
+        <article class="narrative-chapter <%= is_latest ? 'is-current-turn' : 'is-past-turn' %>">
+          <div class="chapter-header">
+            <div class="chapter-badge-group">
+              <span class="chapter-turn">TURNO #<%= round.number.to_s.rjust(2, '0') %></span>
+              <% if is_latest %>
+                <span class="chapter-latest-pill">ÚLTIMO COMBATE</span>
+              <% else %>
+                <span class="chapter-past-pill">ARQUIVO HISTÓRICO</span>
+              <% end %>
+            </div>
+            <span class="chapter-source">TRANSMISSÃO HOLONET</span>
+          </div>
+
+          <div class="chapter-content">
+            <%= simple_format(round.narrative) %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="narratives-empty">
+      <p>Nenhuma crônica de combate foi transmitida ainda.</p>
+      <span>As narrativas são compiladas automaticamente ao encerramento de cada turno de combate.</span>
+    </div>
+  <% end %>
+</div>

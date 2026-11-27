@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe GameLogic, type: :service do
   let(:unit) { create(:unit) }
-  let(:setup) { create(:setup) }
+  let!(:setup) { create(:setup) }
   let(:faction) { create(:faction) }
   let(:planet) { create(:planet) }
+
   before do
     Faction.create([
                      { name: 'Empire' },
@@ -14,12 +15,16 @@ RSpec.describe GameLogic, type: :service do
     @empire = create(:squad, faction: Faction.first)
     @rebel = create(:squad, faction: Faction.second)
     @round = Round.current
+
+    narrative_double = instance_double(GeminiNarrativeService, generate!: 'Narrativa gerada')
+    allow(GeminiNarrativeService).to receive(:new).and_return(narrative_double)
   end
 
   context 'all squads ready' do
     before do
       @empire.ready!
     end
+
     it 'starts another phase' do
       GameLogic.new.check_state!
       expect(@round.strategy?).to be true
@@ -27,6 +32,7 @@ RSpec.describe GameLogic, type: :service do
       GameLogic.new.check_state!
       expect(@round.reload.space_combat?).to be true
     end
+
     it 'turns back their states' do
       @rebel.ready!
       GameLogic.new.check_state!
@@ -37,6 +43,22 @@ RSpec.describe GameLogic, type: :service do
 
   context 'check phases' do
     it 'executes logics accordingly to the round phase' do
+      game = GameLogic.new
+      allow(game).to receive(:strategy!)
+      allow(game).to receive(:space_combat!)
+      allow(game).to receive(:finished!)
+
+      @round.update!(phase: 'strategy')
+      game.check_phase!
+      expect(game).to have_received(:strategy!)
+
+      @round.update!(phase: 'space_combat')
+      game.check_phase!
+      expect(game).to have_received(:space_combat!)
+
+      @round.update!(phase: 'finished')
+      game.check_phase!
+      expect(game).to have_received(:finished!)
     end
   end
 
@@ -44,36 +66,30 @@ RSpec.describe GameLogic, type: :service do
     before do
       @setup = setup
       all = %w[Empire Rebel Mercenary]
-      @facility = create(:unit, type: 'Facility', credits: 1200 ).factions = all
-      @capital_ship = create(:unit, type: 'CapitalShip', credits: 600 ).factions = all
-      @fighter = create(:unit, type: 'Fighter', credits: 100 ).factions = all
+      @facility     = create(:unit, type: 'Facility', credits: 1200, factions: all)
+      @capital_ship = create(:unit, type: 'CapitalShip', credits: 600, factions: all)
+      @fighter      = create(:unit, type: 'Fighter', credits: 100, factions: all)
       5.times { create(:planet, credits: 0) }
     end
 
     it 'sets initial credits for squads' do
       game = GameLogic.new
       game.set_initial(@empire)
-      expect(@empire.reload.credits).to eq(12000)
+      expect(@empire.reload.credits).to eq(setup.initial_credits)
     end
 
     it 'sets income for planets' do
-      # Garante que, no início, todos os planetas estão zerados
       expect(Planet.pluck(:credits)).to all(eq(0))
-      
+
       GameLogic.new.new_game!
-      
+
       todas_as_rendas = Planet.pluck(:credits)
-      
-      # Como a renda é calculada dinamicamente/aleatoriamente, 
-      # nós apenas garantimos que TODOS eles receberam uma renda maior que zero.
       expect(todas_as_rendas).to all(be > 0)
-      
-      # E para ter certeza que não voltamos para o zero
       expect(todas_as_rendas).not_to include(0)
     end
 
     it 'populates random planets for squads' do
-      GameLogic.new().new_game!
+      GameLogic.new.new_game!
       expect(@empire.reload.fleets).to_not be_empty
       expect(@empire.reload.fleets.any? { |fleet| fleet.type == 'Facility' }).to be true
       expect(@empire.reload.fleets.any? { |fleet| fleet.type == 'CapitalShip' }).to be true
@@ -81,7 +97,8 @@ RSpec.describe GameLogic, type: :service do
     end
 
     it 'debits squads credits to populate planets' do
-      expect(@empire.reload.credits).to be < 2400
+      GameLogic.new.new_game!
+      expect(@empire.reload.credits).to be < setup.initial_credits
     end
   end
 
@@ -95,15 +112,19 @@ RSpec.describe GameLogic, type: :service do
       @fleet_a = create(:fleet, squad: @squad_a, planet: planet)
       @fleet_b = create(:fleet, squad: @squad_b, planet: planet)
     end
+
     it 'creates result table for combats' do
       expect(Result.all.count).to eq(0)
       GameLogic.new.space_combat!
       expect(Result.all.count).to be > 0
     end
 
-    it 'updates fleets and facilities producing situation' do
-    end
-    it 'complete producing fleets and facilities' do
+    it 'triggers GeminiNarrativeService when finishing the combat turn' do
+      narrative_double = instance_double(GeminiNarrativeService, generate!: 'Crônica do Turno')
+      expect(GeminiNarrativeService).to receive(:new).with(@round).and_return(narrative_double)
+      expect(narrative_double).to receive(:generate!)
+
+      GameLogic.new.finished!
     end
   end
 end

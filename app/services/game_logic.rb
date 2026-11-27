@@ -19,7 +19,6 @@ class GameLogic
     Planet.all.each do |planet|
       GroupFleet.new(planet).group!
     end
-
   end
 
   def check_state!
@@ -49,11 +48,15 @@ class GameLogic
 
   def ground_combat!; end
 
-  def finished!;
+  def finished!
     results = Result.where(round: @round)
     results.each do |result|
       ApplyResult.new(result).apply!
     end
+
+    # Gera a narrativa do turno na API do Gemini ao fim do turno de combate
+    GeminiNarrativeService.new(@round).generate!
+
     Squad.all.each do |squad|
       squad.credits += SetIncome.new(squad, Planet.first).total
       squad.save
@@ -78,7 +81,7 @@ class GameLogic
       facilities = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Facility', for_facilities)
       facility = facilities[rand(facilities.count)] unless facilities.empty?
       BuildFleet.new(1, facility, squad, planet).build! unless facility.nil?
-      # Capital Ships 
+      # Capital Ships
       until for_capital_ships < 300 do
         capital_ships = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'CapitalShip', for_capital_ships)
         capital_ship = capital_ships[rand(capital_ships.count)] unless capital_ships.empty?
@@ -94,7 +97,7 @@ class GameLogic
       2.times do
         fighters = Unit.allowed_for(squad.faction.name).where("type = ? AND credits <= ?", 'Fighter', for_fighters)
         fighter = fighters[rand(fighters.count)]
-        BuildFleet.new( (for_fighters / fighter.credits).to_i, fighter, squad, planet).build! unless fighter.nil?
+        BuildFleet.new((for_fighters / fighter.credits).to_i, fighter, squad, planet).build! unless fighter.nil?
       end
       GroupFleet.new(planet).group!
     end
@@ -103,5 +106,4 @@ class GameLogic
   def set_initial(squad)
     squad.update(credits: @setup.initial_credits)
   end
-
 end
