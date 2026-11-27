@@ -458,7 +458,7 @@
   box-shadow: 0 0 16px rgba(239, 68, 68, 0.9);
 }
 
-/* Cartão Tático de Frotas (Totalmente limpo, sem bordas ou faixa lateral) */
+/* Cartão Tático de Frotas */
 .fleets-card {
   position: absolute;
   z-index: 20;
@@ -775,5 +775,98 @@
   &:hover,
   &.is-selected {
     background: rgba(56, 189, 248, 0.16);
+  }
+}
+
+/* ==========================================================================
+   MODAL TÁTICO SOBREPOSTO AO DASHBOARD (LARGURA FIXA 400PX / ALTURA DINÂMICA)
+   ========================================================================== */
+
+.tactical-modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(2, 6, 15, 0.72);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  &.is-open {
+    display: flex;
+  }
+}
+
+.tactical-modal-window {
+  width: 400px;
+  max-width: calc(100vw - 24px);
+  background: rgba(8, 13, 24, 0.98);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  border-top: 2px solid var(--squad-color, #38bdf8);
+  border-radius: 6px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.92), 0 0 24px rgba(56, 189, 248, 0.22);
+  overflow: hidden;
+  animation: modal-fade-in 0.15s ease-out;
+}
+
+.tactical-modal-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, 0.96);
+  border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+}
+
+.tactical-modal-title {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #38bdf8;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tactical-modal-close {
+  flex-shrink: 0;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 4px;
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: #ef4444;
+    color: #ffffff;
+  }
+}
+
+#tactical-modal-frame {
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  transition: height 0.15s ease;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

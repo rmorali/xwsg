@@ -51,7 +51,7 @@
       <% if can_produce %>
         <info class="tooltip">
           <tip><span style="color:#4ade80; font-weight:bold;">ESTALEIRO ATIVO //</span> Clique para produzir unidades</tip>
-          <a href="#" class="planet-orb-link" onclick="window.open('/fleets/<%= facility.id %>/edit','<%= facility.name %> - <%= facility.planet.name %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=480, height=440'); return false;">
+          <a href="/fleets/<%= facility.id %>/edit" data-turbo="false" class="planet-orb-link" onclick="return openTacticalModal(event, this.href, '<%= j facility.name %> // <%= j facility.planet.name %>');">
             <%= image_tag(planet.image, class: 'planet-img') %>
             <span class="planet-build-ring"></span>
           </a>
@@ -73,7 +73,7 @@
           <info class="tooltip">
             <tip><%= raw tip(fleet) %></tip>
             <% if actionable %>
-              <a href="#" class="fleet-link" onclick="window.open('/fleets/<%= fleet.id %>/edit','<%= fleet.name %> - <%= fleet.planet.name %>', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=480, height=440'); return false;">
+              <a href="/fleets/<%= fleet.id %>/edit" data-turbo="false" class="fleet-link" onclick="return openTacticalModal(event, this.href, '<%= j fleet.name %> // <%= j fleet.planet.name %>');">
                 <span style="<%= style(fleet) %>"><%= show(fleet) %></span>
                 <span class="fleet-result-tag"><%= show_result(fleet) %></span>
               </a>

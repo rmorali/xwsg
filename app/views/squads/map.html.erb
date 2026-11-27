@@ -10,5 +10,280 @@
   <%= render partial: 'sectors' %>
 </div>
 
-<div class="edit_box" id="edit_box" onclick=dragElement(document.getElementById("edit_box"))>
+<!-- MODAL TÁTICO SOBREPOSTO AO DASHBOARD (ARRASTÁVEL E AUTO-AJUSTÁVEL) -->
+<div id="tactical-modal-backdrop" class="tactical-modal-backdrop" onclick="closeTacticalModalAndReload(event)">
+  <div id="tactical-modal-window" class="tactical-modal-window" onclick="event.stopPropagation()">
+    <div id="tactical-modal-topbar" class="tactical-modal-topbar" title="Arraste para mover">
+      <span id="tactical-modal-title" class="tactical-modal-title">TERMINAL TÁTICO</span>
+      <button type="button" class="tactical-modal-close" onmousedown="event.stopPropagation()" onclick="closeTacticalModalAndReload()" title="Fechar e atualizar mapa">✕</button>
+    </div>
+    <iframe id="tactical-modal-frame" name="tactical-modal-frame" src="about:blank"></iframe>
+  </div>
 </div>
+
+<style>
+  .tactical-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(2, 6, 15, 0.55);
+    backdrop-filter: blur(0.4px);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .tactical-modal-backdrop.is-open {
+    display: flex;
+  }
+
+  .tactical-modal-window {
+    width: 540px;
+    max-width: calc(100vw - 32px);
+    background: rgba(8, 13, 24, 0.98);
+    border: 1px solid rgba(56, 189, 248, 0.55);
+    border-top: 2px solid <%= @squad.color.presence || '#38bdf8' %>;
+    border-radius: 6px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.92), 0 0 24px rgba(56, 189, 248, 0.22);
+    overflow: hidden;
+  }
+
+  .tactical-modal-window.is-dragging #tactical-modal-frame {
+    pointer-events: none;
+  }
+
+  .tactical-modal-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(15, 23, 42, 0.96);
+    border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+    cursor: grab;
+    user-select: none;
+  }
+
+  .tactical-modal-topbar:active {
+    cursor: grabbing;
+  }
+
+  .tactical-modal-title {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: #38bdf8;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tactical-modal-close {
+    flex-shrink: 0;
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    border-radius: 4px;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .tactical-modal-close:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: #ef4444;
+    color: #ffffff;
+  }
+
+  #tactical-modal-frame {
+    display: block;
+    width: 100%;
+    height: 240px;
+    border: none;
+    background: transparent;
+    transition: height 0.14s ease;
+  }
+</style>
+
+<script>
+  var tacticalModalResizeObserver = null;
+
+  function resizeTacticalModalFrame() {
+    var frame = document.getElementById('tactical-modal-frame');
+    if (!frame || !frame.contentWindow) return;
+
+    try {
+      var doc = frame.contentDocument || frame.contentWindow.document;
+      if (!doc || !doc.body) return;
+
+      var contentHeight = Math.max(doc.body.scrollHeight, doc.body.offsetHeight);
+      var maxHeight = Math.floor(window.innerHeight * 0.85);
+      var finalHeight = Math.min(Math.max(contentHeight + 8, 180), maxHeight);
+      frame.style.height = finalHeight + 'px';
+    } catch (e) {
+      frame.style.height = '75vh';
+    }
+  }
+
+  function resetTacticalModalPosition() {
+    var modalWindow = document.getElementById('tactical-modal-window');
+    if (!modalWindow) return;
+    modalWindow.style.position = '';
+    modalWindow.style.left = '';
+    modalWindow.style.top = '';
+    modalWindow.style.margin = '';
+  }
+
+  function openTacticalModal(event, url, title, preferredWidth) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    var backdrop = document.getElementById('tactical-modal-backdrop');
+    var modalWindow = document.getElementById('tactical-modal-window');
+    var frame = document.getElementById('tactical-modal-frame');
+    var titleEl = document.getElementById('tactical-modal-title');
+    if (!backdrop || !frame || !modalWindow) return false;
+
+    resetTacticalModalPosition();
+
+    var targetWidth = Math.min(preferredWidth || 540, window.innerWidth - 32);
+    modalWindow.style.width = targetWidth + 'px';
+
+    titleEl.textContent = title || 'CARREGANDO TERMINAL...';
+    frame.style.height = '240px';
+    frame.src = url;
+    backdrop.classList.add('is-open');
+
+    frame.onload = function() {
+      try {
+        var win = frame.contentWindow;
+        var doc = frame.contentDocument || win.document;
+
+        win.close = function() {
+          window.parent.closeTacticalModalAndReload();
+        };
+
+        if (doc) {
+          if (doc.title) titleEl.textContent = doc.title;
+
+          var styleTag = doc.getElementById('modal-iframe-autoheight-style');
+          if (!styleTag && doc.head) {
+            styleTag = doc.createElement('style');
+            styleTag.id = 'modal-iframe-autoheight-style';
+            styleTag.textContent = 'html, body { min-height: 0 !important; height: auto !important; margin: 0; overflow-x: hidden; }';
+            doc.head.appendChild(styleTag);
+          }
+
+          doc.querySelectorAll('[onclick*="window.close"]').forEach(function(btn) {
+            btn.setAttribute('onclick', 'window.parent.closeTacticalModalAndReload(); return false;');
+          });
+
+          resizeTacticalModalFrame();
+          setTimeout(resizeTacticalModalFrame, 120);
+
+          if (tacticalModalResizeObserver) tacticalModalResizeObserver.disconnect();
+          if (window.ResizeObserver && doc.body) {
+            tacticalModalResizeObserver = new ResizeObserver(function() {
+              resizeTacticalModalFrame();
+            });
+            tacticalModalResizeObserver.observe(doc.body);
+          }
+        }
+      } catch (e) {
+        frame.style.height = '75vh';
+      }
+    };
+
+    return false;
+  }
+
+  function closeTacticalModalAndReload(event) {
+    if (event && event.target && event.target.id !== 'tactical-modal-backdrop') return;
+
+    var backdrop = document.getElementById('tactical-modal-backdrop');
+    var frame = document.getElementById('tactical-modal-frame');
+
+    if (tacticalModalResizeObserver) {
+      tacticalModalResizeObserver.disconnect();
+      tacticalModalResizeObserver = null;
+    }
+
+    if (backdrop) backdrop.classList.remove('is-open');
+    if (frame) frame.src = 'about:blank';
+
+    window.location.reload();
+  }
+
+  // Arrastar modal pela barra superior
+  (function initTacticalModalDrag() {
+    var topbar = document.getElementById('tactical-modal-topbar');
+    var modalWindow = document.getElementById('tactical-modal-window');
+    if (!topbar || !modalWindow) return;
+
+    var isDragging = false;
+    var offsetX = 0;
+    var offsetY = 0;
+
+    topbar.addEventListener('mousedown', function(e) {
+      if (e.button !== 0 || e.target.closest('.tactical-modal-close')) return;
+
+      var rect = modalWindow.getBoundingClientRect();
+      isDragging = true;
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+
+      modalWindow.style.position = 'fixed';
+      modalWindow.style.left = rect.left + 'px';
+      modalWindow.style.top = rect.top + 'px';
+      modalWindow.style.margin = '0';
+      modalWindow.classList.add('is-dragging');
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+
+      var maxLeft = Math.max(0, window.innerWidth - modalWindow.offsetWidth);
+      var maxTop = Math.max(0, window.innerHeight - modalWindow.offsetHeight);
+      var nextLeft = Math.min(Math.max(0, e.clientX - offsetX), maxLeft);
+      var nextTop = Math.min(Math.max(0, e.clientY - offsetY), maxTop);
+
+      modalWindow.style.left = nextLeft + 'px';
+      modalWindow.style.top = nextTop + 'px';
+    });
+
+    document.addEventListener('mouseup', function() {
+      if (!isDragging) return;
+      isDragging = false;
+      modalWindow.classList.remove('is-dragging');
+    });
+  })();
+
+  document.addEventListener('keydown', function(e) {
+    var backdrop = document.getElementById('tactical-modal-backdrop');
+    if (e.key === 'Escape' && backdrop && backdrop.classList.contains('is-open')) {
+      closeTacticalModalAndReload();
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    var backdrop = document.getElementById('tactical-modal-backdrop');
+    if (backdrop && backdrop.classList.contains('is-open')) {
+      resizeTacticalModalFrame();
+    }
+  });
+
+  function refreshParent() {
+    if (window.parent && window.parent !== window && typeof window.parent.resizeTacticalModalFrame === 'function') {
+      window.parent.resizeTacticalModalFrame();
+    }
+  }
+</script>

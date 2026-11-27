@@ -10,7 +10,7 @@
       <div class="hud-squad-badge">
         <info class="tooltip">
           <tip>Configurar Esquadrão & Cor</tip>
-          <a href="#" class="hud-emblem-btn" onclick="window.open('/squads/<%= @squad.id %>/edit', 'Setup do Squad', 'toolbar=no, location=no, scrollbars=yes, resizable=no, width=380, height=280'); return false;">
+          <a href="/squads/<%= @squad.id %>/edit" data-turbo="false" class="hud-emblem-btn" onclick="return openTacticalModal(event, this.href, 'SETUP // <%= j @squad.name.upcase %>', 440);">
             <%= image_tag(@squad.image, class: 'hud-squad-img') %>
             <span class="hud-edit-dot">⚙</span>
           </a>
@@ -68,7 +68,7 @@
       <!-- Catálogo de Unidades -->
       <info class="tooltip">
         <tip>Banco de Dados de Naves e Tropas</tip>
-        <a href="#" class="hud-btn" onclick="window.open('/units/index', 'Unidades', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=560, height=640'); return false;">
+        <a href="/units/index" data-turbo="false" class="hud-btn" onclick="return openTacticalModal(event, this.href, 'BANCO DE DADOS // UNIDADES', 920);">
           <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M12 2L4 20l8-4 8 4L12 2z"></path>
             <path d="M12 16v-6"></path>
@@ -80,7 +80,7 @@
       <!-- Relatórios de Combate -->
       <info class="tooltip">
         <tip>Logs Táticos e Relatórios de Batalha</tip>
-        <a href="#" class="hud-btn" onclick="window.open('/results', 'Combates', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=640, height=800'); return false;">
+        <a href="/results" data-turbo="false" class="hud-btn" onclick="return openTacticalModal(event, this.href, 'LOGS TÁTICOS // COMBATES', 750);">
           <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <circle cx="12" cy="12" r="9"></circle>
             <circle cx="12" cy="12" r="3"></circle>
@@ -96,7 +96,7 @@
       <!-- Crônicas / Narrativas HoloNet -->
       <info class="tooltip">
         <tip>Crônicas da Guerra Galáctica (HoloNet)</tip>
-        <a href="#" class="hud-btn" onclick="window.open('/narratives', 'Narrativas', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=720, height=800'); return false;">
+        <a href="/narratives" data-turbo="false" class="hud-btn" onclick="return openTacticalModal(event, this.href, 'TRANSMISSÕES // HOLONET', 900);">
           <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
@@ -110,7 +110,7 @@
       <!-- Setup do Sistema -->
       <info class="tooltip">
         <tip>Parâmetros da Partida</tip>
-        <a href="#" class="hud-btn" onclick="window.open('/setups', 'Setup do Sistema', 'toolbar=no, location=no, scrollbars=yes, resizable=yes, width=420, height=580'); return false;">
+        <a href="/setups" data-turbo="false" class="hud-btn" onclick="return openTacticalModal(event, this.href, 'PARÂMETROS // SETUP', 440);">
           <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
