@@ -19,7 +19,7 @@
         <div class="t-field-row-2">
           <div class="t-field-group">
             <label class="t-field-label">COR TÁTICA</label>
-            <%= f.input :color, collection: @colors, label: false, input_html: { class: 't-select' } %>
+            <%= f.input :color, collection: @colors, selected: @squad.color, include_blank: false, label: false, input_html: { class: 't-select' } %>
           </div>
 
           <div class="t-field-group">

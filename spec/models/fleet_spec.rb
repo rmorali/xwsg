@@ -11,9 +11,9 @@ RSpec.describe Fleet, type: :model do
   it { is_expected.to belong_to :squad }
   it { is_expected.to belong_to :planet }
   it { is_expected.to belong_to :round }
-  it { is_expected.to belong_to :carrier }
-  it { is_expected.to belong_to :destination }
-  it { is_expected.to belong_to :armament }
+  it { is_expected.to belong_to(:carrier).optional }
+  it { is_expected.to belong_to(:destination).optional }
+  it { is_expected.to belong_to(:armament).optional }
   it { is_expected.to have_many :results }
 
   it 'delete fleet if empty' do
@@ -46,8 +46,8 @@ RSpec.describe Fleet, type: :model do
   context 'fleet abilities and states' do
     before do
       @setup = setup
-      @strike_cruiser = create(:unit, capacity: 20, hyperdrive: 0)
-      @shipyard = create(:unit, type: 'Facility', carriable: false)
+      @strike_cruiser = create(:unit, capacity: 20, hyperdrive: 0, groupable: false)
+      @shipyard = create(:unit, type: 'Facility', carriable: false, groupable: false)
       @capital_ship = create(:fleet, unit: @strike_cruiser, squad: squad, planet: planet)
       @facility = create(:fleet, unit: @shipyard, squad: squad, planet: planet, ready_in: 1)
       @xwing = create(:fleet, quantity: 10, squad: squad, planet: planet)
@@ -56,6 +56,12 @@ RSpec.describe Fleet, type: :model do
       @planet_b = create(:planet)
       Route.create(vector_a: planet, vector_b: @planet_b, distance: 1)
     end
+    it 'is describable?' do
+      expect(@capital_ship.describable?).to be true
+      expect(@facility.describable?).to be true
+      @xwing.unit.update(groupable: true)
+      expect(@xwing.describable?).to be false
+    end
     it 'is movable?' do
       expect(@capital_ship.movable?).to_not be true
       @capital_ship.unit.update(hyperdrive: 1)
@@ -63,7 +69,6 @@ RSpec.describe Fleet, type: :model do
       expect(@facility.movable?).to_not be true
       @facility.update(ready_in: 0)
       expect(@facility.movable?).to be true
-
     end
     it 'is in production?' do
       expect(@capital_ship.in_production?).to_not be true

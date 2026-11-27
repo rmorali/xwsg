@@ -1,4 +1,12 @@
 class Squad < ApplicationRecord
+  TACTICAL_COLORS = {
+    'Vermelho' => '#FF0000',
+    'Amarelo'  => '#FFFF00',
+    'Verde'    => '#00FF00',
+    'Roxo'     => '#AA55FF',
+    'Cyano'    => '#00FFFF'
+  }.freeze
+
   has_many :fleets
   belongs_to :faction
   has_many :users
@@ -18,7 +26,7 @@ class Squad < ApplicationRecord
     state = case ready?
             when true then false
             when !true then true
-    end
+            end
     update(ready: state)
     GameLogic.new.check_state!
   end

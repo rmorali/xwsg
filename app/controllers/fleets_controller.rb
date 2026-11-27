@@ -71,6 +71,12 @@ class FleetsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def update
+    @fleet = Fleet.find(params[:id])
+    @fleet.update(description_params) if @fleet.describable?
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def arm_params
@@ -91,5 +97,9 @@ class FleetsController < ApplicationController
 
   def build_params
     params.require(:fleet).permit(:id, :quantity, :unit)
+  end
+
+  def description_params
+    params.require(:fleet).permit(:description)
   end
 end

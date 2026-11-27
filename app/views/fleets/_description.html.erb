@@ -1,0 +1,18 @@
+<div class="terminal-card">
+  <div class="terminal-card-header terminal-header-split">
+    <span>REGISTRO TÁTICO & IDENTIFICAÇÃO</span>
+    <span class="level-pill"><%= @fleet.type.upcase %></span>
+  </div>
+
+  <%= simple_form_for @fleet do |f| %>
+    <div class="terminal-form-row" style="align-items: flex-end; gap: 10px;">
+      <div class="terminal-field-grow">
+        <%= f.input :description,
+                    label: false,
+                    placeholder: 'Ex: Cruzador capitânia ISD Chimera, comandado pelo Grão-Almirante...',
+                    input_html: { class: 't-select', style: 'width: 100%;' } %>
+      </div>
+      <%= f.submit 'SALVAR', class: 't-btn t-btn-primary' %>
+    </div>
+  <% end %>
+</div>

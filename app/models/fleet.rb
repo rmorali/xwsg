@@ -29,6 +29,10 @@ class Fleet < ApplicationRecord
    level < 3 && type == 'CapitalShip'
   end
 
+  def describable?
+    !groupable
+  end
+
   def radar?
     level >= 3 && type == 'CapitalShip'
   end
@@ -105,4 +109,5 @@ class Fleet < ApplicationRecord
   def destroy_if_empty
     destroy if quantity == 0
   end
+
 end

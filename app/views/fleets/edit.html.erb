@@ -80,7 +80,7 @@
     </div>
   </div>
 
-  <!-- MÓDULOS CONDICIONAIS -->
+<!-- MÓDULOS CONDICIONAIS -->
   <% if @fleet.builder? && @round.strategy? %>
     <%= render partial: 'builders' %>
   <% end %>
@@ -95,6 +95,10 @@
 
   <% if @fleet.armory? %>
     <%= render partial: 'armory', object: @fleet %>
+  <% end %>
+
+  <% if @fleet.describable? %>
+    <%= render partial: 'description', object: @fleet %>
   <% end %>
 
 </div>

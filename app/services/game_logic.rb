@@ -49,13 +49,18 @@ class GameLogic
   def ground_combat!; end
 
   def finished!
+    # Gera a narrativa ANTES do ApplyResult para que frotas destruídas (quantity == 0)
+    # ainda existam no banco com suas descriptions e quantidades originais
+    begin
+      GeminiNarrativeService.new(@round).generate!
+    rescue StandardError => e
+      Rails.logger.error("[GameLogic] Erro ao chamar GeminiNarrativeService: #{e.message}")
+    end
+
     results = Result.where(round: @round)
     results.each do |result|
       ApplyResult.new(result).apply!
     end
-
-    # Gera a narrativa do turno na API do Gemini ao fim do turno de combate
-    GeminiNarrativeService.new(@round).generate!
 
     Squad.all.each do |squad|
       squad.credits += SetIncome.new(squad, Planet.first).total

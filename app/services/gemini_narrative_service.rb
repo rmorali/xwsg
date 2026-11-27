@@ -6,7 +6,7 @@ require 'resolv'
 
 class GeminiNarrativeService
   BASE_URL        = 'https://generativelanguage.googleapis.com/v1beta/models'.freeze
-  FALLBACK_MODELS = %w[gemini-2.5-flash-lite gemini-2.0-flash gemini-3.8-flash].freeze
+  FALLBACK_MODELS = %w[gemini-3.5-flash-lite gemini-3.5-flash gemini-2.5-flash].freeze
 
   SYSTEM_PROMPT = <<~PROMPT.freeze
     Você é o Cronista Oficial da HoloNet Galáctica redigindo boletins militares de uma campanha no universo de Star Wars.
@@ -14,7 +14,7 @@ class GeminiNarrativeService
 
     Regras obrigatórias:
     1. Baseie-se ESTRITAMENTE nos relatórios de batalha (BattleReports) e resultados táticos (Results) fornecidos. Nunca invente batalhas, planetas ou baixas que não aconteceram.
-    2. Cite explicitamente as quantidades exatas de baixas e perdas de unidades de cada esquadrão/lado envolvido nos confrontos.
+    2. Cite explicitamente as quantidades exatas de baixas e perdas de unidades de cada esquadrão/lado envolvido nos confrontos, incorporando a identificação ou descrição tática das unidades quando informada.
     3. Use o histórico dos turnos anteriores apenas para continuidade narrativa (retomadas de planetas, revanches, avanço de frotas), sem repetir o texto dos capítulos passados.
     4. Adote um tom jornalístico militar, direto e objetivo, com terminologia autêntica de Star Wars (hiperespaço, turbolasers, escudos, torpedos de prótons), evitando excesso de adjetivos ou floreios literários.
     5. Escreva um título curto de transmissão da HoloNet na primeira linha, seguido de 1 a 3 parágrafos objetivos cobrindo os eventos e baixas do turno atual.
@@ -23,6 +23,7 @@ class GeminiNarrativeService
 
   def initialize(round = nil)
     @round = round || Round.current
+    @last_error = nil
   end
 
   def generate!
@@ -35,12 +36,15 @@ class GeminiNarrativeService
     return save_narrative('Transmissão da HoloNet indisponível: chave da API do Gemini não configurada.') if api_key.blank?
 
     narrative_text = request_with_resilience(api_key, briefing)
-    return nil if narrative_text.blank?
+    if narrative_text.blank?
+      detail = @last_error.present? ? " (#{@last_error})" : ''
+      return save_narrative("Transmissão da HoloNet interrompida: falha de comunicação com os retransmissores do Gemini neste turno#{detail}.")
+    end
 
     save_narrative(narrative_text.strip)
   rescue StandardError => e
     Rails.logger.error("[GeminiNarrativeService] Falha ao gerar narrativa do Turno #{@round&.number}: #{e.class} - #{e.message}")
-    nil
+    save_narrative("Falha técnica na transmissão da HoloNet (Turno #{@round&.number}): #{e.message}")
   end
 
   private
@@ -91,13 +95,14 @@ class GeminiNarrativeService
 
           squad_name = fleet.squad&.name || 'Desconhecido'
           unit_name  = fleet.unit&.name || 'Unidade'
+          fleet_desc = fleet.description.present? ? " [#{fleet.description.strip}]" : ''
           details = res.attributes
                        .except('id', 'fleet_id', 'round_id', 'created_at', 'updated_at')
                        .reject { |_, v| v.blank? || v == 0 }
                        .map { |k, v| "#{k}: #{v}" }
                        .join(', ')
 
-          lines << "  - [#{squad_name}] #{fleet.quantity}x #{unit_name} (#{details})"
+          lines << "  - [#{squad_name}] #{fleet.quantity}x #{unit_name}#{fleet_desc} (#{details})"
         end
       end
     end
@@ -107,7 +112,7 @@ class GeminiNarrativeService
 
   def request_with_resilience(api_key, briefing)
     discovered = discover_flash_models(api_key)
-    models_to_try = (discovered + FALLBACK_MODELS).uniq
+    models_to_try = (FALLBACK_MODELS + discovered).uniq
 
     models_to_try.each do |model|
       text = try_model(model, api_key, briefing)
@@ -122,16 +127,25 @@ class GeminiNarrativeService
       status, body = post_to_gemini(model, api_key, briefing)
 
       if status == 200
-        text = JSON.parse(body).dig('candidates', 0, 'content', 'parts', 0, 'text')
+        parsed = JSON.parse(body)
+        text = parsed.dig('candidates', 0, 'content', 'parts', 0, 'text')
         if text.present?
           Rails.logger.info("[GeminiNarrativeService] Narrativa gerada com sucesso usando #{model}")
           return text
         end
+
+        finish_reason = parsed.dig('candidates', 0, 'finishReason') || parsed.dig('promptFeedback', 'blockReason') || 'sem texto'
+        @last_error = "#{model}: HTTP 200 mas resposta vazia (#{finish_reason})"
+        Rails.logger.warn("[GeminiNarrativeService] #{@last_error}")
+        break
       elsif [429, 503, 504].include?(status)
+        @last_error = "#{model}: HTTP #{status}"
         Rails.logger.warn("[GeminiNarrativeService] #{model} indisponível/lento (HTTP #{status}), tentativa #{attempt + 1}...")
         sleep(1)
       else
-        Rails.logger.error("[GeminiNarrativeService] #{model} HTTP #{status}: #{body}")
+        api_msg = (JSON.parse(body).dig('error', 'message') rescue body.to_s[0..120])
+        @last_error = "#{model}: HTTP #{status} - #{api_msg}"
+        Rails.logger.error("[GeminiNarrativeService] #{@last_error}")
         break
       end
     end
@@ -141,6 +155,11 @@ class GeminiNarrativeService
   def post_to_gemini(model, api_key, briefing)
     uri = URI("#{BASE_URL}/#{model}:generateContent?key=#{api_key}")
     http = build_http(uri, read_timeout: 55)
+
+    gen_config = {
+      temperature: 0.75,
+      maxOutputTokens: 2048
+    }
 
     payload = {
       systemInstruction: {
@@ -152,10 +171,7 @@ class GeminiNarrativeService
           parts: [{ text: "Escreva a narrativa oficial do Turno #{@round.number} considerando todo o contexto abaixo:\n\n#{briefing}" }]
         }
       ],
-      generationConfig: {
-        temperature: 0.75,
-        maxOutputTokens: 1500
-      }
+      generationConfig: gen_config
     }
 
     request = Net::HTTP::Post.new(uri.request_uri, 'Content-Type' => 'application/json', 'Connection' => 'close')
@@ -164,6 +180,7 @@ class GeminiNarrativeService
     response = http.request(request)
     [response.code.to_i, response.body]
   rescue Net::ReadTimeout, Net::OpenTimeout => e
+    @last_error = "#{model}: #{e.class}"
     Rails.logger.warn("[GeminiNarrativeService] Timeout em #{model}: #{e.class}")
     [504, e.message]
   end
@@ -179,15 +196,15 @@ class GeminiNarrativeService
       name = m['name'].to_s.downcase
       methods = m['supportedGenerationMethods'] || []
       name.include?('flash') &&
-        %w[image audio tts robotics computer].none? { |excluded| name.include?(excluded) } &&
+        %w[image audio tts robotics computer 2.0 1.5].none? { |excluded| name.include?(excluded) } &&
         methods.include?('generateContent')
     end.map { |m| m['name'].sub('models/', '') }
 
     flash_names.sort_by do |name|
       score = 10
-      score -= 4 if name.include?('lite')
-      score -= 2 if name.include?('2.5') || name.include?('2.0')
-      score += 3 if name.include?('preview') || name.include?('exp')
+      score -= 5 if name.include?('lite')
+      score -= 3 if name.include?('3.5') || name.include?('3.')
+      score += 2 if name.include?('preview') || name.include?('exp')
       score
     end
   rescue StandardError
@@ -215,6 +232,9 @@ class GeminiNarrativeService
 
   def save_narrative(text)
     @round.update!(narrative: text)
+    text
+  rescue ActiveRecord::RecordInvalid
+    @round.update_column(:narrative, text)
     text
   end
 end
