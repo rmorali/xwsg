@@ -6,6 +6,11 @@
   <% my_influence = planet.fleets_influence.find { |i| i[0] == @squad }&.last.to_i %>
   <% current_income = SetIncome.new(@squad, planet).current %>
 
+  <% visible_fleets = planet.fleets_seen_by(@squad).reject { |f| !f.carrier.nil? } %>
+  <% radar_fleets = @round.strategy? ? planet.fleets_seen_by_radar(@squad) : [] %>
+  <% fog_fleets = planet.fleets.none? { |f| f.squad == @squad } ? planet.fog_seen_by(@squad).reject { |f| !f.carrier.nil? || f.final_quantity <= 0 } : [] %>
+  <% aura = planet_aura_data(planet, @squad, visible_fleets, radar_fleets, fog_fleets) %>
+
   <!-- WORMHOLE (ANOMALIA ESPACIAL) -->
   <% if planet.wormhole? && (Planet.seen_by(@squad).include?(planet) || Planet.fog_seen_by(@squad).include?(planet) || planet.wormholes_seen_by_radar(@squad)) %>
     <div class="planet-wormhole" style="left:<%= pos_x - 15 %>px; top:<%= pos_y - 55 %>px;">
@@ -17,7 +22,7 @@
   <% end %>
 
   <!-- NÓ DO PLANETA (IMAGEM + ÓRBITA + TELEMETRIA) -->
-  <div class="planet-node <%= 'is-builder' if can_produce %> <%= 'is-contested' if planet.under_attack? %>" style="left:<%= pos_x %>px; top:<%= pos_y %>px;">
+  <div class="planet-node <%= 'is-builder' if can_produce %> <%= aura[:classes] %>" style="left:<%= pos_x %>px; top:<%= pos_y %>px; <%= aura[:style] %>">
     
     <!-- Cabeçalho do Planeta (Nome + Economia) -->
     <div class="planet-header">
@@ -39,6 +44,10 @@
 
     <!-- Orbe do Planeta -->
     <div class="planet-orb-wrapper">
+      <% if aura[:under_attack] %>
+        <span class="planet-conflict-ring"></span>
+      <% end %>
+
       <% if can_produce %>
         <info class="tooltip">
           <tip><span style="color:#4ade80; font-weight:bold;">ESTALEIRO ATIVO //</span> Clique para produzir unidades</tip>
@@ -54,10 +63,6 @@
   </div>
 
   <!-- PAINEL TÁTICO DE FROTAS EM ÓRBITA -->
-  <% visible_fleets = planet.fleets_seen_by(@squad).reject { |f| !f.carrier.nil? } %>
-  <% radar_fleets = @round.strategy? ? planet.fleets_seen_by_radar(@squad) : [] %>
-  <% fog_fleets = planet.fleets.none? { |f| f.squad == @squad } ? planet.fog_seen_by(@squad).reject { |f| !f.carrier.nil? || f.final_quantity <= 0 } : [] %>
-
   <% if visible_fleets.any? || radar_fleets.any? || fog_fleets.any? %>
     <div class="fleets-card" style="left:<%= pos_x + 56 %>px; top:<%= pos_y + 12 %>px;">
       

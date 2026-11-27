@@ -437,8 +437,25 @@
   animation: spin-orbit 18s linear infinite;
 }
 
+/* Aura do planeta na cor do esquadrão (aliado, radar ou fog) */
+.planet-node.has-aura .planet-img {
+  box-shadow: 0 0 14px var(--planet-aura-color), 0 0 5px var(--planet-aura-color);
+}
+
+/* Aura vermelha giratória em planetas em conflito */
+.planet-conflict-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px dashed #ef4444;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.95), inset 0 0 8px rgba(239, 68, 68, 0.65);
+  pointer-events: none;
+  animation: spin-orbit 6s linear infinite;
+  z-index: 2;
+}
+
 .planet-node.is-contested .planet-img {
-  box-shadow: 0 0 14px rgba(239, 68, 68, 0.85);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.9);
 }
 
 /* Cartão Tático de Frotas (Totalmente limpo, sem bordas ou faixa lateral) */
@@ -486,7 +503,8 @@
   font-family: 'Consolas', monospace;
   font-size: 10px;
   font-weight: 700;
-  color: #f87171;
+  color: #22d3ee;
+  text-shadow: 0 0 6px rgba(34, 211, 238, 0.45), 0 1px 3px rgba(0, 0, 0, 0.95);
 }
 
 .fleet-cargo-row {
