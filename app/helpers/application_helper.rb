@@ -1,11 +1,6 @@
 module ApplicationHelper
   def show(fleet)
-    params = case fleet.type
-             when 'CapitalShip', 'Facility'
-               fleet.name.dup
-             else
-               "#{fleet.quantity} #{fleet.name}"
-             end
+    params = format_unit_label(fleet)
     params << " [#{fleet.production_status}%]" if fleet.in_production?
     params << " +#{fleet.armament.acronym}" if fleet.armament
     params << " [RADAR]" if fleet.radar?
@@ -13,13 +8,13 @@ module ApplicationHelper
   end
 
   def show_fog(fleet)
-    params = case fleet.type
-             when 'CapitalShip', 'Facility'
-               fleet.name.dup
+    params = if fleet.in_production?
+               "#{fleet.name} [#{fleet.production_status}%]"
+             elsif non_groupable?(fleet)
+               format_unit_label(fleet)
              else
                "#{fleet.final_quantity} #{fleet.name}"
              end
-    params = "#{fleet.name} [#{fleet.production_status}%]" if fleet.in_production?
     params << " +#{fleet.armament.acronym}" if fleet.armament
     params << " [RADAR]" if fleet.radar?
     params
@@ -34,6 +29,8 @@ module ApplicationHelper
       styles << 'font-weight: 700; font-size: 11px; letter-spacing: 0.3px;'
     when 'Facility'
       styles << "font-weight: 700; font-size: 11px; border: 1px solid #{squad_color}; border-radius: 3px; padding: 1px 5px; background: rgba(15, 23, 42, 0.9); display: inline-block; margin-bottom: 2px;"
+    when 'Warrior'
+      styles << "font-weight: 700; font-style: italic; font-size: 11px; letter-spacing: 0.4px; text-shadow: 0 0 6px #{squad_color};"
     else
       styles << 'font-weight: 500; font-size: 11px;'
     end
@@ -57,6 +54,9 @@ module ApplicationHelper
       lines << "<div>• <b>Capacidade:</b> Abordagem / Captura de Fábricas</div>"
     when 'Facility'
       lines << "<div>• <b>Função:</b> Produção / Treinamento de Unidades</div>"
+    when 'Warrior'
+      lines << "<div>• <b>Nível Tático:</b> #{fleet.level}</div>"
+      lines << "<div>• <b>Massa:</b> #{fleet.weight} tons</div>"
     when 'LightTransport', 'HeavyTransport'
       lines << "<div>• <b>Carga:</b> #{fleet.used_capacity} / #{fleet.capacity} tons</div>"
       lines << "<div>• <b>Capacidade:</b> Abordagem / Captura de Fábricas</div>"
@@ -70,6 +70,10 @@ module ApplicationHelper
 
     if (fleet.builder? && fleet.type != 'Facility') || (fleet.type == setups.builder_unit && fleet.type == 'Facility')
       lines << "<div style='color: #38bdf8;'>• <b>Unidade Construtora</b> (Mínimo: #{setups.minimum_fleet_for_build})</div>"
+    end
+
+    if fleet.respond_to?(:description) && fleet.description.present?
+      lines << "<div style='margin-top: 5px; padding-top: 4px; border-top: 1px dashed rgba(56,189,248,0.35); color: #e2e8f0; white-space: normal;'><b>Identificação:</b> #{ERB::Util.html_escape(fleet.description)}</div>"
     end
 
     if fleet.unit.description.present?
@@ -97,5 +101,28 @@ module ApplicationHelper
       end
     end
     info
+  end
+
+  private
+
+  def format_unit_label(fleet)
+    if fleet.type == 'Warrior' && fleet.respond_to?(:description) && fleet.description.present?
+      warrior_name = fleet.description.to_s[/\A\s*([^\s.]+)/, 1]
+      warrior_name.present? ? "#{fleet.name} '#{warrior_name}'" : fleet.name.dup
+    elsif non_groupable?(fleet)
+      fleet.name.dup
+    else
+      "#{fleet.quantity} #{fleet.name}"
+    end
+  end
+
+  def non_groupable?(fleet)
+    if fleet.respond_to?(:groupable?)
+      !fleet.groupable?
+    elsif fleet.respond_to?(:unit) && fleet.unit.respond_to?(:groupable?)
+      !fleet.unit.groupable?
+    else
+      %w[CapitalShip Facility Warrior].include?(fleet.type)
+    end
   end
 end
