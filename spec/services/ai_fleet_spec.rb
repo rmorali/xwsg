@@ -20,16 +20,17 @@ RSpec.describe AiFleet, type: :service do
     @ai_squad    = create(:squad, faction: faction, ai: true, ai_level: 4, credits: 5000)
     @enemy_squad = create(:squad, faction: create(:faction, name: 'Rebel'), ai: false)
 
-    @fighter     = create(:unit, type: 'Fighter', hyperdrive: 1, credits: 100, weight: 2, laser_attack: 20, shield: 50, hull: 50)
+    @fighter     = create(:unit, type: 'Fighter', hyperdrive: 1, credits: 100, weight: 2, laser_attack: 20, shield: 50, hull: 50, armable: true)
     @interceptor = create(:unit, type: 'Interceptor', hyperdrive: 1, credits: 130, weight: 2, laser_attack: 30, shield: 40, hull: 40)
-    @bomber      = create(:unit, type: 'Bomber', hyperdrive: 1, credits: 150, weight: 3, ordnance_attack: 40, shield: 60, hull: 60)
+    @bomber      = create(:unit, type: 'Bomber', hyperdrive: 1, credits: 150, weight: 3, ordnance_attack: 40, shield: 60, hull: 60, armable: true)
     @tie_no_hd   = create(:unit, type: 'Fighter', hyperdrive: 0, credits: 60, weight: 2, laser_attack: 15, shield: 0, hull: 40)
     @capital     = create(:unit, type: 'CapitalShip', hyperdrive: 1, credits: 600, capacity: 12, weight: 20, laser_attack: 80, shield: 500, hull: 500)
     @transport   = create(:unit, type: 'LightTransport', hyperdrive: 1, credits: 300, capacity: 8, weight: 5, armable: true)
     @facility    = create(:unit, type: 'Facility', credits: 1200)
-    @armament    = create(:unit, type: 'Armament', credits: 50)
+    @armament_cm = create(:unit, name: 'CM+Chf', type: 'Armament', credits: 50)
+    @armament_pt = create(:unit, name: 'PT+Chf', type: 'Armament', credits: 60)
 
-    [@fighter, @interceptor, @bomber, @tie_no_hd, @capital, @transport, @facility, @armament].each do |u|
+    [@fighter, @interceptor, @bomber, @tie_no_hd, @capital, @transport, @facility, @armament_cm, @armament_pt].each do |u|
       u.update!(factions: [faction.name])
     end
   end
@@ -66,6 +67,47 @@ RSpec.describe AiFleet, type: :service do
 
       expect { AiFleet.new(@ai_squad).act! }
         .not_to change { Fleet.joins(:unit).where(squad: @ai_squad, units: { type: 'Facility' }).count }
+    end
+  end
+
+  describe 'Equipamento de Armamentos (Seletivo e PT/PT+Chf obrigatório para Bombers e LightTransports)' do
+    it 'equipa Bombers e LightTransports exclusivamente com PT+Chf e Fighters com CM+Chf' do
+      @ai_squad.update!(ai_level: 5, credits: 1000)
+      allow_any_instance_of(AiFleet).to receive(:rand).and_return(1)
+
+      bomber_fleet    = create(:fleet, squad: @ai_squad, planet: planet_a, unit: @bomber, quantity: 2, ready_in: 0, round: @round)
+      transport_fleet = create(:fleet, squad: @ai_squad, planet: planet_a, unit: @transport, quantity: 1, ready_in: 0, round: @round)
+      fighter_fleet   = create(:fleet, squad: @ai_squad, planet: planet_a, unit: @fighter, quantity: 2, ready_in: 0, round: @round)
+
+      AiFleet.new(@ai_squad).act!
+
+      expect(bomber_fleet.reload.armament).to eq(@armament_pt)
+      expect(transport_fleet.reload.armament).to eq(@armament_pt)
+      expect(fighter_fleet.reload.armament).to eq(@armament_cm)
+    end
+
+    it 'nunca equipa Bomber ou LightTransport com CM se houver apenas CM disponível ou acessível' do
+      @ai_squad.update!(ai_level: 6, credits: 55) # Dá para comprar CM (50), mas não PT (60)
+      allow_any_instance_of(AiFleet).to receive(:rand).and_return(1)
+
+      bomber_fleet    = create(:fleet, squad: @ai_squad, planet: planet_a, unit: @bomber, quantity: 2, ready_in: 0, round: @round)
+      transport_fleet = create(:fleet, squad: @ai_squad, planet: planet_a, unit: @transport, quantity: 1, ready_in: 0, round: @round)
+
+      AiFleet.new(@ai_squad).act!
+
+      expect(bomber_fleet.reload.armament).to be_nil
+      expect(transport_fleet.reload.armament).to be_nil
+    end
+
+    it 'não arma as naves quando a rolagem excede a probabilidade da IA' do
+      @ai_squad.update!(ai_level: 6, credits: 1000)
+      allow_any_instance_of(AiFleet).to receive(:rand).and_return(90)
+
+      bomber_fleet = create(:fleet, squad: @ai_squad, planet: planet_a, unit: @bomber, quantity: 2, ready_in: 0, round: @round)
+
+      AiFleet.new(@ai_squad).act!
+
+      expect(bomber_fleet.reload.armament).to be_nil
     end
   end
 

@@ -3,6 +3,7 @@ class AiFleet
   TRANSPORT_TYPES = %w[LightTransport HeavyTransport].freeze
   GROUND_TYPES    = %w[Infantry Armor Artillery Cavalry Warrior].freeze
   CRITICAL_ASSETS = %w[Facility CapitalShip].freeze
+  PT_ARMED_TYPES  = %w[Bomber LightTransport].freeze
 
   # Proporção alvo ideal da frota espacial do esquadrão
   TARGET_RATIOS = {
@@ -321,24 +322,51 @@ class AiFleet
   end
 
   # ==========================================================================
-  # 4. ARMAMENTO / OGIVAS
+  # 4. ARMAMENTO / OGIVAS (Seletivo; Bombers e LightTransports apenas PT/PT+Chf)
   # ==========================================================================
   def arm!(fleet)
     return unless fleet.armable?
     return if fleet.in_production?
-    return if rand(1..6) > @smartness
+
+    arm_chance = case @smartness
+                 when 1..2 then 15
+                 when 3..4 then 30
+                 else 45
+                 end
+    return if rand(1..100) > arm_chance
 
     armaments = Unit.allowed_for(@squad.faction.name)
                     .where(type: 'Armament')
                     .where('credits <= ?', @squad.credits)
+                    .to_a
     return if armaments.empty?
 
-    armament = @smartness >= 4 ? armaments.order(credits: :desc).first : armaments.sample
+    pool = if PT_ARMED_TYPES.include?(fleet.type)
+             # Bombers e LightTransports recebem OBRIGATORIAMENTE PT ou PT+Chf (nunca CM)
+             armaments.select { |a| pt_armament?(a) }
+           else
+             # Demais classes armáveis recebem apenas CM ou CM+Chf
+             armaments.select { |a| cm_armament?(a) }
+           end
+
+    return if pool.empty?
+
+    armament = @smartness >= 4 ? pool.max_by { |a| a.credits.to_i } : pool.sample
     return unless armament
 
     if @squad.debit_credits(armament.credits)
       fleet.update(armament: armament)
     end
+  end
+
+  def pt_armament?(unit)
+    label = "#{unit.name} #{unit.try(:acronym)}".upcase
+    label.include?('PT') || label.include?('PROTON')
+  end
+
+  def cm_armament?(unit)
+    label = "#{unit.name} #{unit.try(:acronym)}".upcase
+    (label.include?('CM') || label.include?('CONCUSSION')) && !pt_armament?(unit)
   end
 
   # ==========================================================================
