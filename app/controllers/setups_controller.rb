@@ -40,6 +40,7 @@ class SetupsController < ApplicationController
       :initial_wormholes,
       :minimum_fleet_for_dominate,
       :minimum_fleet_for_build,
+      :upgrade_cost,
       :builder_unit,
       :ai,
       :ai_level)
